@@ -1,0 +1,15 @@
+
+C:\xampp\htdocs\hospital
+├── .git
+├── backend
+├── database
+├── frontend
+├── project_structure.txt
+├── TODO.md
+└── vercel.json
+
+directory: 4 file: 3
+
+
+
+[2K[1G
