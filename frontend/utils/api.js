@@ -13,3 +13,23 @@ export const fetchDoctors = async () => {
     return [];
   }
 };
+
+export const fetchServices = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/services`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching services:', error);
+    return [];
+  }
+};
+
+export const fetchDepartments = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/departments`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching departments:', error);
+    return [];
+  }
+};

@@ -82,9 +82,29 @@ const mainMenuItems = [
   { label: "DIAGNOSTIC REPORT", href: "/diagnostic-report" },
 ];
 
+const NavButton = ({ children }) => (
+  <span className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-xs font-semibold text-gray-800 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200">
+    <span className="relative px-1 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-transparent leading-5">
+      {children}
+    </span>
+  </span>
+);
+
+
 export default function Navbar() {
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth >= 768) {
+      setMobileMenuOpen(false);
+      setOpenSubmenu(null);
+    }
+  };
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
  
 
@@ -152,13 +172,16 @@ export default function Navbar() {
               {mainMenuItems.map((item, idx) =>
                 item.submenu ? (
                   <li key={idx} className="relative group">
-                    <button className="hover:text-blue-600 cursor-pointer">
-                      {item.label} ▼
-                    </button>
+                    
+                    <button className="cursor-pointer">
+          <NavButton>
+            {item.label} ▼
+          </NavButton>
+        </button>
                     <ul className="absolute left-0 top-full bg-white border border-gray-300 rounded shadow-md mt-1 hidden group-hover:block z-10 min-w-max">
                       {item.submenu.map((subitem, subidx) => (
                         <li key={subidx}>
-                          <Link href={subitem.href} className="block px-3 py-1 hover:bg-gray-100 whitespace-nowrap">
+                          <Link href={subitem.href} className="block px-4 py-2 text-sm hover:bg-gray-100 whitespace-nowrap">
                             {subitem.label}
                           </Link>
                         </li>
@@ -167,8 +190,10 @@ export default function Navbar() {
                   </li>
                 ) : (
                   <li key={idx}>
-                    <Link href={item.href} className="hover:text-blue-600">
-                      {item.label}
+                    <Link href={item.href} >
+                      <NavButton>
+            {item.label}
+          </NavButton>
                     </Link>
                   </li>
                 )
@@ -224,9 +249,11 @@ export default function Navbar() {
       <li key={idx} className="border-b border-gray-200">
         <button
           onClick={() => toggleSubmenu(idx)}
-          className="w-full flex justify-between items-center px-4 py-3 hover:bg-gray-50 uppercase"
+          className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-50 uppercase"
         >
-          {item.label}
+          <NavButton>
+    {item.label}
+  </NavButton>
           <svg
             className={`w-4 h-4 transform transition-transform ${
               openSubmenu === idx ? "rotate-180" : ""
@@ -259,9 +286,11 @@ export default function Navbar() {
       <li key={idx} className="border-b border-gray-200">
         <a
           href={item.href}
-          className="block px-4 py-3 hover:bg-gray-50 uppercase"
+          className="block px-4 py-2 hover:bg-gray-50 uppercase"
         >
-          {item.label}
+           <NavButton>
+    {item.label}
+  </NavButton>
         </a>
       </li>
     )
