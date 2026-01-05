@@ -19,6 +19,16 @@ function FeatureCard({ bg, icon, title, text, link }) {
     </a>
   );
 }
+const doctors = [
+  { id: 1, name: "Dr. Sarah Ahmed", specialization: "Cardiologist" },
+  { id: 2, name: "Dr. James Miller", specialization: "Neurologist" },
+  { id: 3, name: "Dr. Ayesha Rahman", specialization: "Dermatologist" },
+  { id: 4, name: "Dr. Michael Lee", specialization: "Orthopedic" },
+];
+
+// random image generator
+const getDoctorImage = (id) =>
+  `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 13) % 90}.jpg`;
 
 export default function HomePage() {
   const [doctors, setDoctors] = useState([]);
@@ -266,55 +276,66 @@ export default function HomePage() {
 
       {/* Doctors Section */}
     <section className="doctors-section">
-      <div className="doctors-container">
+  <div className="doctors-container">
 
-        {/* HEADER */}
-        <div className="doctors-header">
-          <span className="doctors-eyebrow">OUR EXPERTS</span>
-          <h2>Meet Our Doctors</h2>
-          <p>Highly skilled medical professionals you can trust.</p>
-        </div>
+    {/* HEADER */}
+    <div className="doctors-header">
+      <span className="doctors-eyebrow">OUR EXPERTS</span>
+      <h2>Meet Our Doctors</h2>
+      <p>Highly skilled medical professionals you can trust.</p>
+    </div>
 
-        {/* DOCTORS GRID */}
-        <div className="doctors-grid">
-          {doctors.map((doctor) => (
-            <div className="doctor-card" key={doctor.id}>
-              <div className="doctor-avatar">
-                <img src={doctor.image} alt={doctor.name} />
-              </div>
-
-              <h3>{doctor.name}</h3>
-              <span className="doctor-role">
-                {doctor.specialization}
-              </span>
-
-              <button className="doctor-btn">
-                View Profile →
-              </button>
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-
-      {/* Appointment CTA Section */}
-       <section className="cta-float">
-      <div className="cta-float-wrap">
-        <div className="cta-float-left">
-          <span className="cta-dot" />
-          <div>
-            <h4>Book an Appointment</h4>
-            <p>Expert doctors • Trusted care • Quick booking</p>
+    {/* GRID */}
+    <div className="doctors-grid">
+      {doctors.map((doctor) => (
+        <div className="doctor-card" key={doctor.id}>
+          <div className="doctor-avatar">
+            <img
+              src={getDoctorImage(doctor.id)}
+              alt={doctor.name}
+            />
           </div>
-        </div>
 
-        <a href="/appointment" className="cta-float-btn">
-          Book Now
-          <span>→</span>
-        </a>
+          <h3>{doctor.name}</h3>
+          <span className="doctor-role">{doctor.specialization}</span>
+
+          <a href="/appointment" className="doctor-btn">
+            View Profile
+             <span>→</span>
+          </a>
+        </div>
+      ))}
+    </div>
+
+  </div>
+ </section>
+
+
+     {/* Appointment CTA Section */}
+<section className="cta-texture-zone">
+  {/* Background Text Layer */}
+
+
+
+  {/* YOUR EXISTING CTA – UNTOUCHED */}
+  <section className="cta-float">
+    <div className="cta-float-wrap">
+      <div className="cta-float-left">
+        <span className="cta-dot" />
+        <div>
+          <h4>Book an Appointment</h4>
+          <p>Expert doctors • Trusted care • Quick booking</p>
+        </div>
       </div>
-    </section>
+      
+      <a href="/appointment" className="cta-float-btn">
+        Book Now
+        <span>→</span>
+      </a>
+    </div>
+  </section>
+</section>
+
 
       {/* Footer */}
       <Footer />

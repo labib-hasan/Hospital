@@ -7,7 +7,7 @@ const Footer = () => {
     <div className="relative">
       {/* Footer */}
       <footer
-        className="relative w-full top-70 h-[220px] px-8 py-4 flex flex-col items-center justify-center"
+        className="relative w-full top-10 h-[220px] px-8 py-4 flex flex-col items-center justify-center"
         style={{ backgroundColor: "#00bafe" }}
       >
         {/* Waves */}
