@@ -51,8 +51,8 @@ export default function HomePage() {
       </section>
 
      {/* Quick Access Tiles – Modern HomeBridge */}
-<section className="care-tiles">
-  <div className="care-tiles-wrap">
+<section className="care-tiles ">
+  <div className="care-tiles-wrap  ">
 
     <Link href="/departments" className="care-tile">
       <span className="tile-glow" />
@@ -109,66 +109,81 @@ export default function HomePage() {
   </div>
 </section>
 
-       <section className="dept-modern">
-      <div className="dept-wrap">
+      <section className="dept-modern">
+  <div className="dept-wrap">
 
-        {/* HEADER */}
-        <div className="dept-head">
-          <span className="dept-eyebrow">OUR CAPABILITIES</span>
-          <h2>Medical Departments</h2>
-          <p>The core pillars that power our hospital excellence</p>
-        </div>
+    {/* HEADER */}
+    <div className="dept-head">
+      <span className="dept-eyebrow">OUR CAPABILITIES</span>
+      <h2>Medical Departments</h2>
+      <p>The core pillars that power our hospital excellence</p>
+    </div>
 
-        {/* BODY */}
-        <div className="dept-grid">
+    {/* BODY */}
+    <div className="dept-grid">
 
-          {/* LEFT – DEPARTMENTS */}
-          <div className="dept-cards">
-            {[
-              { title: "Surgery", img: "/images/surgery.jpg" },
-              { title: "Radiology & Imaging", img: "/images/radiology.jpg" },
-              { title: "Pathology", img: "/images/pathology.jpg" },
-            ].map((d, i) => (
-              <div className="dept-card-modern" key={i}>
-                <div
-                  className="dept-bg"
-                  style={{ backgroundImage: `url(${d.img})` }}
-                />
+      {/* LEFT – DEPARTMENTS */}
+      <div className="dept-cards">
+        {[
+          {
+            title: "Surgery",
+            img: "/sur.jpg",
+          },
+          {
+            title: "Radiology & Imaging",
+            img: "/rad.jpg",
+          },
+          {
+            title: "Pathology",
+            img: "/pat.jpg",
+          },
+        ].map((d, i) => (
+          <div className="dept-card-modern" key={i}>
+            {/* Background Image */}
+            <div
+              className="dept-bg"
+              style={{
+                backgroundImage: `url(${d.img})`,
+              }}
+            />
 
-                <div className="dept-overlay" />
+            {/* Dark Overlay */}
+            <div className="dept-overlay" />
 
-                <div className="dept-content">
-                  <h3>{d.title}</h3>
-                  <button className="dept-more">Explore</button>
-                </div>
-              </div>
-            ))}
+            {/* Content */}
+            <div className="dept-content">
+              <h3>{d.title}</h3>
+              <button className="dept-more">Explore</button>
+            </div>
           </div>
-
-          {/* RIGHT – INFO */}
-          <div className="dept-panel">
-            <h3>Advanced Medical Infrastructure</h3>
-
-            <p>
-              Our departments are equipped with next-generation medical
-              technology, led by experienced specialists, and supported by a
-              deeply patient-centered care philosophy.
-            </p>
-
-            <ul className="dept-points">
-              <li>✓ High-precision diagnostic systems</li>
-              <li>✓ International treatment protocols</li>
-              <li>✓ Continuous emergency readiness</li>
-            </ul>
-
-            <a href="#" className="dept-cta">
-              View All Departments →
-            </a>
-          </div>
-
-        </div>
+        ))}
       </div>
-    </section>
+
+      {/* RIGHT – INFO */}
+      <div className="dept-panel">
+        <h3>Advanced Medical Infrastructure</h3>
+
+        <p>
+          Our departments are equipped with next-generation medical
+          technology, led by experienced specialists, and supported by a
+          deeply patient-centered care philosophy.
+        </p>
+
+        <ul className="dept-points">
+          <li>✓ High-precision diagnostic systems</li>
+          <li>✓ International treatment protocols</li>
+          <li>✓ Continuous emergency readiness</li>
+        </ul>
+
+        <a href="#" className="dept-cta">
+          View All Departments →
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
       {/* Services Section */}
    <section className="services-pro">

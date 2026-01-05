@@ -76,6 +76,7 @@ body {
   background: #ffffff;
   padding: 120px 20px;
   font-family: "Inter", "Segoe UI", sans-serif;
+  margin-top: -120px;
 }
 
 .services-wrapper {
@@ -588,6 +589,7 @@ body {
   background: #ffffff;
   padding: 120px 20px;
   font-family: "Inter", "Segoe UI", sans-serif;
+  margin-top: -160px;
 }
 
 .doctors-container {
@@ -834,8 +836,9 @@ body {
 
 .care-tiles {
   background: #ffffff;
-  padding: 70px 20px;
-  
+  padding: 0px 20px;
+  margin-top: 50px;
+  margin-bottom: -70px;
 }
 
 .care-tiles-wrap {
@@ -844,26 +847,32 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 26px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* TILE */
 .care-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   position: relative;
   padding: 48px 28px;
-  border-radius: 28px;
+  border-radius: 58px;
   background: linear-gradient(145deg, #0d6efd, #2563eb);
   color: #ffffff;
   text-align: center;
   text-decoration: none;
   overflow: hidden;
-  box-shadow: 0 25px 60px rgba(13, 110, 253, 0.35);
+  box-shadow: 0 25px 60px rgb(255, 255, 255);
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
               box-shadow 0.45s ease;
 }
 
 /* UNIQUE SHAPE */
 .care-tile {
-  clip-path: polygon(
+  clip-path:polygon(
     10% 0,
     90% 0,
     100% 50%,
@@ -913,7 +922,7 @@ body {
 /* HOVER MAGIC */
 .care-tile:hover {
   transform: translateY(-14px) scale(1.05);
-  box-shadow: 0 40px 90px rgba(13, 110, 253, 0.6);
+  box-shadow: 0 40px 90px rgb(255, 255, 255);
 }
 
 .care-tile:hover .tile-glow {
@@ -953,12 +962,21 @@ body {
 
 @media (max-width: 600px) {
   .care-tiles-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+   
   }
 
   .care-tile {
-    clip-path: none;
-    border-radius: 22px;
+     max-height: 80%;
+     clip-path:polygon(
+    10% 0,
+    90% 0,
+    100% 50%,
+    90% 100%,
+    10% 100%,
+    0 50%
+  );
+    border-radius: 52px;
   }
 }
 /* ===============================
@@ -1318,7 +1336,7 @@ nav ul li {
   nav ul ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 8px;
+    gap: 4px;
 
     min-width: 420px;
     max-width: min(900px, calc(100vw - 40px));
@@ -1426,9 +1444,9 @@ nav ul ul li a:hover {
 nav ul ul {
   background: linear-gradient(
     135deg,
-    rgba(38, 125, 255, 0.42),
-    rgba(50, 190, 255, 0.441),
-    rgba(44, 123, 249, 0.237)
+    rgba(24, 136, 248, 0.42),
+    rgba(34, 96, 240, 0.441),
+    rgba(20, 95, 246, 0.237)
   );
   backdrop-filter: blur(18px);
   border-radius: 18px;

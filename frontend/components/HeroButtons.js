@@ -11,13 +11,13 @@ export default function HeroButtons() {
   ];
 
   return (
-    <div className="absolute lg:bottom-34 left-1/2 -translate-x-1/2 z-20 w-full max-w-7xl px-4 mb-5px">
-      <div className="lg:grid grid-cols-2 md:grid-cols-5 h-18 gap-4">
+    <div className="absolute bottom-8 lg:bottom-4 left-1/2 -translate-x-1/2 z-20 w-full max-w-7xl px-4 mb-5px">
+      <div className="grid lg:grid lg:grid-cols-5 grid-cols-2 md:grid-cols-5 lg:h-18 h-30 gap-4">
         {buttons.map((btn, index) => (
          <Link
   key={index}
   href={btn.link}
-  className="group relative overflow-hidden flex items-center gap-4 p-6 bg-white shadow-lg rounded transition-all duration-500 hover:-translate-y-1"
+  className="group relative overflow-hidden flex items-center gap-4 p-6 bg-white shadow-lg rounded transition-all lg:h-full h-17 duration-500 hover:-translate-y-1"
 >
   {/* Blue slide background */}
   <span className="absolute inset-0 bg-blue-900 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out" />
