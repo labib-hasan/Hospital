@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-
+import Link from "next/link";
 export default function AdminLayout({ children }) {
   const router = useRouter();
 
@@ -9,10 +9,10 @@ export default function AdminLayout({ children }) {
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">Hospital Admin</h1>
           <div className="space-x-4">
-            <a href="/admin/dashboard" className="hover:underline">Dashboard</a>
-            <a href="/admin/doctors" className="hover:underline">Doctors</a>
-            <a href="/admin/services" className="hover:underline">Services</a>
-            <a href="/admin/departments" className="hover:underline">Departments</a>
+            <Link href="/admin/dashboard" className="hover:underline">Dashboard</Link>
+            <Link href="/admin/doctors" className="hover:underline">Doctors</Link>
+            <Link href="/admin/services" className="hover:underline">Services</Link>
+            <Link href="/admin/departments" className="hover:underline">Departments</Link>
             <button
               onClick={() => {
                 localStorage.removeItem("token");
