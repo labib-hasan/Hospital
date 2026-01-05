@@ -322,3 +322,5 @@ function DoctorsContent() {
     </div>
   );
 }
+
+export default DoctorsContent;
