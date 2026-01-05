@@ -1,7 +1,4 @@
 {
-  "version": 3,
-  "projects": {
-    "rootDirectory": "frontend"
-  }
-
+  "version": 2,
+  "framework": "nextjs"
 }
