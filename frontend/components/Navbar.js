@@ -5,26 +5,28 @@ import Image from "next/image";
 const menuItems = [
   { label: "FAQ", href: "/faq" },
   { label: "APPOINTMENT BOOKING", href: "/appointment" },
-  {
-    label: "CHECK PRICE",
-    href: "#",
-    submenu: [
-      { label: "Item 1", href: "/check-price/item1" },
-      { label: "Item 2", href: "/check-price/item2" },
-    ],
-  },
+ {
+  label: "SPECIALITIES",
+  href: "#",
+  submenu: [
+    { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
+    { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
+  ],
+},
+
 ];
 
 const mainMenuItems = [
   { label: "HOME", href: "/" },
   {
-    label: "CHECK PRICE",
-    href: "#",
-    submenu: [
-      { label: "Service 1", href: "/check-price/item1" },
-      { label: "Service 2", href: "/check-price/item2" },
-    ],
-  },
+  label: "SPECIALITIES",
+  href: "#",
+  submenu: [
+    { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
+    { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
+  ],
+},
+
   {
     label: "ABOUT US",
     href: "#",
