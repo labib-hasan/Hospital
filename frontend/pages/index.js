@@ -19,35 +19,47 @@ function FeatureCard({ bg, icon, title, text, link }) {
     </a>
   );
 }
-const doctors = [
+const mockDoctors = [
   { id: 1, name: "Dr. Sarah Ahmed", specialization: "Cardiologist" },
   { id: 2, name: "Dr. James Miller", specialization: "Neurologist" },
   { id: 3, name: "Dr. Ayesha Rahman", specialization: "Dermatologist" },
   { id: 4, name: "Dr. Michael Lee", specialization: "Orthopedic" },
 ];
 
+
 // random image generator
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 13) % 90}.jpg`;
 
 export default function HomePage() {
-  const [doctors, setDoctors] = useState([]);
-  const [services, setServices] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  const [doctors, setDoctors] = useState(mockDoctors);
+const [services, setServices] = useState([]);
+const [departments, setDepartments] = useState([]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      const [doctorsData, servicesData, departmentsData] = await Promise.all([
-        fetchDoctors(),
-        fetchServices(),
-        fetchDepartments()
-      ]);
-      setDoctors(doctorsData);
-      setServices(servicesData);
-      setDepartments(departmentsData);
-    };
-    loadData();
-  }, []);
+useEffect(() => {
+  const loadData = async () => {
+    try {
+      const doctorsData = await fetchDoctors();
+      if (doctorsData && doctorsData.length > 0) {
+        setDoctors(doctorsData);
+      } else {
+        setDoctors(mockDoctors);
+      }
+
+      const servicesData = await fetchServices();
+      setServices(servicesData || []);
+
+      const departmentsData = await fetchDepartments();
+      setDepartments(departmentsData || []);
+
+    } catch (error) {
+      console.error("API failed, using fallback doctors:", error);
+      setDoctors(mockDoctors);
+    }
+  };
+
+  loadData();
+}, []);
 
   
   return (
