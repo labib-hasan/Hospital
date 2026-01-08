@@ -203,7 +203,8 @@ useEffect(() => {
                 unoptimized
                 className="h-6 w-auto md:h-8"
               />
-              <span className="font-semibold text-sm md:text-lg text-blue-700">HOSPITAL</span>
+              <span className="text-xs md:text-sm text-blue-500 uppercase tracking-widest font-bold">
+  Medical Center</span>
             </Link>
 
             {/* Desktop menu */}
