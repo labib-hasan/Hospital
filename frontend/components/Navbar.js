@@ -75,7 +75,7 @@ const mainMenuItems = [
     ],
   },
   {
-    label: "FOR PATIENT",
+    label: t.forPatient,
     href: "#",
     submenu: [
       { label: "Patient Info 1", href: "/for-patient/info1" },
@@ -83,7 +83,7 @@ const mainMenuItems = [
     ],
   },
   {
-    label: "FOR DOCTORS",
+    label: t.forDoctors,
     href: "#",
     submenu: [
       { label: "Doctor Info 1", href: "/for-doctors/info1" },
@@ -239,104 +239,166 @@ useEffect(() => {
               )}
             </ul>
 
-            {/* Mobile toggle button */}
-            <button
-              className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <svg
-                className="h-6 w-6 text-gray-700"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+           {/* Mobile toggle button */}
+<button
+  onClick={() => setMobileMenuOpen(true)}
+  className="md:hidden p-2 rounded-xl 
+  bg-gradient-to-br from-blue-600 via-cyan-500 to-teal-400 
+  text-white shadow-[0_4px_16px_rgba(0,180,255,0.35)] 
+  active:scale-60 transition-all duration-150"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    {/* Outer Scan Ring */}
+    <circle
+      cx="12"
+      cy="12"
+      r="9"
+      stroke="currentColor"
+      strokeWidth="1.3"
+      opacity="0.6"
+    />
 
-          {/* Mobile menu */}
-          <div
-            className={`fixed top-0 right-0 h-full w-72 bg-white
-              rounded-3xl shadow-xl transform transition-transform duration-300 border-b-4 border-b-blue-600
-              ease-in-out z-50  ${
-              mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
-          >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-300">
-              <span className="font-semibold text-gray-800 uppercase">Menu</span>
-              <button
-                className="p-2"
-                onClick={() => setMobileMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                <svg className="h-6 w-6 text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
+    {/* Pulse Line */}
+    <path
+      d="M4 12h3l2-3 3 6 2-3h4"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
 
-           <ul className="flex flex-col text-gray-800 font-medium overflow-y-auto h-[calc(100vh-56px)]">
-  {mainMenuItems.map((item, idx) =>
-    item.submenu ? (
-      <li key={idx} className="border-b border-gray-200">
-        <button
-          onClick={() => toggleSubmenu(idx)}
-          className="w-full flex justify-between items-center px-4 py-2 hover:bg-gray-50 uppercase"
+    {/* Center Dot */}
+    <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+  </svg>
+</button>
+
+
+
+
+
+</div>
+{/* Mobile Overlay */}
+<div
+  className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300 ${
+    mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+  }`}
+  onClick={() => setMobileMenuOpen(false)}
+/>
+
+{/* Premium Mobile Drawer */}
+<div
+  className={`fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white z-50 shadow-2xl rounded-l-3xl transform transition-transform duration-300 ease-in-out ${
+    mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+>
+  {/* Header */}
+  <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-tl-3xl">
+    <div>
+      <h3 className="font-bold text-lg">Medical Center</h3>
+      <p className="text-xs opacity-90">Premium Healthcare</p>
+    </div>
+    <button
+      onClick={() => setMobileMenuOpen(false)}
+      className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition"
+    >
+      <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  {/* Language Switch */}
+  <div className="flex justify-center gap-3 py-3 border-b">
+    <button
+      onClick={() => changeLanguage("en")}
+      className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${
+        language === "en"
+          ? "bg-blue-600 text-white shadow"
+          : "bg-gray-200 text-gray-700"
+      }`}
+    >
+      EN
+    </button>
+    <button
+      onClick={() => changeLanguage("bn")}
+      className={`px-4 py-1.5 rounded-full text-xs font-semibold transition ${
+        language === "bn"
+          ? "bg-blue-600 text-white shadow"
+          : "bg-gray-200 text-gray-700"
+      }`}
+    >
+      বাংলা
+    </button>
+  </div>
+
+  {/* Menu Content */}
+  <div className="h-[calc(100%-120px)] overflow-y-auto px-4 py-4 space-y-2">
+
+    {mainMenuItems.map((item, idx) =>
+      item.submenu ? (
+        <div
+          key={idx}
+          className="bg-gray-50 rounded-xl overflow-hidden shadow-sm"
         >
-          <NavButton>
-    {item.label}
-  </NavButton>
-          <svg
-            className={`w-4 h-4 transform transition-transform ${
-              openSubmenu === idx ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
+          <button
+            onClick={() => toggleSubmenu(idx)}
+            className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-gray-800 hover:bg-gray-100 transition"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6"/>
-          </svg>
-        </button>
+            <span>{item.label}</span>
+            <svg
+              className={`w-4 h-4 transition-transform ${
+                openSubmenu === idx ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+            </svg>
+          </button>
 
-        {openSubmenu === idx && (
-          <ul className="pl-6 bg-gray-50 max-h-48 overflow-y-auto">
-            {item.submenu.map((subitem, subidx) => (
-              <li key={subidx} className="border-b border-gray-100">
+          <div
+  className={`transition-all duration-300 ${
+    openSubmenu === idx ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
+  } overflow-hidden`}
+>
+
+           <div className="flex flex-col bg-white border-t max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100">
+
+              {item.submenu.map((subitem, subidx) => (
                 <Link
+                  key={subidx}
                   href={subitem.href}
-                  className="block px-4 py-2 text-sm hover:text-blue-600"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-5 py-2.5 text-sm text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition"
                 >
                   {subitem.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </li>
-    ) : (
-      <li key={idx} className="border-b border-gray-200">
-        <a
-          href={item.href}
-          className="block px-4 py-2 hover:bg-gray-50 uppercase"
-        >
-           <NavButton>
-    {item.label}
-  </NavButton>
-        </a>
-      </li>
-    )
-  )}
-</ul>
-
+              ))}
+            </div>
           </div>
+        </div>
+      ) : (
+        <Link
+          key={idx}
+          href={item.href}
+          onClick={() => setMobileMenuOpen(false)}
+          className="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-800 bg-gray-50 hover:bg-blue-50 hover:text-blue-600 transition shadow-sm"
+        >
+          {item.label}
+        </Link>
+      )
+    )}
+
+    {/* Hotline Card */}
+    <div className="mt-4 p-4 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg">
+      <p className="text-xs opacity-90">24/7 Emergency Hotline</p>
+      <h4 className="text-lg font-bold mt-1">+8809610-818888</h4>
+    </div>
+  </div>
+</div>
+
 
           {/* Overlay */}
           {mobileMenuOpen && (
