@@ -1,13 +1,30 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../utils/translations";
 
-const menuItems = [
+
+const NavButton = ({ children }) => (
+  <span className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-xs font-semibold text-gray-800 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200">
+    <span className="relative px-1 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-transparent leading-5">
+      {children}
+    </span>
+  </span>
+);
+
+
+export default function Navbar() {
+  const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, changeLanguage } = useLanguage();
+  const t = translations[language];
+
+  const menuItems = [
   { label: "FAQ", href: "/faq" },
-  { label: "APPOINTMENT BOOKING", href: "/appointment" },
- {
-  label: "SPECIALITIES",
-  href: "#",
+  { label: t.appointment, href: "/appointment" },
+ { label: t.specialities, 
+  href: "#", 
   submenu: [
     { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
     { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
@@ -17,9 +34,10 @@ const menuItems = [
 ];
 
 const mainMenuItems = [
-  { label: "HOME", href: "/" },
+ { label: t.home, href: "/" },
+
   {
-  label: "SPECIALITIES",
+  label: t.specialities,
   href: "#",
   submenu: [
     { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
@@ -28,7 +46,7 @@ const mainMenuItems = [
 },
 
   {
-    label: "ABOUT US",
+    label: t.about,
     href: "#",
     submenu: [
       { label: "Our Story", href: "/about/our-story" },
@@ -36,7 +54,7 @@ const mainMenuItems = [
     ],
   },
   {
-    label: "DEPARTMENTS",
+    label: t.departments,
     href: "#",
     submenu: [
       { label: "Medicine", href: "/departments/medicine" },
@@ -72,30 +90,18 @@ const mainMenuItems = [
       { label: "Doctor Info 2", href: "/for-doctors/info2" },
     ],
   },
-  { label: "BLOG", href: "/blog" },
+  { label: t.blog, href: "/blog" },
   {
-    label: "CONTACT",
+    label: t.contact,
     href: "#",
     submenu: [
       { label: "Contact Info 1", href: "/contact/info1" },
       { label: "Contact Info 2", href: "/contact/info2" },
     ],
   },
-  { label: "DIAGNOSTIC REPORT", href: "/diagnostic-report" },
+  { label: t.diagnostic, href: "/diagnostic-report" },
 ];
 
-const NavButton = ({ children }) => (
-  <span className="relative inline-flex items-center justify-center p-0.5 overflow-hidden text-xs font-semibold text-gray-800 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200">
-    <span className="relative px-1 py-2 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-transparent leading-5">
-      {children}
-    </span>
-  </span>
-);
-
-
-export default function Navbar() {
-  const [openSubmenu, setOpenSubmenu] = useState(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 useEffect(() => {
   const handleResize = () => {
     if (window.innerWidth >= 768) {
@@ -145,13 +151,44 @@ useEffect(() => {
               )
             )}
           </div>
-          <div className="text-xs sm:text-sm flex items-center space-x-1">
-            <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h1l2 5h13"></path>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 16a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-            <span>24/7 Hotline +8809610-818888</span>
-          </div>
+         <div className="text-xs sm:text-sm flex items-center space-x-3">
+
+  {/* Hotline */}
+  <div className="flex items-center space-x-1">
+    <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h1l2 5h13"></path>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16 16a2 2 0 11-4 0 2 2 0 014 0z"></path>
+    </svg>
+    <span>24/7 Hotline +8809610-818888</span>
+  </div>
+
+  {/* Language Switch */}
+  <div className="flex items-center gap-1">
+    <button
+      onClick={() => changeLanguage("en")}
+      className={`px-2 py-1 rounded text-xs font-semibold transition ${
+        language === "en"
+          ? "bg-blue-600 text-white"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      }`}
+    >
+      EN
+    </button>
+
+    <button
+      onClick={() => changeLanguage("bn")}
+      className={`px-2 py-1 rounded text-xs font-semibold transition ${
+        language === "bn"
+          ? "bg-blue-600 text-white"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      }`}
+    >
+      বাংলা
+    </button>
+  </div>
+
+</div>
+
         </div>
 
         {/* Main navigation */}

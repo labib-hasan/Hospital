@@ -15,18 +15,27 @@ export default function HeroImageUpload({ isAdmin = false }) {
     localStorage.setItem("heroImages", JSON.stringify(images));
   }, [images]);
 
-  const handleUpload = (e, index) => {
-    const file = e.target.files[0];
-    if (!file) return;
+ const handleUpload = async (e, index) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      const updated = [...images];
-      updated[index] = reader.result;
-      setImages(updated);
-    };
-    reader.readAsDataURL(file);
-  };
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/api/upload-hero", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+
+  const updated = [...images];
+  updated[index] = data.url;
+  setImages(updated);
+
+  localStorage.setItem("heroImages", JSON.stringify(updated));
+};
+
 
   return (
     <section className="relative w-full bg-gray-200">
