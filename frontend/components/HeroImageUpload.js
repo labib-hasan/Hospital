@@ -6,14 +6,16 @@ const TOTAL_SLOTS = 4;
 export default function HeroImageUpload({ isAdmin = false }) {
   const [images, setImages] = useState(Array(TOTAL_SLOTS).fill(null));
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("heroImages"));
-    if (saved) setImages(saved);
-  }, []);
+ useEffect(() => {
+  fetch("/api/get-hero")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.images) setImages(data.images);
+    });
+}, []);
 
-  useEffect(() => {
-    localStorage.setItem("heroImages", JSON.stringify(images));
-  }, [images]);
+
+ 
 
  const handleUpload = async (e, index) => {
   const file = e.target.files[0];
@@ -22,19 +24,25 @@ export default function HeroImageUpload({ isAdmin = false }) {
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch("/api/upload-hero", {
+  const uploadRes = await fetch("/api/upload-hero", {
     method: "POST",
     body: formData,
   });
 
-  const data = await res.json();
+  const uploadData = await uploadRes.json();
 
   const updated = [...images];
-  updated[index] = data.url;
+  updated[index] = uploadData.url;
   setImages(updated);
 
-  localStorage.setItem("heroImages", JSON.stringify(updated));
+  // save to server
+  await fetch("/api/save-hero", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ images: updated }),
+  });
 };
+
 
 
   return (
