@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import HeroButtons from "../components/HeroButtons";
 
 const TOTAL_SLOTS = 4;
 
 export default function HeroImageUpload({ isAdmin = false }) {
   const [images, setImages] = useState(Array(TOTAL_SLOTS).fill(null));
+  const sliderRef = useRef(null);
 
  useEffect(() => {
   fetch("/api/get-hero")
@@ -12,6 +13,22 @@ export default function HeroImageUpload({ isAdmin = false }) {
     .then((data) => {
       if (data.images) setImages(data.images);
     });
+}, []);
+
+ useEffect(() => {
+  const interval = setInterval(() => {
+    if (sliderRef.current) {
+      const slider = sliderRef.current;
+      const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+      if (slider.scrollLeft >= maxScrollLeft) {
+        slider.scrollLeft = 0;
+      } else {
+        slider.scrollLeft += slider.clientWidth;
+      }
+    }
+  }, 3000);
+
+  return () => clearInterval(interval);
 }, []);
 
 
@@ -50,7 +67,7 @@ export default function HeroImageUpload({ isAdmin = false }) {
 
       {/* HERO SLIDER */}
       <div className="relative h-[50vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
-        <div className="flex overflow-x-auto scroll-smooth snap-x h-full">
+        <div ref={sliderRef} className="flex overflow-x-auto scroll-smooth snap-x h-full scrollbar-hide">
           {images.map((img, index) => (
             <div
               key={index}

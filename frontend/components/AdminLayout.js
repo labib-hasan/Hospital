@@ -1,31 +1,73 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 export default function AdminLayout({ children }) {
   const router = useRouter();
 
+  const menu = [
+    { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "Doctors", path: "/admin/doctors" },
+    { name: "Patients", path: "/admin/patients" },
+    { name: "Appointments", path: "/admin/appointments" },
+    { name: "Departments", path: "/admin/departments" },
+    { name: "Payments", path: "/admin/payments" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-blue-600 text-white p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Hospital Admin</h1>
-          <div className="space-x-4">
-            <Link href="/admin/dashboard" className="hover:underline">Dashboard</Link>
-            <Link href="/admin/doctors" className="hover:underline">Doctors</Link>
-            <Link href="/admin/services" className="hover:underline">Services</Link>
-            <Link href="/admin/departments" className="hover:underline">Departments</Link>
+    <div className="flex min-h-screen bg-[#F5F7FB]">
+      
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-md">
+        <div className="p-6 text-xl font-bold text-blue-600">
+          🏥 Health Journal
+        </div>
+
+        <nav className="space-y-2 px-4">
+          {menu.map((item) => (
+            <Link
+              key={item.path}
+              href={item.path}
+              className={`block px-4 py-2 rounded-lg text-sm font-medium
+              ${
+                router.pathname === item.path
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-600 hover:bg-blue-100"
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1">
+        
+        {/* Topbar */}
+        <header className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
+          <input
+            type="text"
+            placeholder="Search doctor, patient..."
+            className="w-1/3 px-4 py-2 border rounded-lg text-sm focus:outline-none"
+          />
+
+          <div className="flex items-center gap-4">
+            <span className="text-sm font-medium">Admin</span>
             <button
               onClick={() => {
                 localStorage.removeItem("token");
-                window.location.href = "/";
+                router.push("/");
               }}
-              className="bg-red-500 px-3 py-1 rounded hover:bg-red-600"
+              className="bg-red-500 text-white px-3 py-1 rounded-md text-sm hover:bg-red-600"
             >
               Logout
             </button>
           </div>
-        </div>
-      </nav>
-      <main className="container mx-auto p-6">{children}</main>
+        </header>
+
+        {/* Page Content */}
+        <main className="p-6">{children}</main>
+      </div>
     </div>
   );
 }

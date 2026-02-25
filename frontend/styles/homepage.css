@@ -2,7 +2,7 @@
 body {
   background: #ffffff;
   color: #0f172a;
-  font-family: "Inter", "Segoe UI", sans-serif;
+  font-family: 'Poppins', "Segoe UI", sans-serif;
 }
 
 /* HERO */
@@ -74,7 +74,7 @@ body {
   padding: 30px;
   box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
   text-align: center;
-  transition: transform 0.4s;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
 }
 
 .action-card:hover {
@@ -162,7 +162,7 @@ body {
   padding: 30px;
   border-radius: 18px;
   text-align: center;
-  transition: transform 0.3s;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
 }
 
 .doctor-card:hover {

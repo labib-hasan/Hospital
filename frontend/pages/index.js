@@ -27,9 +27,14 @@ const mockDoctors = [
 ];
 
 
-// random image generator
-const getDoctorImage = (id) =>
-  `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 13) % 90}.jpg`;
+// Get doctor image - use database image or fallback to placeholder
+const getDoctorImage = (doctor) => {
+  if (doctor && doctor.image) {
+    return doctor.image;
+  }
+  // Fallback to placeholder if no image
+  return '/placeholder-doctor.jpg';
+};
 
 export default function HomePage() {
   const [doctors, setDoctors] = useState(mockDoctors);
@@ -69,14 +74,14 @@ useEffect(() => {
 
       {/* Hero Section */}
       <section className="relative md:pt-17 pt-14 "> {/* pt-16 to offset navbar height */}
-        <HeroImageUpload isAdmin={true} />
+        <HeroImageUpload isAdmin={false} />
       </section>
 
-     {/* Quick Access Tiles – Modern HomeBridge */}
-<section className="care-tiles ">
-  <div className="care-tiles-wrap  ">
+     {/* Quick Access Tiles */}
+<section className="care-tiles">
+  <div className="care-tiles-wrap">
 
-    <Link href="/departments" className="care-tile">
+    <Link href="/departments" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_tree_white.png"
@@ -84,12 +89,13 @@ useEffect(() => {
         width={60}
         height={60}
         unoptimized
+        className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3>Departments</h3>
-      <p>The backbone of our clinic</p>
+      <h3 className="font-bold text-lg mb-2">Departments</h3>
+      <p className="text-sm">The backbone of our clinic</p>
     </Link>
 
-    <Link href="/services" className="care-tile">
+    <Link href="/services" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_med_book_white.png"
@@ -97,12 +103,13 @@ useEffect(() => {
         width={60}
         height={60}
         unoptimized
+        className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3>Medical Services</h3>
-      <p>All available treatments</p>
+      <h3 className="font-bold text-lg mb-2">Medical Services</h3>
+      <p className="text-sm">All available treatments</p>
     </Link>
 
-    <Link href="/doctors" className="care-tile">
+    <Link href="/doctors" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_doctor1.png"
@@ -110,12 +117,13 @@ useEffect(() => {
         width={60}
         height={60}
         unoptimized
+        className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3>Find a Doctor</h3>
-      <p>Browse our specialists</p>
+      <h3 className="font-bold text-lg mb-2">Find a Doctor</h3>
+      <p className="text-sm">Browse our specialists</p>
     </Link>
 
-    <Link href="/appointment" className="care-tile">
+    <Link href="/appointment" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_help_desk1.png"
@@ -123,9 +131,10 @@ useEffect(() => {
         width={60}
         height={60}
         unoptimized
+        className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3>Appointment</h3>
-      <p>Book or request online</p>
+      <h3 className="font-bold text-lg mb-2">Appointment</h3>
+      <p className="text-sm">Book or request online</p>
     </Link>
 
   </div>
@@ -160,10 +169,10 @@ useEffect(() => {
             img: "/pat.jpg",
           },
         ].map((d, i) => (
-          <div className="dept-card-modern" key={i}>
+          <div className="dept-card-modern group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl" key={i}>
             {/* Background Image */}
             <div
-              className="dept-bg"
+              className="dept-bg transition-transform duration-700 group-hover:scale-110"
               style={{
                 backgroundImage: `url(${d.img})`,
               }}
@@ -241,7 +250,7 @@ useEffect(() => {
                 icon: "🚑",
               },
             ].map((s, i) => (
-              <div className="pro-card" key={i}>
+              <div className="pro-card group hover-lift" key={i}>
                 <div className="icon">{s.icon}</div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
@@ -303,8 +312,11 @@ useEffect(() => {
         <div className="doctor-card" key={doctor.id}>
           <div className="doctor-avatar">
             <img
-              src={getDoctorImage(doctor.id)}
+              src={getDoctorImage(doctor)}
               alt={doctor.name}
+              onError={(e) => {
+                e.target.src = '/placeholder-doctor.jpg';
+              }}
             />
           </div>
 
@@ -339,7 +351,7 @@ useEffect(() => {
           <p>Expert doctors • Trusted care • Quick booking</p>
         </div>
       </div>
-      
+
       <a href="/appointment" className="cta-float-btn">
         Book Now
         <span>→</span>

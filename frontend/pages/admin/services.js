@@ -27,7 +27,7 @@ export default function ManageServices() {
   const fetchServices = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('/api/services', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/services`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -45,7 +45,7 @@ export default function ManageServices() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('adminToken');
-      const url = editingService ? `/api/services/${editingService.id}` : '/api/services';
+      const url = editingService ? `${process.env.NEXT_PUBLIC_API_URL}/api/services/${editingService.id}` : `${process.env.NEXT_PUBLIC_API_URL}/api/services`;
       const method = editingService ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -89,7 +89,7 @@ export default function ManageServices() {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`/api/services/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/services/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

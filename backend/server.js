@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import doctorRoutes from './routes/doctorRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import departmentRoutes from './routes/departmentRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
 
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/departments', departmentRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

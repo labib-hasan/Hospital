@@ -104,7 +104,7 @@ const Footer = () => {
         <ul className="flex justify-center items-center flex-wrap my-2">
           <li className="mx-2 list-none">
             <a
-              
+              href="/"
               className="text-lg text-black opacity-75 font-light transition-opacity duration-500 hover:opacity-100 no-underline"
             >
               Home
@@ -146,7 +146,7 @@ const Footer = () => {
 
         {/* Copyright */}
         <p className="text-black my-4 text-base font-light">
-          &copy;2025 Laib Hasan | All Rights Reserved
+          &copy;2026 Mysoft_LH | All Rights Reserved
         </p>
       </footer>
     </div>

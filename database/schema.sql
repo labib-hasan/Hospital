@@ -1,10 +1,10 @@
 -- Hospital Management System Database Schema
 
-CREATE DATABASE IF NOT EXISTS hospital_management;
-USE hospital_management;
+CREATE DATABASE IF NOT EXISTS hospital;
+USE hospital;
 
 -- Admin Users Table
-CREATE TABLE admin_users (
+CREATE TABLE IF NOT EXISTS admin_users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -14,21 +14,32 @@ CREATE TABLE admin_users (
 );
 
 -- Doctors Table
-CREATE TABLE doctors (
+CREATE TABLE IF NOT EXISTS doctors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    specialization VARCHAR(100) NOT NULL,
+    specialization VARCHAR(100),
+    degrees VARCHAR(255),
+    designation VARCHAR(100),
+    department VARCHAR(100),
+    department_id INT,
+    institute VARCHAR(200),
+    room_no VARCHAR(50),
+    serial_note VARCHAR(200),
+    visiting_time VARCHAR(100),
+    visiting_days TEXT,
     image VARCHAR(500),
     description TEXT,
     experience_years INT,
     phone VARCHAR(20),
     email VARCHAR(100),
+    status TINYINT DEFAULT 1,
+    specialties TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Services Table
-CREATE TABLE services (
+CREATE TABLE IF NOT EXISTS services (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT,
@@ -39,7 +50,7 @@ CREATE TABLE services (
 );
 
 -- Departments Table
-CREATE TABLE departments (
+CREATE TABLE IF NOT EXISTS departments (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -50,7 +61,7 @@ CREATE TABLE departments (
 );
 
 -- Hero Images Table
-CREATE TABLE hero_images (
+CREATE TABLE IF NOT EXISTS hero_images (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
     subtitle VARCHAR(300),

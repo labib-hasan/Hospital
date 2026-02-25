@@ -27,7 +27,7 @@ export default function ManageDepartments() {
   const fetchDepartments = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch('/api/departments', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/departments`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -45,7 +45,7 @@ export default function ManageDepartments() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('adminToken');
-      const url = editingDepartment ? `/api/departments/${editingDepartment.id}` : '/api/departments';
+      const url = editingDepartment ? `${process.env.NEXT_PUBLIC_API_URL}/api/departments/${editingDepartment.id}` : `${process.env.NEXT_PUBLIC_API_URL}/api/departments`;
       const method = editingDepartment ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
@@ -89,7 +89,7 @@ export default function ManageDepartments() {
 
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await fetch(`/api/departments/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/departments/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
