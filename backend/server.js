@@ -12,7 +12,14 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// CORS configuration - allow requests from Vercel frontend
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // API Routes
