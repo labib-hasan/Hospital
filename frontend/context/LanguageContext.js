@@ -7,12 +7,26 @@ export const LanguageProvider = ({ children }) => {
 
   useEffect(() => {
     const savedLang = localStorage.getItem("lang");
-    if (savedLang) setLanguage(savedLang);
+    if (savedLang) {
+      setLanguage(savedLang);
+      // Apply Bangla font class to body when language is Bengali
+      if (savedLang === "bn") {
+        document.body.classList.add("bangla-font");
+      } else {
+        document.body.classList.remove("bangla-font");
+      }
+    }
   }, []);
 
   const changeLanguage = (lang) => {
     setLanguage(lang);
     localStorage.setItem("lang", lang);
+    // Apply Bangla font class to body when language is Bengali
+    if (lang === "bn") {
+      document.body.classList.add("bangla-font");
+    } else {
+      document.body.classList.remove("bangla-font");
+    }
   };
 
   return (

@@ -4,21 +4,11 @@ import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { fetchDoctors, fetchServices, fetchDepartments } from "../utils/api";
+import { useLanguage } from "../context/LanguageContext";
+import { translations } from "../utils/translations";
 
 import HeroImageUpload from "../components/HeroImageUpload";
-// Add FeatureCard here or import from components/FeatureCard.js
-function FeatureCard({ bg, icon, title, text, link }) {
-  return (
-    <a
-      href={link}
-      className={`${bg} text-white rounded-lg p-8 transform hover:scale-105 transition duration-300 block`}
-    >
-      <Image src={icon} alt={title} width={64} height={64} unoptimized className="mx-auto h-16 mb-4" />
-      <h3 className="font-bold text-lg mb-2">{title}</h3>
-      <p className="text-sm">{text}</p>
-    </a>
-  );
-}
+
 const mockDoctors = [
   { id: 1, name: "Dr. Sarah Ahmed", specialization: "Cardiologist" },
   { id: 2, name: "Dr. James Miller", specialization: "Neurologist" },
@@ -26,54 +16,59 @@ const mockDoctors = [
   { id: 4, name: "Dr. Michael Lee", specialization: "Orthopedic" },
 ];
 
-
 // Get doctor image - use database image or fallback to placeholder
 const getDoctorImage = (doctor) => {
   if (doctor && doctor.image) {
     return doctor.image;
   }
-  // Fallback to placeholder if no image
   return '/placeholder-doctor.jpg';
 };
 
 export default function HomePage() {
+  const { language } = useLanguage();
+  const t = translations[language] || translations.en;
+  
   const [doctors, setDoctors] = useState(mockDoctors);
-const [services, setServices] = useState([]);
-const [departments, setDepartments] = useState([]);
+  const [services, setServices] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      const doctorsData = await fetchDoctors();
-      if (doctorsData && doctorsData.length > 0) {
-        setDoctors(doctorsData);
-      } else {
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const doctorsData = await fetchDoctors();
+        if (doctorsData && doctorsData.length > 0) {
+          setDoctors(doctorsData);
+        } else {
+          setDoctors(mockDoctors);
+        }
+
+        const servicesData = await fetchServices();
+        setServices(servicesData || []);
+
+        const departmentsData = await fetchDepartments();
+        setDepartments(departmentsData || []);
+
+      } catch (error) {
+        console.error("API failed, using fallback doctors:", error);
         setDoctors(mockDoctors);
       }
+    };
 
-      const servicesData = await fetchServices();
-      setServices(servicesData || []);
+    loadData();
+  }, []);
 
-      const departmentsData = await fetchDepartments();
-      setDepartments(departmentsData || []);
+  // Days array for translations
+  const weekDays = language === 'bn' 
+    ? ["শনিবার", "রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার"]
+    : ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-    } catch (error) {
-      console.error("API failed, using fallback doctors:", error);
-      setDoctors(mockDoctors);
-    }
-  };
-
-  loadData();
-}, []);
-
-  
   return (
     <>
       {/* Navbar */}
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative md:pt-17 pt-14 "> {/* pt-16 to offset navbar height */}
+      <section className="relative md:pt-17 pt-14 ">
         <HeroImageUpload isAdmin={false} />
       </section>
 
@@ -85,56 +80,56 @@ useEffect(() => {
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_tree_white.png"
-        alt="Departments"
+        alt={t.tileDepartments}
         width={60}
         height={60}
         unoptimized
         className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3 className="font-bold text-lg mb-2">Departments</h3>
-      <p className="text-sm">The backbone of our clinic</p>
+      <h3 className="font-bold text-lg mb-2">{t.tileDepartments}</h3>
+      <p className="text-sm">{language === 'bn' ? 'আমাদের ক্লিনিকের মেরুদণ্ড' : 'The backbone of our clinic'}</p>
     </Link>
 
     <Link href="/services" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_med_book_white.png"
-        alt="Medical Services"
+        alt={t.tileServices}
         width={60}
         height={60}
         unoptimized
         className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3 className="font-bold text-lg mb-2">Medical Services</h3>
-      <p className="text-sm">All available treatments</p>
+      <h3 className="font-bold text-lg mb-2">{t.tileServices}</h3>
+      <p className="text-sm">{language === 'bn' ? 'সকল উপলব্ধ চিকিৎসা' : 'All available treatments'}</p>
     </Link>
 
     <Link href="/doctors" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_doctor1.png"
-        alt="Find a Doctor"
+        alt={t.tileDoctors}
         width={60}
         height={60}
         unoptimized
         className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3 className="font-bold text-lg mb-2">Find a Doctor</h3>
-      <p className="text-sm">Browse our specialists</p>
+      <h3 className="font-bold text-lg mb-2">{t.tileDoctors}</h3>
+      <p className="text-sm">{language === 'bn' ? 'আমাদের বিশেষজ্ঞদের দেখুন' : 'Browse our specialists'}</p>
     </Link>
 
     <Link href="/appointment" className="care-tile group hover-lift">
       <span className="tile-glow" />
       <Image
         src="https://i0.wp.com/parkview.com.bd/wp-content/uploads/2015/09/icon_help_desk1.png"
-        alt="Appointment"
+        alt={t.tileAppointment}
         width={60}
         height={60}
         unoptimized
         className="transition-transform duration-300 group-hover:scale-110"
       />
-      <h3 className="font-bold text-lg mb-2">Appointment</h3>
-      <p className="text-sm">Book or request online</p>
+      <h3 className="font-bold text-lg mb-2">{t.tileAppointment}</h3>
+      <p className="text-sm">{language === 'bn' ? 'অনলাইন বুক বা অনুরোধ করুন' : 'Book or request online'}</p>
     </Link>
 
   </div>
@@ -145,9 +140,9 @@ useEffect(() => {
 
     {/* HEADER */}
     <div className="dept-head">
-      <span className="dept-eyebrow">OUR CAPABILITIES</span>
-      <h2>Medical Departments</h2>
-      <p>The core pillars that power our hospital excellence</p>
+      <span className="dept-eyebrow">{t.capabilities}</span>
+      <h2>{t.departmentsTitle}</h2>
+      <p>{language === 'bn' ? 'আমাদের হাসপাতালের শ্রেষ্ঠত্বের মূল স্তম্ভ' : 'The core pillars that power our hospital excellence'}</p>
     </div>
 
     {/* BODY */}
@@ -157,15 +152,15 @@ useEffect(() => {
       <div className="dept-cards">
         {[
           {
-            title: "Surgery",
+            title: language === 'bn' ? 'সার্জারি' : "Surgery",
             img: "/sur.jpg",
           },
           {
-            title: "Radiology & Imaging",
+            title: language === 'bn' ? 'রেডিওলজি ও ইমেজিং' : "Radiology & Imaging",
             img: "/rad.jpg",
           },
           {
-            title: "Pathology",
+            title: language === 'bn' ? 'প্যাথলজি' : "Pathology",
             img: "/pat.jpg",
           },
         ].map((d, i) => (
@@ -184,7 +179,7 @@ useEffect(() => {
             {/* Content */}
             <div className="dept-content">
               <h3>{d.title}</h3>
-              <button className="dept-more">Explore</button>
+              <button className="dept-more">{t.explore}</button>
             </div>
           </div>
         ))}
@@ -192,22 +187,22 @@ useEffect(() => {
 
       {/* RIGHT – INFO */}
       <div className="dept-panel">
-        <h3>Advanced Medical Infrastructure</h3>
+        <h3>{language === 'bn' ? 'উন্নত মেডিকেল অবকাঠামো' : 'Advanced Medical Infrastructure'}</h3>
 
         <p>
-          Our departments are equipped with next-generation medical
-          technology, led by experienced specialists, and supported by a
-          deeply patient-centered care philosophy.
+          {language === 'bn' 
+            ? 'আমাদের বিভাগগুলি অভিজ্ঞ বিশেষজ্ঞদের নেতৃত্বে এবং রোগী-কেন্দ্রিক যত্নের দর্শন দ্বারা সমর্থিত, সর্বপ্রজন্মের মেডিকেল প্রযুক্তির সাথে সজ্জিত।'
+            : 'Our departments are equipped with next-generation medical technology, led by experienced specialists, and supported by a deeply patient-centered care philosophy.'}
         </p>
 
         <ul className="dept-points">
-          <li>✓ High-precision diagnostic systems</li>
-          <li>✓ International treatment protocols</li>
-          <li>✓ Continuous emergency readiness</li>
+          <li>✓ {language === 'bn' ? 'উচ্চ-নির্ভুল ডায়াগনস্টিক সিস্টেম' : 'High-precision diagnostic systems'}</li>
+          <li>✓ {language === 'bn' ? 'আন্তর্জাতিক চিকিৎসা প্রোটোকল' : 'International treatment protocols'}</li>
+          <li>✓ {language === 'bn' ? 'নিরবচ্ছিন্ন জরুরি প্রস্তুতি' : 'Continuous emergency readiness'}</li>
         </ul>
 
         <a href="#" className="dept-cta">
-          View All Departments →
+          {language === 'bn' ? 'সব বিভাগ দেখুন →' : 'View All Departments →'}
         </a>
       </div>
 
@@ -221,11 +216,12 @@ useEffect(() => {
       <div className="services-wrapper">
         {/* HEADER */}
         <div className="services-header">
-          <span className="badge">OUR SPECIALITIES</span>
-          <h2>Healthcare Services That Truly Care</h2>
+          <span className="badge">{t.ourServices}</span>
+          <h2>{language === 'bn' ? 'যত্নশীল স্বাস্থ্যসেবা' : 'Healthcare Services That Truly Care'}</h2>
           <p>
-            Advanced medical solutions delivered with compassion, precision,
-            and world-class expertise.
+            {language === 'bn' 
+              ? 'কমপাশন, প্রিসিশন এবং বিশ্ব-শ্রেণির বিশেষজ্ঞতার সাথে geliৎসিত উন্নত মেডিকেল সমাধান।'
+              : 'Advanced medical solutions delivered with compassion, precision, and world-class expertise.'}
           </p>
         </div>
 
@@ -235,18 +231,18 @@ useEffect(() => {
           <div className="cards">
             {[
               {
-                title: "Dialysis Unit",
-                desc: "Safe, modern & patient-focused renal care.",
+                title: language === 'bn' ? 'ডায়ালাইসিস ইউনিট' : "Dialysis Unit",
+                desc: language === 'bn' ? 'নিরাপদ, আধুনিক ও রোগী-কেন্দ্রিক রেনাল কেয়ার।' : "Safe, modern & patient-focused renal care.",
                 icon: "🩺",
               },
               {
-                title: "Physiotherapy",
-                desc: "Advanced recovery with smart equipment.",
+                title: language === 'bn' ? 'ফিজিওথেরাপি' : "Physiotherapy",
+                desc: language === 'bn' ? 'স্মার্ট সরঞ্জামের সাথে উন্নত পুনরুদ্ধার।' : "Advanced recovery with smart equipment.",
                 icon: "🏃‍♂️",
               },
               {
-                title: "Emergency Care",
-                desc: "24/7 rapid response & trauma support.",
+                title: language === 'bn' ? 'জরুরি সেবা' : "Emergency Care",
+                desc: language === 'bn' ? '২৪/৭ দ্রুত প্রতিক্রিয়া ও ট্রমা সহায়তা।' : "24/7 rapid response & trauma support.",
                 icon: "🚑",
               },
             ].map((s, i) => (
@@ -256,7 +252,7 @@ useEffect(() => {
                 <p>{s.desc}</p>
 
                 <button className="pro-btn">
-                  Explore <span>→</span>
+                  {t.explore} <span>→</span>
                 </button>
                </div>
             ))}
@@ -264,19 +260,11 @@ useEffect(() => {
 
           {/* WORKING HOURS */}
           <div className="hours-box">
-            <h3>Working Hours</h3>
+            <h3>{t.workingHours}</h3>
 
             <div className="hours-list">
-              {[
-                "Saturday",
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-              ].map((day) => (
-                <div className="hour-row" key={day}>
+              {weekDays.map((day, index) => (
+                <div className="hour-row" key={index}>
                   <span>{day}</span>
                   <strong>07:00 – 11:00</strong>
                 </div>
@@ -284,10 +272,9 @@ useEffect(() => {
             </div>
 
             <div className="emergency">
-              <h4>Emergency Services</h4>
+              <h4>{t.emergency}</h4>
               <p>
-                Open <strong>24 Hours</strong> with fully equipped ambulance
-                support.
+                {language === 'bn' ? 'পূর্ণ সজ্জিত অ্যাম্বুলেন্স সহ' : 'Open'} <strong>{language === 'bn' ? '২৪ ঘণ্টা' : '24 Hours'}</strong> {language === 'bn' ? 'খোলা' : 'with fully equipped ambulance support.'}
               </p>
             </div>
           </div>
@@ -301,9 +288,9 @@ useEffect(() => {
 
     {/* HEADER */}
     <div className="doctors-header">
-      <span className="doctors-eyebrow">OUR EXPERTS</span>
-      <h2>Meet Our Doctors</h2>
-      <p>Highly skilled medical professionals you can trust.</p>
+      <span className="doctors-eyebrow">{t.experts}</span>
+      <h2>{t.meetDoctors}</h2>
+      <p>{language === 'bn' ? 'আপনি বিশ্বাস করতে পারেন এমন অত্যন্ত দক্ষ চিকিৎসা পেশাদার।' : 'Highly skilled medical professionals you can trust.'}</p>
     </div>
 
     {/* GRID */}
@@ -324,7 +311,7 @@ useEffect(() => {
           <span className="doctor-role">{doctor.specialization}</span>
 
           <a href="/appointment" className="doctor-btn">
-            View Profile
+            {t.viewProfile}
              <span>→</span>
           </a>
         </div>
@@ -337,23 +324,18 @@ useEffect(() => {
 
      {/* Appointment CTA Section */}
 <section className="cta-texture-zone">
-  {/* Background Text Layer */}
-
-
-
-  {/* YOUR EXISTING CTA – UNTOUCHED */}
   <section className="cta-float">
     <div className="cta-float-wrap">
       <div className="cta-float-left">
         <span className="cta-dot" />
         <div>
-          <h4>Book an Appointment</h4>
-          <p>Expert doctors • Trusted care • Quick booking</p>
+          <h4>{language === 'bn' ? 'অ্যাপয়েন্টমেন্ট বুক করুন' : 'Book an Appointment'}</h4>
+          <p>{language === 'bn' ? 'বিশেষজ্ঞ ডাক্তার • বিশ্বস্ত যত্ন • দ্রুত বুকিং' : 'Expert doctors • Trusted care • Quick booking'}</p>
         </div>
       </div>
 
       <a href="/appointment" className="cta-float-btn">
-        Book Now
+        {t.bookNow}
         <span>→</span>
       </a>
     </div>

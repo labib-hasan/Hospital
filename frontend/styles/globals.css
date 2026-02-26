@@ -2104,16 +2104,55 @@ nav .fixed ul ul li a:hover {
   }
 }
 
-/* Responsive Premium Effects */
-@media (max-width: 768px) {
-  .hover-lift-advanced:hover {
-    transform: translateY(-8px);
-  }
+/* =========================================
+   BANGLA FONT STYLING
+   ========================================= */
 
-  .btn-premium-primary:hover,
-  .btn-premium-secondary:hover {
-    transform: translateY(-2px);
-  }
+/* Premium Bangla Font - Noto Sans Bengali */
+.bangla-font {
+  font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Bangla', sans-serif !important;
+}
+
+/* Apply Bangla font to all text elements when in Bangla mode */
+.bangla-font body,
+.bangla-font p,
+.bangla-font span,
+.bangla-font a,
+.bangla-font li,
+.bangla-font td,
+.bangla-font th,
+.bangla-font label,
+.bangla-font input,
+.bangla-font textarea,
+.bangla-font select,
+.bangla-font button,
+.bangla-font h1,
+.bangla-font h2,
+.bangla-font h3,
+.bangla-font h4,
+.bangla-font h5,
+.bangla-font h6 {
+  font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Bangla', sans-serif !important;
+  letter-spacing: 0.02em;
+}
+
+/* Better line height for Bangla text */
+.bangla-font p,
+.bangla-font span,
+.bangla-font li {
+  line-height: 1.8;
+}
+
+/* Slightly larger font size for better readability in Bangla */
+.bangla-font {
+  font-size: 105%;
+}
+
+/* Smooth font rendering for Bangla */
+.bangla-font {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 
