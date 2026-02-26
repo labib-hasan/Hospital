@@ -354,7 +354,7 @@ export default function Doctors() {
                     />
                   </label>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">Recommended: Square image, max 2MB</p>
+                <p className="text-xs text-gray-400 mt-2">Recommended: Square image, max 10MB</p>
               </div>
 
               {/* Personal Info */}
@@ -369,12 +369,12 @@ export default function Doctors() {
                       Doctor Name <span className="text-red-500">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="text" 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      placeholder="Dr. John Doe"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder="Enter doctor name"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -387,7 +387,7 @@ export default function Doctors() {
                       value={formData.specialization}
                       onChange={(e) => setFormData({...formData, specialization: e.target.value})}
                       placeholder="Cardiologist"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -399,7 +399,7 @@ export default function Doctors() {
                       value={formData.degrees}
                       onChange={(e) => setFormData({...formData, degrees: e.target.value})}
                       placeholder="MBBS, FCPS, MD"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -411,7 +411,7 @@ export default function Doctors() {
                       value={formData.designation}
                       onChange={(e) => setFormData({...formData, designation: e.target.value})}
                       placeholder="Senior Consultant"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                 </div>
@@ -432,7 +432,7 @@ export default function Doctors() {
                       required
                       value={formData.department}
                       onChange={(e) => setFormData({...formData, department: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     >
                       <option value="">Select Department</option>
                       {DEPARTMENTS.map(dept => (
@@ -448,8 +448,8 @@ export default function Doctors() {
                       type="text"
                       value={formData.institute}
                       onChange={(e) => setFormData({...formData, institute: e.target.value})}
-                      placeholder="Medical Center Chattagram"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      placeholder=" "
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -461,7 +461,7 @@ export default function Doctors() {
                       value={formData.room_no}
                       onChange={(e) => setFormData({...formData, room_no: e.target.value})}
                       placeholder="Room 302"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -473,7 +473,7 @@ export default function Doctors() {
                       value={formData.experience_years}
                       onChange={(e) => setFormData({...formData, experience_years: e.target.value})}
                       placeholder="10"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                 </div>
@@ -486,32 +486,72 @@ export default function Doctors() {
                   Visiting Schedule
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Visiting Time with Clock Picker */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Visiting Time
+                    <label className="block text-sm font-semibold text-black mb-2">
+                      Visiting Time (Start)
                     </label>
                     <input
-                      type="text"
-                      value={formData.visiting_time}
-                      onChange={(e) => setFormData({...formData, visiting_time: e.target.value})}
-                      placeholder="9:00 AM - 2:00 PM"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      type="time"
+                      value={formData.visiting_time ? formData.visiting_time.split(' - ')[0]?.trim() : ''}
+                      onChange={(e) => {
+                        const startTime = e.target.value;
+                        const endTime = formData.visiting_time?.split(' - ')[1]?.trim() || '17:00';
+                        setFormData({...formData, visiting_time: `${startTime} - ${endTime}`});
+                      }}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-black"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Serial Info
+                    <label className="block text-sm font-semibold text-black mb-2">
+                      Visiting Time (End)
                     </label>
                     <input
-                      type="text"
-                      value={formData.serial_note}
-                      onChange={(e) => setFormData({...formData, serial_note: e.target.value})}
-                      placeholder="Serial: 10:00 AM"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      type="time"
+                      value={formData.visiting_time ? formData.visiting_time.split(' - ')[1]?.trim() : ''}
+                      onChange={(e) => {
+                        const endTime = e.target.value;
+                        const startTime = formData.visiting_time?.split(' - ')[0]?.trim() || '09:00';
+                        setFormData({...formData, visiting_time: `${startTime} - ${endTime}`});
+                      }}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-black"
                     />
                   </div>
+                  
+                  {/* Serial Time with Clock Picker */}
+                  <div>
+                    <label className="block text-sm font-semibold text-black mb-2">
+                      Serial Start Time
+                    </label>
+                    <input
+                      type="time"
+                      value={formData.serial_note?.includes('-') ? formData.serial_note.split('-')[0]?.trim() : ''}
+                      onChange={(e) => {
+                        const startTime = e.target.value;
+                        const endTime = formData.serial_note?.includes('-') ? formData.serial_note.split('-')[1]?.trim() || '10:00' : '10:00';
+                        setFormData({...formData, serial_note: `${startTime} - ${endTime}`});
+                      }}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-black"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-black mb-2">
+                      Serial End Time
+                    </label>
+                    <input
+                      type="time"
+                      value={formData.serial_note?.includes('-') ? formData.serial_note.split('-')[1]?.trim() : ''}
+                      onChange={(e) => {
+                        const endTime = e.target.value;
+                        const startTime = formData.serial_note?.includes('-') ? formData.serial_note.split('-')[0]?.trim() || '10:00' : '10:00';
+                        setFormData({...formData, serial_note: `${startTime} - ${endTime}`});
+                      }}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-black"
+                    />
+                  </div>
+                  
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-black mb-3">
                       Visiting Days
                     </label>
                     <div className="flex flex-wrap gap-3">
@@ -561,7 +601,7 @@ export default function Doctors() {
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       placeholder="+880 123 4567890"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                   <div>
@@ -573,7 +613,7 @@ export default function Doctors() {
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
                       placeholder="doctor@hospital.com"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                      className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                     />
                   </div>
                 </div>
@@ -589,7 +629,7 @@ export default function Doctors() {
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
                   placeholder="Brief description about the doctor..."
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+                  className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
                 />
               </div>
 

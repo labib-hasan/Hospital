@@ -16,7 +16,7 @@ const departmentData = {
     intro: "You have a fever and also a little pain in the chest for about a week. Everyone is saying to show the doctor. But do not understand which doctor you have to go to. The kind of doctors we go to in this kind of situation are the doctors of medicine. These reputable physicians treat patients by prescribing medications according to their condition, not in any specific field, and refer to the specialist doctor at a particular specialty. At Medical Center Chattagram, the eight best medicine specialists of Chittagong are providing treatment to patients with dedication and compassion.",
     services: [
       { title: "General Medicine", desc: "Diagnosis and treatment of common illnesses, chronic diseases, and preventive healthcare for adults." },
-      { title: "Diabetes & Endocrinology", desc: "Specialized care for diabetes, thyroid disorders, and other hormonal conditions." },
+      { title: "Diabetes & Endocrinology", desc: "Specialized care for diabetes, thyroid disorders, and hormonal conditions." },
       { title: "Infectious Diseases", desc: "Expert management of infectious diseases including tropical diseases and COVID-19." },
       { title: "Rheumatology", desc: "Treatment of arthritis, autoimmune diseases, and musculoskeletal disorders." }
     ],
@@ -26,7 +26,7 @@ const departmentData = {
     title: "Department of Neuro Medicine",
     subtitle: "Advanced Neurological Care & Treatment",
     image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200",
-    intro: "The brain and nervous system are the most complex parts of the human body. When you experience persistent headaches, dizziness, numbness, or weakness in any part of your body, it could be a neurological condition that requires immediate attention. Our Department of Neuro Medicine at Medical Center Chattagram offers world-class diagnostic and treatment facilities for all neurological disorders. With advanced EEG, EMG/NCV testing, and neuroimaging technologies, our expert neurologists provide comprehensive care for stroke, epilepsy, Parkinson's disease, multiple sclerosis, and other neurological conditions. Our dedicated stroke unit operates 24/7 to provide immediate intervention for stroke patients, minimizing brain damage and maximizing recovery chances.",
+    intro: "The brain and nervous system are the most complex parts of the human body.",
     services: [
       { title: "Neurology", desc: "Diagnosis and treatment of brain, spine, and nervous system disorders." },
       { title: "Stroke Management", desc: "Emergency care and rehabilitation for stroke patients." },
@@ -39,7 +39,7 @@ const departmentData = {
     title: "Department of Cardiology",
     subtitle: "Comprehensive Heart Care Services",
     image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1200",
-    intro: "Heart disease is one of the leading causes of death worldwide, and early detection and proper treatment can save lives. If you experience chest pain, shortness of breath, palpitations, or fatigue during physical activity, it could be a sign of heart disease. Medical Center Chattagram's Department of Cardiology is equipped with state-of-the-art cardiac care facilities including cardiac catheterization labs, echocardiography, stress testing, and 24/7 cardiac emergency services. Our team of experienced cardiologists and cardiac surgeons provide comprehensive care ranging from preventive cardiology to complex cardiac surgeries including bypass surgery, valve replacement, and angioplasty. We are committed to providing world-class heart care to help patients return to healthy, active lives.",
+    intro: "Heart disease is one of the leading causes of death worldwide.",
     services: [
       { title: "Interventional Cardiology", desc: "Cardiac catheterization, angioplasty, and stent placement." },
       { title: "Non-Invasive Cardiology", desc: "ECG, echocardiography, stress testing, and cardiac CT." },
@@ -52,7 +52,7 @@ const departmentData = {
     title: "Department of Gastroenterology",
     subtitle: "Advanced Digestive & Liver Care",
     image: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1200",
-    intro: "Digestive health is fundamental to overall well-being. Persistent abdominal pain, bloating, indigestion, blood in stool, or unexplained weight loss could indicate gastrointestinal or liver disorders. Our Gastroenterology Department at Medical Center Chattagram provides comprehensive diagnostic and therapeutic services for all digestive system conditions. From common issues like acid reflux and gastritis to complex conditions like inflammatory bowel disease, liver cirrhosis, and pancreatic disorders, our expert gastroenterologists offer world-class care. We have advanced endoscopy suites for diagnostic and therapeutic procedures including gastroscopy, colonoscopy, ERCP, and capsule endoscopy. Our hepatology unit provides specialized care for liver diseases including hepatitis B, hepatitis C, and fatty liver disease.",
+    intro: "Digestive health is fundamental to overall well-being.",
     services: [
       { title: "Gastroenterology", desc: "Diagnosis and treatment of digestive system disorders." },
       { title: "Hepatology", desc: "Liver disease management including hepatitis and cirrhosis." },
@@ -65,7 +65,7 @@ const departmentData = {
     title: "Department of ENT",
     subtitle: "Ear, Nose, Throat & Head-Neck Surgery",
     image: "https://images.unsplash.com/photo-1584063366292-4c8e9f1a5c0e?w=1200",
-    intro: "Ear, Nose, and Throat disorders are extremely common and can significantly impact quality of life. From hearing loss and ear infections to sinus problems, sore throat, and voice disorders, our ENT Department provides comprehensive care for all ages. Medical Center Chattagram's ENT specialists treat conditions including chronic sinusitis, tonsillitis, deviated septum, hearing loss, tinnitus, vertigo, and sleep apnea. Our department is equipped with advanced diagnostic tools including audiometry, tympanometry, endoscopic sinus surgery facilities, and a dedicated sleep laboratory. Whether you need medical management or surgical intervention, our team of experienced ENT surgeons provides personalized care using the latest techniques including minimally invasive endoscopic procedures.",
+    intro: "Ear, Nose, and Throat disorders are extremely common.",
     services: [
       { title: "Otology", desc: "Treatment of ear disorders, hearing loss, and balance problems." },
       { title: "Rhinology", desc: "Management of nasal and sinus conditions." },
@@ -78,7 +78,7 @@ const departmentData = {
     title: "Department of Gynecology & Obstetrics",
     subtitle: "Complete Women's Healthcare",
     image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200",
-    intro: "Women's healthcare needs special attention at every stage of life. From adolescence to pregnancy, childbirth, and menopause, Medical Center Chattagram's Department of Gynecology and Obstetrics provides comprehensive care for all women's health concerns. Our services cover normal and high-risk pregnancies, normal and cesarean deliveries, gynecological checkups, family planning, infertility treatment, and management of menstrual disorders, fibroids, cysts, and cancers. We have state-of-the-art labor delivery rooms, a Level III NICU for premature and sick newborns, and advanced laparoscopic surgery facilities for minimally invasive gynecological procedures. Our team of experienced obstetricians and gynecologists is dedicated to providing compassionate, personalized care to women of all ages.",
+    intro: "Women's healthcare needs special attention at every stage of life.",
     services: [
       { title: "Obstetrics", desc: "Prenatal care, delivery, and postpartum care." },
       { title: "Gynecology", desc: "Women's reproductive health services." },
@@ -91,7 +91,7 @@ const departmentData = {
     title: "Department of Nephrology",
     subtitle: "Comprehensive Kidney Care",
     image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200",
-    intro: "Kidney diseases are often silent until they reach advanced stages. Symptoms like swelling in legs, frothy urine, high blood pressure, and decreased urine output should not be ignored. Our Nephrology Department at Medical Center Chattagram provides comprehensive kidney care including diagnosis and treatment of acute kidney injury, chronic kidney disease, glomerulonephritis, and renal stones. We have a state-of-the-art dialysis center offering both hemodialysis and peritoneal dialysis services. Our kidney transplant program provides pre-transplant evaluation and post-transplant care. With modern dialysis machines, skilled nephrologists, and dedicated nursing staff, we ensure quality care for all kidney patients. We also manage hypertension and diabetic kidney disease, which are leading causes of kidney failure.",
+    intro: "Kidney diseases are often silent until they reach advanced stages.",
     services: [
       { title: "Nephrology", desc: "Kidney disease diagnosis and management." },
       { title: "Dialysis", desc: "Hemodialysis and peritoneal dialysis services." },
@@ -104,7 +104,7 @@ const departmentData = {
     title: "Department of Orthopedics",
     subtitle: "Bone, Joint & Trauma Care",
     image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200",
-    intro: "Bone and joint problems can severely affect mobility and quality of life. Whether it's a sports injury, arthritis, back pain, or a fracture from an accident, our Orthopedics Department at Medical Center Chattagram provides comprehensive musculoskeletal care. Our services cover joint replacement surgeries (hip, knee, shoulder), arthroscopic surgeries, spine surgery, trauma surgery, and treatment of sports injuries. We have dedicated orthopedic operation theaters, advanced imaging facilities, and a full physiotherapy and rehabilitation unit. Our team of experienced orthopedic surgeons uses the latest techniques including minimally invasive surgery and computer-navigated joint replacements to ensure faster recovery and better outcomes for our patients.",
+    intro: "Bone and joint problems can severely affect mobility and quality of life.",
     services: [
       { title: "Orthopedic Surgery", desc: "Joint replacement, arthroscopy, and trauma surgery." },
       { title: "Spine Surgery", desc: "Treatment of spinal disorders and injuries." },
@@ -117,7 +117,7 @@ const departmentData = {
     title: "Department of Oncology",
     subtitle: "Comprehensive Cancer Care",
     image: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1200",
-    intro: "Cancer is a devastating diagnosis, but early detection and modern treatment can lead to cure or long-term remission. Medical Center Chattagram's Oncology Department provides comprehensive cancer care including medical oncology, radiation oncology, and surgical oncology. Our multidisciplinary team works together to provide personalized treatment plans for all types of cancers including breast cancer, lung cancer, colorectal cancer, liver cancer, and blood cancers. We have modern chemotherapy day care units, advanced radiation therapy facilities, and palliative care services for advanced cancer patients. Our cancer screening and early detection programs help identify cancer at early, treatable stages. We believe in holistic care that addresses not just the physical but also the emotional and psychological needs of cancer patients and their families.",
+    intro: "Cancer is a devastating diagnosis, but early detection can lead to cure.",
     services: [
       { title: "Medical Oncology", desc: "Chemotherapy and cancer medication treatment." },
       { title: "Radiation Oncology", desc: "Advanced radiation therapy for cancer." },
@@ -130,7 +130,7 @@ const departmentData = {
     title: "Department of Psychiatry",
     subtitle: "Mental Health & Behavioral Sciences",
     image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1200",
-    intro: "Mental health is as important as physical health, yet it is often overlooked. Depression, anxiety, stress, sleep disorders, and other mental health conditions can significantly impact daily life. Our Psychiatry Department at Medical Center Chattagram provides comprehensive mental health services for patients of all ages. Our services include evaluation and treatment of depression, anxiety disorders, bipolar disorder, schizophrenia, panic attacks, phobias, OCD, PTSD, and addiction to alcohol and drugs. We offer both inpatient and outpatient treatment programs, individual and group psychotherapy, and modern treatments including ECT (Electroconvulsive Therapy) for severe cases. Our compassionate team of psychiatrists and psychologists creates a supportive environment where patients can feel safe to discuss their concerns and work towards recovery.",
+    intro: "Mental health is as important as physical health.",
     services: [
       { title: "General Psychiatry", desc: "Diagnosis and treatment of mental disorders." },
       { title: "Child Psychiatry", desc: "Mental health services for children and adolescents." },
@@ -143,7 +143,7 @@ const departmentData = {
     title: "Department of Pediatrics",
     subtitle: "Comprehensive Child Healthcare",
     image: "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=1200",
-    intro: "Children are not small adults; they have unique healthcare needs that require specialized care. Our Pediatrics Department at Medical Center Chattagram provides comprehensive healthcare for infants, children, and adolescents from birth to 18 years. Our services include well-baby care, vaccination, treatment of childhood illnesses, management of chronic conditions like asthma and diabetes, and specialized care for premature and critically ill newborns in our Level III NICU. Our pediatric specialists cover all subspecialties including pediatric cardiology, pediatric surgery, pediatric neurology, and developmental pediatrics. We believe in preventive healthcare and parent education to ensure healthy growth and development of every child. Our child-friendly environment and caring staff make hospital visits less frightening for young patients.",
+    intro: "Children are not small adults; they have unique healthcare needs.",
     services: [
       { title: "General Pediatrics", desc: "Comprehensive healthcare for infants and children." },
       { title: "Pediatric ICU", desc: "Critical care for seriously ill children." },
@@ -156,7 +156,7 @@ const departmentData = {
     title: "Department of Physical Medicine",
     subtitle: "Rehabilitation & Pain Management",
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200",
-    intro: "Recovery from illness, injury, or surgery often requires rehabilitation to restore function and mobility. Our Physical Medicine and Rehabilitation Department at Medical Center Chattagram helps patients regain their independence and quality of life. We provide comprehensive rehabilitation services for stroke patients, orthopedic patients, neurological conditions, sports injuries, and chronic pain conditions. Our services include physiotherapy, occupational therapy, speech therapy, and advanced pain management treatments. We have well-equipped physiotherapy gyms, electrotherapy units, hydrotherapy facilities, and specialized programs for stroke rehabilitation, cardiac rehabilitation, and sports injury recovery. Our team of physiatrists and therapists work together to create individualized rehabilitation programs that help patients achieve their maximum potential.",
+    intro: "Recovery from illness, injury, or surgery often requires rehabilitation.",
     services: [
       { title: "Physiotherapy", desc: "Movement therapy and rehabilitation exercises." },
       { title: "Pain Management", desc: "Chronic pain treatment and intervention." },
@@ -169,7 +169,7 @@ const departmentData = {
     title: "Department of Skin & VD",
     subtitle: "Dermatology & Venereology Care",
     image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=1200",
-    intro: "Skin is the largest organ of the body and reflects overall health. Skin problems can range from simple rashes to serious conditions that require specialized treatment. Our Dermatology and Venereology Department at Medical Center Chattagram provides comprehensive skin care services for all ages. We treat acne, eczema, psoriasis, vitiligo, fungal infections, hair loss, and other skin conditions. Our services also include treatment of sexually transmitted infections in a confidential and non-judgmental environment. We offer advanced cosmetic dermatology services including laser therapy, chemical peels, and anti-aging treatments. Our dermatologists use the latest technologies and evidence-based treatments to help patients achieve healthy, beautiful skin.",
+    intro: "Skin is the largest organ of the body and reflects overall health.",
     services: [
       { title: "Dermatology", desc: "Skin disease diagnosis and treatment." },
       { title: "Cosmetology", desc: "Skin aesthetic and cosmetic procedures." },
@@ -182,7 +182,7 @@ const departmentData = {
     title: "Department of Surgery",
     subtitle: "Comprehensive Surgical Services",
     image: "https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=1200",
-    intro: "Surgery is often the best treatment option for many conditions when conservative measures fail. Our Surgery Department at Medical Center Chattagram provides comprehensive surgical services across multiple specialties. Our experienced surgeons perform all types of general surgeries including appendectomy, gallbladder removal, hernia repair, thyroid surgery, and bowel surgery. We also offer laparoscopic (minimally invasive) surgery which results in less pain, smaller scars, and faster recovery. Our operation theaters are equipped with modern surgical equipment, advanced anesthesia machines, and full monitoring systems. Our surgical team includes experienced anesthesiologists, OT nurses, and support staff who ensure safe surgery and smooth recovery. We provide thorough pre-operative evaluation and post-operative care to ensure the best outcomes for our patients.",
+    intro: "Surgery is often the best treatment option for many conditions.",
     services: [
       { title: "General Surgery", desc: "Abdominal and gastrointestinal surgery." },
       { title: "Laparoscopic Surgery", desc: "Minimally invasive surgical techniques." },
@@ -195,7 +195,7 @@ const departmentData = {
     title: "Department of Urology",
     subtitle: "Comprehensive Urological Care",
     image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200",
-    intro: "Urological problems can affect quality of life and should not be ignored. Problems with urination, blood in urine, kidney stones, prostate issues, and male infertility require specialized care. Our Urology Department at Medical Center Chattagram provides comprehensive urological services for men, women, and children. We treat urinary tract infections, kidney stones, enlarged prostate, urinary incontinence, and cancers of the kidney, bladder, and prostate. Our department is equipped with advanced urological equipment including ESWL (Extracorporeal Shock Wave Lithotripsy) for kidney stone treatment, laser surgery facilities, and urodynamics lab. Our experienced urologists provide both medical and surgical treatment using the latest techniques including minimally invasive endoscopic procedures.",
+    intro: "Urological problems can affect quality of life.",
     services: [
       { title: "Urology", desc: "Urinary tract and male reproductive system care." },
       { title: "Endourology", desc: "Minimally invasive urinary tract procedures." },
@@ -206,25 +206,48 @@ const departmentData = {
   }
 };
 
-const fallbackDoctors = [
-  { id: 1, name: "Dr. Mohammad Ali", specialization: "Senior Consultant", experience_years: 15 },
-  { id: 2, name: "Dr. Sarah Khan", specialization: "Consultant", experience_years: 10 },
-  { id: 3, name: "Dr. Rezaul Islam", specialization: "Specialist", experience_years: 8 },
-  { id: 4, name: "Dr. Fatema Begum", specialization: "Assistant Professor", experience_years: 12 }
+// Extended fallback doctors for demonstration
+const allFallbackDoctors = [
+  { id: 1, name: "Prof. Dr. A. S. M. Zahed", specialization: "Senior Consultant", experience_years: 15, degrees: "MBBS, FCPS (Medicine)", designation: "Professor, Medicine", institute: "Chattogram Medical College", department: "Medicine", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "4.30 pm to 9 pm", room_no: "308", phone: "+880 1234 567890", serial_note: "Call our hotline" },
+  { id: 2, name: "Dr. Sarah Khan", specialization: "Consultant", experience_years: 10, degrees: "MBBS, FCPS (Gynae)", designation: "Associate Professor", institute: "Chattogram Medical College", department: "Gynecology", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 am to 4 pm", room_no: "405", phone: "+880 1234 567891", serial_note: "First come first serve" },
+  { id: 3, name: "Dr. Rezaul Islam", specialization: "Specialist", experience_years: 8, degrees: "MBBS, MD (Cardiology)", designation: "Assistant Professor", institute: "National Heart Foundation", department: "Cardiology", visiting_days: ["Sunday", "Monday", "Tuesday", "Thursday"], visiting_time: "8 am to 12 pm", room_no: "201", phone: "+880 1234 567892", serial_note: "Emergency cases prioritized" },
+  { id: 4, name: "Dr. Fatema Begum", specialization: "Senior Consultant", experience_years: 12, degrees: "MBBS, MD (Pediatrics)", designation: "Professor & Head", institute: "Chattogram Medical College", department: "Pediatrics", visiting_days: ["Saturday", "Sunday", "Monday"], visiting_time: "9 am to 3 pm", room_no: "108", phone: "+880 1234 567893", serial_note: "Specialized care for children" },
+  { id: 5, name: "Dr. Mohammad Hossain", specialization: "Consultant", experience_years: 7, degrees: "MBBS, MS (Surgery)", designation: "Associate Professor", institute: "Chattogram Medical College", department: "Surgery", visiting_days: ["Sunday", "Monday", "Wednesday"], visiting_time: "5 pm to 9 pm", room_no: "502", phone: "+880 1234 567894", serial_note: "Online booking available" },
+  { id: 6, name: "Dr. Aysha Rahman", specialization: "Specialist", experience_years: 6, degrees: "MBBS, FCPS (Neuro)", designation: "Assistant Professor", institute: "National Institute of Neuro Sciences", department: "Neuro Medicine", visiting_days: ["Tuesday", "Thursday", "Saturday"], visiting_time: "10 am to 2 pm", room_no: "310", phone: "+880 1234 567895", serial_note: "Referral required" },
+  { id: 7, name: "Dr. Kamal Hossain", specialization: "Senior Consultant", experience_years: 18, degrees: "MBBS, MD (Nephrology)", designation: "Professor", institute: "Kidney Foundation", department: "Nephrology", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "3 pm to 7 pm", room_no: "215", phone: "+880 1234 567896", serial_note: "Dialysis patients priority" },
+  { id: 8, name: "Dr. Lisa Ferdous", specialization: "Consultant", experience_years: 9, degrees: "MBBS, DGO (Obs & Gynae)", designation: "Associate Professor", institute: "Chattogram Medical College", department: "Gynecology", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 am to 2 pm", room_no: "412", phone: "+880 1234 567897", serial_note: "Normal delivery specialist" },
+  { id: 9, name: "Dr. Ahmed Hassan", specialization: "Specialist", experience_years: 5, degrees: "MBBS, MD (Ortho)", designation: "Assistant Professor", institute: "National Orthopedic Hospital", department: "Orthopedics", visiting_days: ["Monday", "Tuesday", "Wednesday", "Thursday"], visiting_time: "9 am to 1 pm", room_no: "605", phone: "+880 1234 567898", serial_note: "Sports injury expert" }
 ];
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
 
+const getVisitingDaysArray = (days) => {
+  if (!days) return [];
+  if (typeof days === 'string') {
+    try {
+      days = JSON.parse(days);
+    } catch {
+      return [];
+    }
+  }
+  return Array.isArray(days) ? days : [];
+};
+
 export default function DepartmentPage() {
   const router = useRouter();
   const { department } = router.query;
-  const [doctors, setDoctors] = useState(fallbackDoctors);
+  const [doctors, setDoctors] = useState(allFallbackDoctors);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
   const { language } = useLanguage();
   
   const t = translations[language] || translations.en;
   const deptConfig = departmentData[department] || departmentData["medicine"];
+
+  const MAX_VISIBLE_DOCTORS = 8;
+  const displayedDoctors = showAll ? doctors : doctors.slice(0, MAX_VISIBLE_DOCTORS);
+  const hasMoreDoctors = doctors.length > MAX_VISIBLE_DOCTORS;
 
   useEffect(() => {
     if (department) {
@@ -242,6 +265,7 @@ export default function DepartmentPage() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`);
       if (!response.ok) {
         console.log("API response not ok, using fallback data");
+        setLoading(false);
         return;
       }
       const data = await response.json();
@@ -297,7 +321,7 @@ export default function DepartmentPage() {
         </div>
       </section>
 
-      <section className="bg-gray-50 py-16">
+      <section className="bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4">
           {/* Department Introduction */}
           {deptConfig.intro && (
@@ -305,9 +329,8 @@ export default function DepartmentPage() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="mb-16 bg-white rounded-2xl shadow-lg p-8 md:p-12"
+              className="mb-12 bg-white rounded-2xl shadow-lg p-8 md:p-10"
             >
-             
               <div className="text-gray-700 text-lg leading-relaxed space-y-4">
                 <p>{deptConfig.intro}</p>
               </div>
@@ -318,21 +341,20 @@ export default function DepartmentPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-16"
+            className="mb-12"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-6 text-center">
               Our Services
             </h2>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6">
               {deptConfig.services.map((item, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-blue-600 hover:shadow-2xl transition-all"
+                  whileHover={{ y: -5, scale: 1.01 }}
+                  className="bg-white rounded-xl shadow-md p-5 border-l-4 border-blue-600 hover:shadow-lg transition-all"
                 >
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+                  <h3 className="text-base font-semibold text-gray-800 mb-1">{item.title}</h3>
+                  <p className="text-gray-600 text-sm">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -342,17 +364,17 @@ export default function DepartmentPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="mb-16"
+            className="mb-12"
           >
-            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6 text-center">
+            <h3 className="text-xl font-semibold text-gray-800 mb-5 text-center">
               Facilities & Services
             </h3>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
               {deptConfig.facilities.map((f, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 text-sm text-gray-800 shadow hover:shadow-lg transition"
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-3 text-xs text-gray-700"
                 >
                   {f}
                 </motion.div>
@@ -365,50 +387,136 @@ export default function DepartmentPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="mb-8 text-center">
+            <div className="text-center mb-6">
               <span className="text-sm uppercase tracking-wider text-blue-600 font-semibold">
                 {t.ourExperts || "Our Experts"}
               </span>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
                 Specialist Doctors
               </h2>
+              <p className="text-gray-500 text-sm mt-1">{doctors.length} doctors available</p>
             </div>
 
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
               </div>
-            ) : doctors.length > 0 ? (
-              <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
-                {doctors.map((doctor, index) => (
-                  <motion.div
-                    key={doctor.id || index}
-                    whileHover={{ y: -8, scale: 1.02 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className="bg-white rounded-2xl shadow-lg p-6 text-center hover:shadow-2xl transition-all relative overflow-hidden group"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition" />
-                    <div className="relative z-10">
-                      <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-blue-100 mb-4">
-                        <img
-                          src={doctor.image || getDoctorImage(doctor.id || index + 1)}
-                          alt={doctor.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.target.src = getDoctorImage(doctor.id || index + 1); }}
-                        />
+            ) : displayedDoctors.length > 0 ? (
+              <>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedDoctors.map((doctor, index) => {
+                  const visitingDaysArray = getVisitingDaysArray(doctor.visiting_days);
+                  const visitingDaysText = visitingDaysArray.length > 0 
+                    ? `Only ${visitingDaysArray.join(", ")}` 
+                    : "Not specified";
+                  
+                  return (
+                    <motion.div
+                      key={doctor.id || index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileHover={{ y: -3, scale: 1.01 }}
+                      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-100"
+                    >
+                      <div className="flex flex-col md:flex-row">
+                        {/* Left Half - Picture */}
+                        <div className="w-full md:w-1/2 h-56 md:h-auto relative bg-gradient-to-br from-blue-600 to-cyan-600">
+                          <img
+                            src={doctor.image || getDoctorImage(doctor.id || index + 1)}
+                            alt={doctor.name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => { e.target.src = getDoctorImage(doctor.id || index + 1); }}
+                          />
+                          {/* Availability badge */}
+                          <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
+                            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                            Available
+                          </div>
+                        </div>
+
+                        {/* Right Half - Information */}
+                        <div className="w-full md:w-1/2 p-5">
+                          <h2 className="text-lg font-bold text-gray-800 uppercase tracking-wide">
+                            {doctor.name}
+                          </h2>
+
+                          <div className="mt-3 space-y-1.5 text-sm">
+                            <p className="text-blue-700 font-semibold">
+                              {doctor.degrees || doctor.specialization}
+                            </p>
+                            {doctor.designation && (
+                              <p className="text-gray-700 font-medium">
+                                {doctor.designation}
+                              </p>
+                            )}
+                            {doctor.institute && (
+                              <p className="text-gray-600">
+                                {doctor.institute}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="mt-4 pt-3 border-t border-gray-100 space-y-1.5 text-sm">
+                            <p className="text-gray-600">
+                              <span className="font-medium text-gray-800">Room No.:</span> {doctor.room_no || "TBA"}
+                            </p>
+                            <p className="text-gray-600">
+                              <span className="font-medium text-gray-800">Serial:</span> {doctor.serial_note || "Call our hotline"}
+                            </p>
+                            <p className="text-gray-600">
+                              <span className="font-medium text-gray-800">Time:</span> {doctor.visiting_time || "9 am to 5 pm"}
+                            </p>
+                            <p className="text-gray-500 text-xs mt-1">
+                              ({visitingDaysText})
+                            </p>
+                          </div>
+
+                          {/* View Profile Button */}
+                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-4">
+                            <Link 
+                              href={`/doctors/${doctor.id}`}
+                              className="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold text-sm hover:from-blue-700 hover:to-cyan-700 transition shadow-lg shadow-blue-500/25"
+                            >
+                              View Profile
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
+                            </Link>
+                          </motion.div>
+                        </div>
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-800">{doctor.name}</h3>
-                      <span className="text-sm text-blue-600 block mt-1">{doctor.specialization}</span>
-                      {doctor.experience_years && (
-                        <span className="text-xs text-gray-500 block mt-1">{doctor.experience_years} years</span>
-                      )}
-                      <Link href={`/doctors/${doctor.id}`} className="inline-flex items-center gap-2 mt-4 px-4 py-2 rounded-full bg-blue-600 text-white text-sm hover:bg-blue-700 transition">
-                        {t.viewProfile || "View Profile"} <span>→</span>
-                      </Link>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+                    </motion.div>
+                  );
+                })}
+                </div>
+
+                {/* View All Button at the end */}
+                {hasMoreDoctors && !showAll && (
+                  <div className="text-center mt-8">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setShowAll(true)}
+                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-cyan-700 transition"
+                    >
+                      View All ({doctors.length}) Doctors →
+                    </motion.button>
+                  </div>
+                )}
+                {showAll && doctors.length > MAX_VISIBLE_DOCTORS && (
+                  <div className="text-center mt-8">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setShowAll(false)}
+                      className="px-8 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-300 transition"
+                    >
+                      Show Less ↑
+                    </motion.button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-12 bg-white rounded-xl">
                 <p className="text-gray-500">No specialists found</p>
