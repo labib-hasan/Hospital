@@ -16,7 +16,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import db from "./config/db.js";
 
 dotenv.config();
-
+console.log("🔥 Hospital API v2 loaded");
 const app = express();
 
 // ==============================
