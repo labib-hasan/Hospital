@@ -273,6 +273,12 @@ export default function NICUPage() {
                             <p className="text-gray-600 text-xs h-4 leading-4 truncate">
                               <span className="font-medium text-gray-800">Serial:</span> {formatTimeToAMPM(doctor.serial_note) || "Call hotline"}
                             </p>
+                            
+                            {doctor.phone && (
+                              <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                                <span className="font-medium text-gray-800">Phone:</span> {doctor.phone}
+                              </p>
+                            )}
                           </div>
 
                           <div className="flex-grow"></div>

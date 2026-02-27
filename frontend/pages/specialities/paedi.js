@@ -14,7 +14,7 @@ const fallbackPaediDoctors = [
 ];
 
 // Department name for API query - must match exactly with admin/doctors.js
-const SPECIALTY_DEPARTMENT = "Pediatrics";
+const SPECIALTY_DEPARTMENT = "PAEDI - Pediatric";
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
@@ -262,6 +262,14 @@ export default function PaediPage() {
                             <p className="text-gray-600 text-xs h-4 leading-4 truncate">
                               <span className="font-medium text-gray-800">Time:</span> {formatTimeToAMPM(doctor.visiting_time) || "9 AM - 5 PM"}
                             </p>
+                            <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                              <span className="font-medium text-gray-800">Serial:</span> {formatTimeToAMPM(doctor.serial_note) || "Call hotline"}
+                            </p>
+                            {doctor.phone && (
+                              <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                                <span className="font-medium text-gray-800">Phone:</span> {doctor.phone}
+                              </p>
+                            )}
                           </div>
 
                           <div className="flex-grow"></div>

@@ -41,7 +41,9 @@ const DEPARTMENTS = [
   "HDU - High Dependency Unit",
   "SDU - Step Down Unit",
   "NICU - Neonatal ICU",
-  "ICU - Intensive Care Unit"
+  "ICU - Intensive Care Unit",
+  "GYNAE - Gynecology",
+  "PAEDI - Pediatric"
 ];
 
 const emptyForm = {
