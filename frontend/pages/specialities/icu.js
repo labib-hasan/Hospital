@@ -6,15 +6,15 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 // Fallback doctors for demonstration when API is not available
-const fallbackNICUDoctors = [
-  { id: 1, name: "Dr. Farida Yesmin", specialization: "Senior Consultant – Neonatology", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 15, room_no: "NICU-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
-  { id: 2, name: "Dr. Mohammad Shahid", specialization: "Consultant – Pediatric Neonatal Care", degrees: "MBBS, MD", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 10, room_no: "NICU-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
-  { id: 3, name: "Dr. Amina Rahman", specialization: "Specialist – Neonatal Intensive Care", degrees: "MBBS, DCH", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "NICU-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
-  { id: 4, name: "Dr. Rafiqur Rahman", specialization: "Associate Specialist – Newborn Care", degrees: "MBBS, DCH", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "NICU-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
+const fallbackICUDoctors = [
+  { id: 1, name: "Dr. Professor M. A. Khan", specialization: "Senior Consultant – Intensive Care Medicine", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 20, room_no: "ICU-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
+  { id: 2, name: "Dr. Runa Laila", specialization: "Consultant – Critical Care Medicine", degrees: "MBBS, MD", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 12, room_no: "ICU-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
+  { id: 3, name: "Dr. Fazle Hasan", specialization: "Specialist – Respiratory & Ventilator Care", degrees: "MBBS, DA", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "ICU-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
+  { id: 4, name: "Dr. Mowsumi Kabir", specialization: "Associate Specialist – Organ Support Care", degrees: "MBBS, MD", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "ICU-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
 ];
 
 // Department name for API query - must match exactly with admin/doctors.js
-const SPECIALTY_DEPARTMENT = "NICU - Neonatal ICU";
+const SPECIALTY_DEPARTMENT = "ICU - Intensive Care Unit";
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
@@ -65,8 +65,8 @@ const getVisitingDaysArray = (days) => {
   return Array.isArray(days) ? days : [];
 };
 
-export default function NICUPage() {
-  const [doctors, setDoctors] = useState(fallbackNICUDoctors);
+export default function ICUPage() {
+  const [doctors, setDoctors] = useState(fallbackICUDoctors);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
@@ -118,8 +118,8 @@ export default function NICUPage() {
       {/* HERO SECTION */}
       <section className="relative h-[300px] md:h-[420px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1555252333-9f8e92e65df9"
-          alt="NICU - Neonatal Intensive Care Unit"
+          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f"
+          alt="ICU - Intensive Care Unit"
           fill
           className="object-cover"
         />
@@ -131,7 +131,7 @@ export default function NICUPage() {
               transition={{ duration: 0.8 }}
               className="text-3xl md:text-5xl font-bold text-white mb-3"
             >
-              Neonatal Intensive Care Unit (NICU)
+              Intensive Care Unit (ICU)
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -139,7 +139,7 @@ export default function NICUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Specialized care for newborns at Ad-din Medical College Hospital
+              Advanced critical care at Ad-din Medical College Hospital
             </motion.p>
           </div>
         </div>
@@ -157,14 +157,14 @@ export default function NICUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Neonatal Intensive Care Services – Ad-din Medical College Hospital
+              Intensive Care Unit Services – Ad-din Medical College Hospital
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Neonatal Intensive Care Unit (NICU) at Ad-din Medical College Hospital provides comprehensive specialized care for newborns who need intensive attention. Our NICU is equipped with state-of-the-art technology and staffed by a dedicated team of neonatologists, neonatal nurses, and specialists.
+              The Intensive Care Unit (ICU) at Ad-din Medical College Hospital is a specialized department dedicated to providing comprehensive critical care for patients with life-threatening conditions. Our ICU is equipped with state-of-the-art technology and staffed by a multidisciplinary team of intensivists, critical care nurses, and specialized therapists.
             </p>
           </motion.div>
 
-          {/* NICU SERVICES & FEATURES GRID */}
+          {/* ICU SERVICES & FEATURES GRID */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -172,16 +172,16 @@ export default function NICUPage() {
             className="mb-16"
           >
             <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
-              NICU Services & Features
+              ICU Services & Features
             </h3>
             <div className="grid md:grid-cols-2 gap-8">
               {[
-                { title: "Respiratory Support", text: "Mechanical ventilation, nasal CPAP and specialized respiratory therapists for advanced breathing support." },
-                { title: "Specialized Care", text: "Treatment for birth defects, infections, and surgical procedures by experienced pediatric surgeons." },
-                { title: "Nutritional Support", text: "Feeding via tubes or IV methods and lactation support for mothers." },
-                { title: "Monitoring & Technology", text: "Advanced incubators, 24/7 monitoring and diagnostic imaging for comprehensive care." },
-                { title: "Developmental Care", text: "Strategies to promote growth with individualized care plans for each baby." },
-                { title: "Support Services", text: "Social workers, spiritual advisors, and translators to assist families." },
+                { title: "Constant Monitoring", text: "Continuous tracking of vital signs, including heart rate, blood pressure, and oxygen levels." },
+                { title: "Respiratory Support", text: "Use of ventilators for patients unable to breathe independently." },
+                { title: "Organ Support & Dialysis", text: "Advanced treatment for multi-organ failure, kidney failure, or severe infections." },
+                { title: "Specialized Staffing", text: "High staff-to-patient ratio (often 1:1), with intensive care specialists." },
+                { title: "Post-Operative Care", text: "Intensive monitoring following major surgeries." },
+                { title: "Emergency Care", text: "Immediate intervention for severe accidents or heart attacks." },
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -196,7 +196,7 @@ export default function NICUPage() {
             </div>
           </motion.div>
 
-          {/* NICU SPECIALISTS – FROM DATABASE */}
+          {/* ICU SPECIALISTS – FROM DATABASE */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -207,10 +207,10 @@ export default function NICUPage() {
                 Our Experts
               </span>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
-                NICU Specialist Doctors
+                ICU Specialist Doctors
               </h2>
               <p className="text-gray-600 mt-2">
-                Highly experienced neonatologists and pediatric specialists
+                Highly experienced intensivists and critical care specialists
               </p>
               <p className="text-gray-500 text-sm mt-1">{doctors.length} doctors available</p>
             </div>
@@ -273,6 +273,11 @@ export default function NICUPage() {
                             <p className="text-gray-600 text-xs h-4 leading-4 truncate">
                               <span className="font-medium text-gray-800">Serial:</span> {formatTimeToAMPM(doctor.serial_note) || "Call hotline"}
                             </p>
+                            {doctor.phone && (
+                              <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                                <span className="font-medium text-gray-800">Phone:</span> {doctor.phone}
+                              </p>
+                            )}
                           </div>
 
                           <div className="flex-grow"></div>
@@ -322,9 +327,9 @@ export default function NICUPage() {
             className="mt-16"
           >
             <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-8 text-white text-center">
-              <h3 className="text-2xl font-bold mb-4">Need NICU Care?</h3>
+              <h3 className="text-2xl font-bold mb-4">Need ICU Care?</h3>
               <p className="mb-6 max-w-2xl mx-auto">
-                Our NICU team provides specialized care for premature and critically ill newborns. Contact us for more information.
+                Our ICU team provides comprehensive critical care for the most seriously ill patients. Contact us for immediate assistance.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a href="/appointment" className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-full hover:bg-gray-100 transition">

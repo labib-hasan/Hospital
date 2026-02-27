@@ -35,7 +35,13 @@ const DEPARTMENTS = [
   "Physical Medicine",
   "Skin & VD",
   "Surgery",
-  "Urology"
+  "Urology",
+  // Specialty Units
+  "CCU - Critical Care Unit",
+  "HDU - High Dependency Unit",
+  "SDU - Step Down Unit",
+  "NICU - Neonatal ICU",
+  "ICU - Intensive Care Unit"
 ];
 
 const emptyForm = {
