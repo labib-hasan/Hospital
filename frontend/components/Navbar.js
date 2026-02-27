@@ -27,6 +27,11 @@ export default function Navbar() {
   href: "#", 
   submenu: [
     { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
+    { label: "HDU – High Dependency Unit", href: "/specialities/hdu" },
+    { label: "SDU – Step Down Unit", href: "/specialities/sdu" },
+    { label: "NICU – Neonatal ICU", href: "/specialities/nicu" },
+    { label: "Gyne & Obs.", href: "/specialities/gynae" },
+    { label: "Pediatrics", href: "/specialities/paedi" },
     { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
   ],
 },
@@ -36,11 +41,16 @@ export default function Navbar() {
 const mainMenuItems = [
  { label: t.home, href: "/" },
 
-  {
+{
   label: t.specialities,
   href: "#",
   submenu: [
     { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
+    { label: "HDU – High Dependency Unit", href: "/specialities/hdu" },
+    { label: "SDU – Step Down Unit", href: "/specialities/sdu" },
+    { label: "NICU – Neonatal ICU", href: "/specialities/nicu" },
+    { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
+    { label: "Pediatrics", href: "/specialities/paedi" },
     { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
   ],
 },
