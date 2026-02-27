@@ -17,6 +17,96 @@ const getDoctorImage = (id, fallbackId) => {
 
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// Format time to 12-hour AM/PM format
+const formatTimeToAMPM = (timeString) => {
+  if (!timeString) return '';
+  
+  // Helper to convert any hour to 12-hour format
+  const to12Hour = (hour, period) => {
+    let h = parseInt(hour);
+    // If period provided, use it as-is
+    if (period) {
+      const isPM = period.toLowerCase() === 'pm';
+      const isAM = period.toLowerCase() === 'am';
+      if (isPM && h !== 12) return { hour: h, period: 'PM' };
+      if (isPM && h === 12) return { hour: 12, period: 'PM' };
+      if (isAM && h === 12) return { hour: 12, period: 'AM' };
+      return { hour: h, period: 'AM' };
+    }
+    // Convert 24-hour format to 12-hour
+    if (h === 0 || h === 24) return { hour: 12, period: 'AM' };
+    if (h === 12) return { hour: 12, period: 'PM' };
+    if (h > 12) return { hour: h - 12, period: 'PM' };
+    return { hour: h, period: 'AM' };
+  };
+
+  const formatTime = (h, m, p) => {
+    let min = m || '00';
+    if (min.length === 1) min = '0' + min;
+    const time12 = to12Hour(h, p);
+    return `${time12.hour}:${min} ${time12.period}`;
+  };
+
+  // Normalize time string: replace periods with colons, handle various formats
+  const normalizeTime = (timeStr) => {
+    if (!timeStr) return '';
+    // Replace periods with colons (e.g., "4.30" -> "4:30")
+    timeStr = timeStr.replace(/(\d)\.(\d)/g, '$1:$2');
+    return timeStr.trim();
+  };
+
+  // Handle "start - end" format (from admin panel)
+  if (timeString.includes(' - ')) {
+    const [startTime, endTime] = timeString.split(' - ').map(t => normalizeTime(t.trim()));
+
+    // Convert 24-hour format to 12-hour
+    const convert24To12 = (timeStr) => {
+      if (!timeStr) return '';
+      // If already has AM/PM, return as is
+      if (timeStr.includes('AM') || timeStr.includes('PM') || timeStr.includes('am') || timeStr.includes('pm')) {
+        // Normalize and format
+        const match = timeStr.match(/^(\d{1,2}):?(\d{2})?\s*(am|pm|AM|PM)?$/i);
+        if (match) {
+          const [, hour, minute, period] = match;
+          return formatTime(hour, minute || '00', period);
+        }
+        return timeStr;
+      }
+
+      // Parse HH:MM or H:MM format (24-hour)
+      const match = timeStr.match(/^(\d{1,2}):?(\d{2})$/);
+      if (match) {
+        const [, hour, minute] = match;
+        return formatTime(hour, minute);
+      }
+      return timeStr;
+    };
+
+    const start = convert24To12(startTime);
+    const end = convert24To12(endTime);
+    return `${start} - ${end}`;
+  }
+
+  // Handle time ranges with "to" or "-" (various formats)
+  const rangeMatch = timeString.match(/(\d{1,2})[:.]?(\d{2})?\s*(am|pm|AM|PM)?\s*(?:to|-)\s*(\d{1,2})[:.]?(\d{2})?\s*(am|pm|AM|PM)?/i);
+  if (rangeMatch) {
+    const [, startHour, startMin, startPeriod, endHour, endMin, endPeriod] = rangeMatch;
+    const start = formatTime(startHour, startMin || '00', startPeriod);
+    const end = formatTime(endHour, endMin || '00', endPeriod);
+    return `${start} - ${end}`;
+  }
+
+  // Single time (various formats: "10 am", "4.30 pm", "14:30")
+  const singleMatch = timeString.match(/^(\d{1,2})[:.]?(\d{2})?\s*(am|pm|AM|PM)?$/i);
+  if (singleMatch) {
+    const [, hour, minute, period] = singleMatch;
+    return formatTime(hour, minute || '00', period);
+  }
+
+  return timeString;
+};
+
+
 export default function DoctorProfile() {
   const router = useRouter();
   const { id } = router.query;
@@ -422,7 +512,7 @@ export default function DoctorProfile() {
                   {/* Visiting Time */}
                   <div className="mb-6">
                     <p className="text-sm text-slate-500 mb-2">Visiting Time</p>
-                    <p className="text-2xl font-bold text-slate-800">{doctor.visiting_time || "9:00 AM - 2:00 PM"}</p>
+                    <p className="text-2xl font-bold text-slate-800">{formatTimeToAMPM(doctor.visiting_time) || "9:00 AM - 2:00 PM"}</p>
                   </div>
                   
                   {/* Visiting Days */}
@@ -453,7 +543,7 @@ export default function DoctorProfile() {
                   {doctor.serial_note && (
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
                       <p className="text-sm text-amber-600 font-medium">Serial Information</p>
-                      <p className="text-amber-800 font-semibold mt-1">{doctor.serial_note}</p>
+                      <p className="text-amber-800 font-semibold mt-1">{formatTimeToAMPM(doctor.serial_note)}</p>
                     </div>
                   )}
 
@@ -702,7 +792,7 @@ export default function DoctorProfile() {
                           </div>
                           {isAvailable && (
                             <div className="text-right">
-                              <p className="font-bold text-green-700">{doctor.visiting_time || "9:00 AM - 2:00 PM"}</p>
+                              <p className="font-bold text-green-700">{formatTimeToAMPM(doctor.visiting_time) || "9:00 AM - 2:00 PM"}</p>
                               <p className="text-sm text-green-600">Get appointment</p>
                             </div>
                           )}

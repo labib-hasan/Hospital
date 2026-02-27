@@ -207,6 +207,26 @@ const departmentData = {
   }
 };
 
+// Department mapping from URL slug to standard department name
+// MUST match exactly with DEPARTMENTS array in admin/doctors.js
+const departmentMap = {
+  "medicine": "Medicine",
+  "cardiology": "Cardiology",
+  "neuro-medicine": "Neuro Medicine",
+  "gastroenterology": "Gastroenterology",
+  "ent": "ENT",
+  "gynee-obs": "Gynee & Obs.",  // Fixed: matches admin panel exactly
+  "nephrology": "Nephrology",
+  "orthopedics": "Orthopedics",
+  "oncology": "Oncology",
+  "psychiatry": "Psychiatry",
+  "pediatrics": "Pediatrics",
+  "physical-medicine": "Physical Medicine",
+  "skin-vd": "Skin & VD",
+  "surgery": "Surgery",
+  "urology": "Urology"
+};
+
 // Extended fallback doctors for demonstration
 const allFallbackDoctors = [
   { id: 1, name: "Prof. Dr. A. S. M. Zahed", specialization: "Senior Consultant", experience_years: 15, degrees: "MBBS, FCPS (Medicine)", designation: "Professor, Medicine", institute: "Chattogram Medical College", department: "Medicine", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "4.30 pm to 9 pm", room_no: "308", phone: "+880 1234 567890", serial_note: "Call our hotline" },
@@ -222,6 +242,71 @@ const allFallbackDoctors = [
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
+
+const formatTimeToAMPM = (timeString) => {
+  if (!timeString || typeof timeString !== 'string') return '';
+
+  // Replace periods with colons for consistency
+  let normalized = timeString.replace(/(\d)\.(\d)/g, '$1:$2').trim();
+
+  // Helper function to convert a single time to 12-hour format
+  const convertTo12Hour = (timeStr) => {
+    if (!timeStr) return '';
+
+    // Extract hour, minute, and period
+    const match = timeStr.match(/^(\d{1,2}):?(\d{2})?\s*(am|pm|AM|PM)?$/i);
+    if (!match) return timeStr;
+
+    let [, hourStr, minuteStr, period] = match;
+    let hour = parseInt(hourStr);
+    let minute = minuteStr || '00';
+
+    // Ensure minute is 2 digits
+    if (minute.length === 1) minute = '0' + minute;
+
+    // If period is specified, use it
+    if (period) {
+      period = period.toUpperCase();
+      if (period === 'AM' && hour === 12) hour = 0;
+      if (period === 'PM' && hour !== 12) hour += 12;
+      // Convert back to 12-hour for display
+      if (hour === 0) return `12:${minute} AM`;
+      if (hour < 12) return `${hour}:${minute} AM`;
+      if (hour === 12) return `12:${minute} PM`;
+      return `${hour - 12}:${minute} PM`;
+    }
+
+    // No period specified, assume 24-hour format
+    if (hour === 0) return `12:${minute} AM`;
+    if (hour === 12) return `12:${minute} PM`;
+    if (hour < 12) return `${hour}:${minute} AM`;
+    return `${hour - 12}:${minute} PM`;
+  };
+
+  // Check for time ranges (with various separators)
+  const rangePatterns = [
+    /(\d{1,2}:?\d*\s*(?:am|pm)?)\s*-\s*(\d{1,2}:?\d*\s*(?:am|pm)?)/i,
+    /(\d{1,2}:?\d*\s*(?:am|pm)?)\s*to\s*(\d{1,2}:?\d*\s*(?:am|pm)?)/i,
+    /(\d{1,2}:?\d*\s*(?:am|pm)?)\s*—\s*(\d{1,2}:?\d*\s*(?:am|pm)?)/i
+  ];
+
+  for (const pattern of rangePatterns) {
+    const match = normalized.match(pattern);
+    if (match) {
+      const startTime = convertTo12Hour(match[1].trim());
+      const endTime = convertTo12Hour(match[2].trim());
+      return `${startTime} - ${endTime}`;
+    }
+  }
+
+  // Single time
+  return convertTo12Hour(normalized);
+};
+
+
+
+
+
 
 const getVisitingDaysArray = (days) => {
   if (!days) return [];
@@ -271,25 +356,85 @@ export default function DepartmentPage() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/doctors`);
       if (!response.ok) {
         console.log("API response not ok, using fallback data");
+        const standardDeptName = departmentMap[department] || department.replace(/-/g, ' ').replace(/&/g, 'and');
+        const filteredFallback = allFallbackDoctors.filter(doc => {
+          const docDept = (doc.department || '');
+          return docDept === standardDeptName;
+        });
+        if (filteredFallback.length > 0) {
+          setDoctors(filteredFallback);
+        }
         setLoading(false);
         return;
       }
       const data = await response.json();
       
       if (Array.isArray(data)) {
-        const deptName = department.replace(/-/g, ' ').replace(/&/g, 'and').toLowerCase();
-        const filteredDoctors = data.filter(doc => {
-          const docDept = (doc.department || '').toLowerCase();
-          const docSpec = (doc.specialization || '').toLowerCase();
-          return docDept.includes(deptName) || docSpec.includes(deptName);
-        });
+        // Get the standard department name from the map
+        const standardDeptName = departmentMap[department] || department.replace(/-/g, ' ').replace(/&/g, 'and');
+        const standardDeptNameLower = standardDeptName.toLowerCase();
+        const urlDeptNameLower = department.replace(/-/g, ' ').replace(/&/g, 'and').toLowerCase();
         
+        // Debug: Log all doctors and their departments
+        console.log('=== DEBUG: All doctors from API ===');
+        console.log('Total doctors:', data.length);
+        data.forEach((doc, i) => {
+          console.log(`Doctor ${i + 1}: "${doc.name}" -> Department: "${doc.department}"`);
+        });
+        console.log('===================================');
+        console.log('Current URL department:', department);
+        console.log('Standard department name:', standardDeptName);
+        console.log('Standard (lowercase):', standardDeptNameLower);
+        console.log('URL format (lowercase):', urlDeptNameLower);
+
+        // Filter doctors by department - STRICT matching only
+        // Doctors from one department should NEVER show in other departments
+        const filteredDoctors = data.filter(doc => {
+          const docDept = (doc.department || '').toLowerCase().trim();
+          const docDeptRaw = (doc.department || '').trim();
+          
+          const match1 = docDept === standardDeptNameLower;
+          const match2 = docDept === urlDeptNameLower;
+          const match3 = docDeptRaw === standardDeptName;
+          
+          // Debug each doctor
+          console.log(`Checking "${doc.name}": dept="${docDeptRaw}" | matches: ${match1 || match2 || match3}`);
+          
+          // Only exact matches allowed - no partial matching to prevent cross-department display
+          return match1 || match2 || match3;
+        });
+
+        console.log(`✓ Found ${filteredDoctors.length} doctors for department: ${standardDeptName}`);
+        
+        // Always set the filtered doctors, even if empty (to show "No doctors found" message)
         if (filteredDoctors.length > 0) {
           setDoctors(filteredDoctors);
+        } else {
+          // If no doctors from API match, try fallback data
+          const filteredFallback = allFallbackDoctors.filter(doc => {
+            const docDept = (doc.department || '');
+            return docDept === standardDeptName;
+          });
+          if (filteredFallback.length > 0) {
+            setDoctors(filteredFallback);
+          } else {
+            setDoctors([]); // Empty array to show "No doctors found"
+          }
         }
       }
     } catch (error) {
       console.error("Error fetching doctors:", error);
+      // On error, use fallback data
+      const standardDeptName = departmentMap[department] || department.replace(/-/g, ' ').replace(/&/g, 'and');
+      const filteredFallback = allFallbackDoctors.filter(doc => {
+        const docDept = (doc.department || '');
+        return docDept === standardDeptName;
+      });
+      if (filteredFallback.length > 0) {
+        setDoctors(filteredFallback);
+      } else {
+        setDoctors([]);
+      }
     } finally {
       setLoading(false);
     }
@@ -435,66 +580,87 @@ export default function DepartmentPage() {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.05, duration: 0.5 }}
                       whileHover={{ y: -3, scale: 1.01 }}
-                      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-100"
+                      className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col h-[520px]"
                     >
-                      <div className="flex flex-col md:flex-row">
-                        {/* Left Half - Picture */}
-                        <div className="w-full md:w-1/2 h-56 md:h-auto relative bg-gradient-to-br from-blue-600 to-cyan-600">
-                          <img
-                            src={doctor.image || getDoctorImage(doctor.id || index + 1)}
-                            alt={doctor.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => { e.target.src = getDoctorImage(doctor.id || index + 1); }}
-                          />
-                          {/* Availability badge */}
-                          <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                            {isBangla ? "উপলব্ধ" : "Available"}
-                          </div>
-                        </div>
+                      {/* Top - Picture (taller) */}
+                      <div className="w-full h-[280px] relative bg-gradient-to-br from-blue-600 to-cyan-600 flex-shrink-0">
 
-                        {/* Right Half - Information */}
-                        <div className="w-full md:w-1/2 p-5">
-                          <h2 className="text-lg font-bold text-gray-800 uppercase tracking-wide">
+                        <img
+                          src={doctor.image || getDoctorImage(doctor.id || index + 1)}
+                          alt={doctor.name}
+                          className="w-full h-full object-cover object-top"
+                          onError={(e) => { e.target.src = getDoctorImage(doctor.id || index + 1); }}
+                        />
+
+                        {/* Availability badge */}
+                        <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
+                          <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                          {isBangla ? "উপলব্ধ" : "Available"}
+                        </div>
+                      </div>
+
+                      {/* Bottom - Information with fixed layout */}
+                      <div className="w-full p-4 flex flex-col h-[240px]">
+
+                        {/* Fixed height info container */}
+                        <div className="flex flex-col h-full">
+                          {/* Name - fixed height line */}
+                          <h2 className="text-base font-bold text-gray-800 uppercase tracking-wide h-6 leading-6 truncate flex-shrink-0">
                             {doctor.name}
                           </h2>
 
-                          <div className="mt-3 space-y-1.5 text-sm">
-                            <p className="text-blue-700 font-semibold">
-                              {doctor.degrees || doctor.specialization}
+                          {/* Degrees/Specialization - fixed height line */}
+                          <p className="text-blue-700 font-semibold text-sm h-5 leading-5 truncate flex-shrink-0 mt-1">
+                            {doctor.degrees || doctor.specialization}
+                          </p>
+
+                          {/* Designation - fixed height line */}
+                          <p className="text-gray-700 font-medium text-sm h-5 leading-5 truncate flex-shrink-0">
+                            {doctor.designation || (isBangla ? "ডাক্তার" : "Doctor")}
+                          </p>
+
+                          {/* Institute - fixed height line */}
+                          <p className="text-gray-600 text-sm h-5 leading-5 truncate flex-shrink-0">
+                            {doctor.institute || (isBangla ? "মেডিকেল সেন্টার চট্টগ্রাম" : "Medical Center Chattagram")}
+                          </p>
+
+                          {/* Experience - fixed height line */}
+                          <p className="text-gray-600 text-xs h-4 leading-4 truncate flex-shrink-0">
+                            <span className="font-medium text-gray-800">{isBangla ? "অভিজ্ঞতা:" : "Experience:"}</span> {doctor.experience_years || "5"} {isBangla ? "বছর" : "years"}
+                          </p>
+
+                          {/* Room, Time, Serial & Phone - fixed height lines */}
+                          <div className="mt-1 space-y-1 flex-shrink-0">
+                            <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                              <span className="font-medium text-gray-800">{isBangla ? "রুম নং:" : "Room:"}</span> {doctor.room_no || (isBangla ? "নির্ধারণ করা হবে" : "TBA")}
                             </p>
-                            {doctor.designation && (
-                              <p className="text-gray-700 font-medium">
-                                {doctor.designation}
-                              </p>
-                            )}
-                            {doctor.institute && (
-                              <p className="text-gray-600">
-                                {doctor.institute}
+                            <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                              <span className="font-medium text-gray-800">{isBangla ? "সময়:" : "Time:"}</span> {formatTimeToAMPM(doctor.visiting_time) || (isBangla ? "সকাল ৯টা - বিকাল ৫টা" : "9 AM - 5 PM")}
+                            </p>
+                           <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+  <span className="font-medium text-gray-800">
+    {isBangla ? "সিরিয়াল:" : "Serial:"}
+  </span>{" "}
+  {formatTimeToAMPM(doctor.serial_note) ||
+    (isBangla ? "হটলাইনে কল করুন" : "Call hotline")}
+</p>
+
+                            {doctor.phone && (
+                              <p className="text-gray-600 text-xs h-4 leading-4 truncate">
+                                <span className="font-medium text-gray-800">{isBangla ? "ফোন:" : "Phone:"}</span> {doctor.phone}
                               </p>
                             )}
                           </div>
 
-                          <div className="mt-4 pt-3 border-t border-gray-100 space-y-1.5 text-sm">
-                            <p className="text-gray-600">
-                              <span className="font-medium text-gray-800">{isBangla ? "রুম নং:" : "Room No.:"}</span> {doctor.room_no || (isBangla ? "নির্ধারণ করা হবে" : "TBA")}
-                            </p>
-                            <p className="text-gray-600">
-                              <span className="font-medium text-gray-800">{isBangla ? "সিরিয়াল:" : "Serial:"}</span> {doctor.serial_note || (isBangla ? "আমাদের হটলাইনে কল করুন" : "Call our hotline")}
-                            </p>
-                            <p className="text-gray-600">
-                              <span className="font-medium text-gray-800">{isBangla ? "সময়:" : "Time:"}</span> {doctor.visiting_time || (isBangla ? "সকাল ৯টা - বিকাল ৫টা" : "9 am to 5 pm")}
-                            </p>
-                            <p className="text-gray-500 text-xs mt-1">
-                              ({visitingDaysText})
-                            </p>
-                          </div>
 
-                          {/* View Profile Button */}
-                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-4">
+                          {/* Spacer to push button to bottom */}
+                          <div className="flex-grow"></div>
+
+                          {/* View Profile Button - always at bottom */}
+                          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-auto flex-shrink-0">
                             <Link 
                               href={`/doctors/${doctor.id}`}
-                              className="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold text-sm hover:from-blue-700 hover:to-cyan-700 transition shadow-lg shadow-blue-500/25"
+                              className="inline-flex items-center justify-center gap-2 w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold text-sm hover:from-blue-700 hover:to-cyan-700 transition shadow-lg shadow-blue-500/25"
                             >
                               {isBangla ? "প্রোফাইল দেখুন" : "View Profile"}
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
