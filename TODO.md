@@ -1,14 +1,18 @@
-# Completed Tasks
+# TODO - News Feature Implementation
 
-## Backend Changes
-- [x] Updated doctor controller with new fields (degrees, designation, department, institute, room_no, serial_note, visiting_time, visiting_days)
-- [x] Added filtering by department and specialization in getDoctorsBySpecialization
+- [x] 1. Add Bengali translation for "news" in translations.js
+- [x] 2. Replace "Blog" with "News" in Navbar.js
+- [x] 3. Create frontend/data/news.json for local storage
+- [x] 4. Create frontend API: get-news.js (using local JSON)
+- [x] 5. Create frontend API: save-news.js (using local JSON)
+- [x] 6. Create frontend API: delete-news.js (using local JSON)
+- [x] 7. Create frontend API: upload-news-image.js (Cloudinary)
+- [x] 8. Create admin/news.js page for managing news
+- [x] 9. Create public news.js page (modern slim row-wise design)
 
-## Frontend Changes
-- [x] Created premium admin doctors management page with full details form
-- [x] Created premium admin dashboard with modern design
-- [x] Created dynamic department page (15 departments)
-- [x] Navbar links already configured for all departments
-
-## Database
-- [x] Updated schema with new doctor fields
+## Completed Features:
+- News link in navbar (replaces Blog)
+- Admin panel for adding/editing/deleting news
+- Image upload support via Cloudinary
+- Public news page with modern slim design
+- Bengali and English language support

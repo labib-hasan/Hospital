@@ -11,7 +11,9 @@ import {
   ArrowTrendingUpIcon,
   ShieldCheckIcon,
   TruckIcon,
+  PhotoIcon,
 } from "@heroicons/react/24/outline";
+import MdImageUpload from "@/components/MdImageUpload";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -68,6 +70,11 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* MD IMAGE UPLOAD SECTION */}
+      <div className="mb-8">
+        <MdImageUpload isAdmin={true} />
       </div>
 
       {/* STATS */}

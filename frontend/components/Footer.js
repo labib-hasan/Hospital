@@ -13,7 +13,7 @@ const Footer = () => {
         {/* Waves */}
         <div className="absolute left-0 top-[-70px] w-full h-[100px] pointer-events-none">
           <div
-            className="absolute w-full h-full opacity-95 z-[1000] animate-[wave1_3s_linear_infinite]"
+            className="absolute w-full h-full opacity-95  animate-[wave1_3s_linear_infinite]"
             style={{
               backgroundImage: 'url("./ss.png")',
               backgroundSize: "1000px 100px",
@@ -23,7 +23,7 @@ const Footer = () => {
             }}
           />
           <div
-            className="absolute w-full h-full opacity-20 z-[500] animate-[wave1_5s_linear_infinite]"
+            className="absolute w-full h-full opacity-20  animate-[wave1_5s_linear_infinite]"
             style={{
               backgroundImage: 'url("./ss.png")',
               backgroundSize: "1000px 100px",
@@ -33,7 +33,7 @@ const Footer = () => {
             }}
           />
           <div
-            className="relative w-full h-full opacity-40 z-[999] animate-[wave2_4s_linear_infinite]"
+            className="relative w-full h-full opacity-40  animate-[wave2_4s_linear_infinite]"
             style={{
               backgroundImage: 'url("./ss.png")',
               backgroundSize: "1000px 100px",
@@ -43,7 +43,7 @@ const Footer = () => {
             }}
           />
           <div
-            className="absolute w-full h-full opacity-30 z-[700] animate-[wave1_4s_linear_infinite]"
+            className="absolute w-full h-full opacity-30  animate-[wave1_4s_linear_infinite]"
             style={{
               backgroundImage: 'url("./ss.png")',
               backgroundSize: "1000px 100px",
@@ -53,7 +53,7 @@ const Footer = () => {
             }}
           />
           <div
-            className="absolute w-full h-full opacity-20 z-[600] animate-[wave2_3s_linear_infinite]"
+            className="absolute w-full h-full opacity-20  animate-[wave2_3s_linear_infinite]"
             style={{
               backgroundImage: 'url("./ss.png")',
               backgroundSize: "1000px 100px",
@@ -132,14 +132,6 @@ const Footer = () => {
               className="text-lg text-black opacity-75 font-light transition-opacity duration-500 hover:opacity-100 no-underline"
             >
               Team
-            </a>
-          </li>
-          <li className="mx-2 list-none">
-            <a
-              href="#"
-              className="text-lg text-black opacity-75 font-light transition-opacity duration-500 hover:opacity-100 no-underline"
-            >
-              Contact
             </a>
           </li>
         </ul>

@@ -718,6 +718,9 @@ p, span, li, a, button, input, textarea {
 
 /* BUTTON */
 .doctor-btn {
+   position: relative;
+  z-index: 20; /* card overlay এর উপরে থাকবে */
+  cursor: pointer;
  background: linear-gradient(135deg, #0d6efd, #092157);
   color: #ffffff;
   padding: 10px 22px;
@@ -732,6 +735,9 @@ p, span, li, a, button, input, textarea {
   transition: all 0.3s ease;
 }
 
+.doctor-card * {
+  position: relative;
+}
 .doctor-btn span {
   transition: transform 0.3s ease;
 }
@@ -1604,6 +1610,7 @@ nav .fixed ul ul li a:hover {
   background: linear-gradient(120deg, transparent, rgba(37, 107, 222, 0.201), transparent);
   opacity: 0;
   transition: opacity 0.4s;
+  pointer-events: none;
 }
 
 .doctor-card:hover::before {

@@ -11,6 +11,7 @@ import doctorRoutes from "./routes/doctorRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import newsRoutes from "./routes/newsRoutes.js";
 
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
@@ -85,6 +86,7 @@ app.use("/api/doctors", doctorRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/news", newsRoutes);
 
 // ==============================
 // 404 Handler

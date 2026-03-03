@@ -46,11 +46,11 @@ const mainMenuItems = [
   label: t.specialities,
   href: "#",
   submenu: [
-    { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
-    { label: "CCU – Critical Care Unit", href: "/specialities/ccu" },
-    { label: "HDU – High Dependency Unit", href: "/specialities/hdu" },
-    { label: "SDU – Step Down Unit", href: "/specialities/sdu" },
-    { label: "NICU – Neonatal ICU", href: "/specialities/nicu" },
+    { label: "ICU ", href: "/specialities/icu" },
+    { label: "CCU ", href: "/specialities/ccu" },
+    { label: "HDU ", href: "/specialities/hdu" },
+    { label: "SDU ", href: "/specialities/sdu" },
+    { label: "NICU ", href: "/specialities/nicu" },
     { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
     { label: "PAEDI - Pediatric", href: "/specialities/paedi" },
     
@@ -86,14 +86,14 @@ const mainMenuItems = [
       { label: "Urology", href: "/departments/urology" },
     ],
   },
-  {
-    label: t.forPatient,
-    href: "#",
-    submenu: [
-      { label: "Patient Info 1", href: "/for-patient/info1" },
-      { label: "Patient Info 2", href: "/for-patient/info2" },
-    ],
-  },
+ {
+      label: t.ourClinic,
+      href: "#",
+      submenu: [
+        { label: "Message from MD", href: "/our-clinic/md-message" },
+        { label: "Photo Gallery", href: "/our-clinic/photo-gallery" },
+      ],
+    },
   {
     label: t.forDoctors,
     href: "#",
@@ -102,14 +102,11 @@ const mainMenuItems = [
       { label: "Doctor Info 2", href: "/for-doctors/info2" },
     ],
   },
-  { label: t.blog, href: "/blog" },
+  { label: t.news, href: "/news" },
   {
     label: t.contact,
-    href: "#",
-    submenu: [
-      { label: "Contact Info 1", href: "/contact/info1" },
-      { label: "Contact Info 2", href: "/contact/info2" },
-    ],
+    href: "/contact",
+   
   },
   { label: t.diagnostic, href: "/diagnostic-report" },
 ];

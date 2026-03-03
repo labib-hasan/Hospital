@@ -5,13 +5,15 @@ export const translations = {
     appointment: "Appointment",
     specialities: "Specialities",
     departments: "Departments",
+    news: "News",
     blog: "Blog",
     contact: "Contact",
     diagnostic: "Diagnostic Report",
     faq: "FAQ",
     about: "About Us",
-    forPatient: "For Patient",
+    forPatient: "Our clinic",
     forDoctors: "For Doctors",
+    ourClinic: "Our Clinic",
 
     // HOME PAGE
     heroTitle: "Medical Center Chattagram",
@@ -166,6 +168,7 @@ export const translations = {
     appointment: "অ্যাপয়েন্টমেন্ট",
     specialities: "বিশেষায়িত বিভাগ",
     departments: "বিভাগসমূহ",
+    news: "খবর",
     blog: "ব্লগ",
     contact: "যোগাযোগ",
     diagnostic: "ডায়াগনস্টিক রিপোর্ট",
@@ -173,6 +176,7 @@ export const translations = {
     about: "আমাদের সম্পর্কে",
     forPatient: "রোগীদের জন্য",
     forDoctors: "ডাক্তারদের জন্য",
+    ourClinic: "আমাদের ক্লিনিক",
 
     // HOME PAGE
     heroTitle: "মেডিকেল সেন্টার চট্টগ্রাম",

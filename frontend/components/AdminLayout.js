@@ -6,11 +6,15 @@ export default function AdminLayout({ children }) {
 
   const menu = [
     { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "MD Message", path: "/admin/md-message" },
+    { name: "Photo Gallery", path: "/admin/gallery" },
+    { name: "Contact Info", path: "/admin/contact" },
     { name: "Doctors", path: "/admin/doctors" },
     { name: "Patients", path: "/admin/patients" },
     { name: "Appointments", path: "/admin/appointments" },
     { name: "Departments", path: "/admin/departments" },
     { name: "Payments", path: "/admin/payments" },
+    { name: "News", path: "/admin/news" },
   ];
 
   return (

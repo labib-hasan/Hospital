@@ -9,6 +9,8 @@ import { translations } from "../utils/translations";
 
 import HeroImageUpload from "../components/HeroImageUpload";
 
+
+
 const mockDoctors = [
   { id: 1, name: "Dr. Sarah Ahmed", specialization: "Cardiologist" },
   { id: 2, name: "Dr. James Miller", specialization: "Neurologist" },
@@ -33,6 +35,7 @@ export default function HomePage() {
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
+    
     const loadData = async () => {
       try {
         const doctorsData = await fetchDoctors();
@@ -61,7 +64,25 @@ export default function HomePage() {
   const weekDays = language === 'bn' 
     ? ["শনিবার", "রবিবার", "সোমবার", "মঙ্গলবার", "বুধবার", "বৃহস্পতিবার", "শুক্রবার"]
     : ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+const targetDepartments = [
+  { key: "icu", match: ["icu"] },
+  { key: "ccu", match: ["ccu"] },
+  { key: "hdu", match: ["hdu"] },
+  { key: "sdu", match: ["sdu"] },
+  { key: "nicu", match: ["nicu"] },
+  { key: "gynae", match: ["gynae", "gyne"] },
+  { key: "pediatric", match: ["pediatric", "paedi"] },
+];
 
+const selectedDoctors = targetDepartments
+  .map((dept) =>
+    doctors.find((doctor) => {
+      // Use department field to filter for specialty units
+      const deptName = doctor.department?.toLowerCase() || "";
+      return dept.match.some((m) => deptName.includes(m));
+    })
+  )
+  .filter(Boolean);
   return (
     <>
       {/* Navbar */}
@@ -293,30 +314,33 @@ export default function HomePage() {
       <p>{language === 'bn' ? 'আপনি বিশ্বাস করতে পারেন এমন অত্যন্ত দক্ষ চিকিৎসা পেশাদার।' : 'Highly skilled medical professionals you can trust.'}</p>
     </div>
 
-    {/* GRID */}
+    {/* GRID - Show 7 doctors from different specialty sections */}
     <div className="doctors-grid">
-      {doctors.map((doctor) => (
-        <div className="doctor-card" key={doctor.id}>
-          <div className="doctor-avatar">
-            <img
-              src={getDoctorImage(doctor)}
-              alt={doctor.name}
-              onError={(e) => {
-                e.target.src = '/placeholder-doctor.jpg';
-              }}
-            />
-          </div>
+  {selectedDoctors.map((doctor) => (
+    <div className="doctor-card" key={doctor.id}>
+      <div className="doctor-avatar">
+        <img
+          src={getDoctorImage(doctor)}
+          alt={doctor.name}
+          onError={(e) => {
+            e.target.src = "/placeholder-doctor.jpg";
+          }}
+        />
+      </div>
 
-          <h3>{doctor.name}</h3>
-          <span className="doctor-role">{doctor.specialization}</span>
+      <h3>{doctor.name}</h3>
+      <span className="doctor-role">{doctor.specialization}</span>
 
-          <a href="/appointment" className="doctor-btn">
-            {t.viewProfile}
-             <span>→</span>
-          </a>
-        </div>
-      ))}
+      <Link
+        href={`/doctors/${doctor.id}`}
+        className="doctor-btn"
+      >
+        {t.viewProfile}
+        <span>View profile →</span>
+      </Link>
     </div>
+  ))}
+</div>
 
   </div>
  </section>
