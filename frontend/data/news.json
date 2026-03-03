@@ -1,6 +1,13 @@
 {
   "news": [
     {
+      "id": "1772545221871",
+      "title": "aaa",
+      "content": "aaa",
+      "image": "https://res.cloudinary.com/dd20ni4kl/image/upload/v1772545215/news/pqrvveto7dxrln3d9lml.jpg",
+      "createdAt": "2026-03-03T13:40:21.871Z"
+    },
+    {
       "id": "1772517089590",
       "title": "qqq",
       "content": "ssee\njjjk\nikkl",
