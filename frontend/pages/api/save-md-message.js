@@ -1,30 +1,34 @@
-import fs from "fs";
-import path from "path";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, position, title, message } = req.body;
+  try {
+    const { name, position, title, message } = req.body;
 
-  const dataDir = path.join(process.cwd(), "data");
-  
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
+    const response = await fetch(`${API_URL}/api/md-message`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, position, title, message }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      return res.status(200).json({ 
+        success: true, 
+        data: { name, position, title, message }
+      });
+    } else {
+      return res.status(400).json({ error: data.message || "Failed to save MD message" });
+    }
+  } catch (error) {
+    console.error("Error saving MD message:", error);
+    return res.status(500).json({ error: "Failed to save MD message: " + error.message });
   }
-  
-  const filePath = path.join(dataDir, "md-message.json");
-  
-  const data = {
-    name: name || "",
-    position: position || "",
-    title: title || "",
-    message: message || "",
-    updatedAt: new Date().toISOString(),
-  };
-
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-
-  return res.status(200).json({ success: true, data });
 }
+

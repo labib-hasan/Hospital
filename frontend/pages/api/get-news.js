@@ -1,15 +1,24 @@
-import fs from "fs";
-import path from "path";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
-export default function handler(req, res) {
-  const filePath = path.join(process.cwd(), "data", "news.json");
-
-  if (!fs.existsSync(filePath)) {
+export default async function handler(req, res) {
+  try {
+    const response = await fetch(`${API_URL}/api/news`);
+    const data = await response.json();
+    
+    if (data.success) {
+      // Transform backend data to match frontend expected format
+      const news = data.news.map(item => ({
+        ...item,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at
+      }));
+      return res.status(200).json({ news });
+    } else {
+      return res.status(200).json({ news: [] });
+    }
+  } catch (error) {
+    console.error('Error fetching news from backend:', error);
     return res.status(200).json({ news: [] });
   }
-
-  const data = fs.readFileSync(filePath, "utf8");
-  const json = JSON.parse(data);
-
-  return res.status(200).json(json);
 }
+

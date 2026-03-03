@@ -1,4 +1,4 @@
--- Seed data for Hospital Management System
+/* -- Seed data for Hospital Management System
 
 USE hospital_management;
 
@@ -27,3 +27,4 @@ INSERT INTO departments (name, description, image, head_doctor) VALUES
 -- Insert sample hero image
 INSERT INTO hero_images (title, subtitle, image_url, is_active) VALUES
 ('Welcome to Our Hospital', 'Providing quality healthcare services', '/ss.png', TRUE);
+ */

@@ -12,6 +12,10 @@ import serviceRoutes from "./routes/serviceRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import newsRoutes from "./routes/newsRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import galleryRoutes from "./routes/galleryRoutes.js";
+import mdMessageRoutes from "./routes/mdMessageRoutes.js";
+import mdImageRoutes from "./routes/mdImageRoutes.js";
 
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
@@ -87,6 +91,10 @@ app.use("/api/services", serviceRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/news", newsRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/gallery", galleryRoutes);
+app.use("/api/md-message", mdMessageRoutes);
+app.use("/api/md-image", mdImageRoutes);
 
 // ==============================
 // 404 Handler

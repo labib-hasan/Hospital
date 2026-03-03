@@ -1,5 +1,4 @@
-import fs from "fs";
-import path from "path";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -13,54 +12,41 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Title and content are required" });
     }
 
-    const dataDir = path.join(process.cwd(), "data");
-    const newsPath = path.join(dataDir, "news.json");
+    let response;
     
-    // Ensure data directory exists
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
-    }
-
-    // Read existing news
-    let existingNews = [];
-    if (fs.existsSync(newsPath)) {
-      const fileData = fs.readFileSync(newsPath, "utf8");
-      existingNews = JSON.parse(fileData).news || [];
-    }
-
     if (id) {
       // Update existing news
-      const index = existingNews.findIndex(n => n.id === id);
-      if (index !== -1) {
-        existingNews[index] = {
-          ...existingNews[index],
-          title,
-          content,
-          image: image || existingNews[index].image,
-          updatedAt: new Date().toISOString()
-        };
-      }
+      response = await fetch(`${API_URL}/api/news/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content, image }),
+      });
     } else {
       // Create new news
-      const newNews = {
-        id: Date.now().toString(),
-        title,
-        content,
-        image: image || "",
-        createdAt: new Date().toISOString()
-      };
-      existingNews.unshift(newNews);
+      response = await fetch(`${API_URL}/api/news`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content, image }),
+      });
     }
 
-    // Save to file
-    fs.writeFileSync(newsPath, JSON.stringify({ news: existingNews }, null, 2));
+    const data = await response.json();
 
-    return res.status(200).json({ 
-      success: true, 
-      message: id ? "News updated successfully" : "News created successfully" 
-    });
+    if (data.success) {
+      return res.status(200).json({ 
+        success: true, 
+        message: id ? "News updated successfully" : "News created successfully" 
+      });
+    } else {
+      return res.status(400).json({ error: data.message || "Failed to save news" });
+    }
   } catch (error) {
     console.error("Error saving news:", error);
     return res.status(500).json({ error: "Failed to save news: " + error.message });
   }
 }
+

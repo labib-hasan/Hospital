@@ -1,30 +1,23 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
 import { v2 as cloudinary } from "cloudinary";
 import formidable from "formidable";
 
-/**
- * REQUIRED for Next.js 16 + Turbopack
- */
 export const runtime = "nodejs";
 
-/**
- * Disable bodyParser for multipart
- */
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-/**
- * Cloudinary config
- */
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dd20ni4kl",
   api_key: process.env.CLOUDINARY_API_KEY || "614819924383186",
   api_secret: process.env.CLOUDINARY_API_SECRET || "13F7yur_2VWTVWGifuHWejsZQdk",
 });
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -51,6 +44,7 @@ export default function handler(req, res) {
         return res.status(400).json({ error: "Only image files allowed" });
       }
 
+      // Upload to Cloudinary
       const result = await cloudinary.uploader.upload(
         uploadedFile.filepath,
         {
@@ -64,25 +58,34 @@ export default function handler(req, res) {
         }
       );
 
-      // Save URL to JSON file
-      const fs = require("fs");
-      const path = require("path");
-      const dataDir = path.join(process.cwd(), "data");
-      
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
-      }
-      
-      const mdImagePath = path.join(dataDir, "md-image.json");
-      fs.writeFileSync(mdImagePath, JSON.stringify({ image: result.secure_url }, null, 2));
-
-      return res.status(200).json({
-        success: true,
-        url: result.secure_url,
+      // Save to backend database
+      const backendResponse = await fetch(`${API_URL}/api/md-image`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: result.secure_url,
+          publicId: result.public_id,
+        }),
       });
+
+      const backendData = await backendResponse.json();
+
+      if (backendData.success) {
+        return res.status(200).json({
+          success: true,
+          url: result.secure_url,
+        });
+      } else {
+        // Rollback - delete the uploaded image
+        await cloudinary.uploader.destroy(result.public_id);
+        return res.status(500).json({ error: "Failed to save image to database" });
+      }
     } catch (error) {
       console.error("Upload failed:", error);
       return res.status(500).json({ error: "Image upload failed" });
     }
   });
 }
+

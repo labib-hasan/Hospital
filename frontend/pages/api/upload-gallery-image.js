@@ -1,3 +1,5 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
 import { v2 as cloudinary } from "cloudinary";
 import formidable from "formidable";
 
@@ -42,6 +44,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Only image files allowed" });
       }
 
+      // Upload to Cloudinary
       const result = await cloudinary.uploader.upload(uploadedFile.filepath, {
         folder: "gallery",
         resource_type: "image",
@@ -52,39 +55,41 @@ export default async function handler(req, res) {
         ],
       });
 
-      // Save to JSON file
-      const fs = require("fs");
-      const path = require("path");
-      const dataDir = path.join(process.cwd(), "data");
-      
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
-      }
-      
-      const galleryPath = path.join(dataDir, "gallery-images.json");
-      let existingImages = [];
-      
-      if (fs.existsSync(galleryPath)) {
-        existingImages = JSON.parse(fs.readFileSync(galleryPath, "utf8")).images || [];
-      }
-
-      const newImage = {
-        id: Date.now().toString(),
-        url: result.secure_url,
-        publicId: result.public_id,
-        uploadedAt: new Date().toISOString(),
-      };
-
-      existingImages.unshift(newImage);
-      fs.writeFileSync(galleryPath, JSON.stringify({ images: existingImages }, null, 2));
-
-      return res.status(200).json({
-        success: true,
-        image: newImage,
+      // Save to backend database
+      const backendResponse = await fetch(`${API_URL}/api/gallery`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: result.secure_url,
+          publicId: result.public_id,
+        }),
       });
+
+      const backendData = await backendResponse.json();
+
+      if (backendData.success) {
+        const newImage = {
+          id: backendData.imageId,
+          url: result.secure_url,
+          publicId: result.public_id,
+          uploadedAt: new Date().toISOString(),
+        };
+
+        return res.status(200).json({
+          success: true,
+          image: newImage,
+        });
+      } else {
+        // Rollback - delete the uploaded image
+        await cloudinary.uploader.destroy(result.public_id);
+        return res.status(500).json({ error: "Failed to save image to database" });
+      }
     } catch (error) {
       console.error("Upload failed:", error);
       return res.status(500).json({ error: "Image upload failed" });
     }
   });
 }
+
