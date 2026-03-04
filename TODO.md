@@ -1,12 +1,12 @@
 # Hospital CMS - Database Integration TODO
 
-## Status: IN PROGRESS
+## ✅ STATUS: ALL CODE COMPLETE — BACKEND LIVE ON RAILWAY
 
 ---
 
 ## ✅ Completed
 
-### Backend
+### Backend (Railway: https://hospital-production-c3b0.up.railway.app)
 - [x] `backend/server.js` — All routes registered: /api/contact, /api/gallery, /api/md-message, /api/md-image, /api/news
 - [x] `backend/config/db.js` — MySQL pool (Railway MYSQL_URL or local env vars)
 - [x] `backend/models/Contact.js` — get/save (upsert), snake_case columns, camelCase transform
@@ -25,21 +25,24 @@
 - [x] `backend/routes/mdImageRoutes.js`
 - [x] `backend/routes/newsRoutes.js`
 
-### Database
+### Database (Railway MySQL)
 - [x] `database/schema.sql` — All CREATE TABLE statements added (contact, gallery_images, md_message, md_image, news)
+- [x] Tables created in Railway MySQL with correct columns
+- [x] Migration run via GET /api/migrate — AUTO_INCREMENT + missing columns fixed
+- [x] Seed data inserted for contact, news, md_message
 
 ### Frontend API Routes (Next.js proxy → Express backend)
-- [x] `frontend/pages/api/get-news.js` — proxies GET /api/news
+- [x] `frontend/pages/api/get-news.js` — proxies GET /api/news, transforms created_at→createdAt
 - [x] `frontend/pages/api/save-news.js` — proxies POST/PUT /api/news
 - [x] `frontend/pages/api/delete-news.js` — proxies DELETE /api/news/:id
-- [x] `frontend/pages/api/get-contact.js` — proxies GET /api/contact
+- [x] `frontend/pages/api/get-contact.js` — proxies GET /api/contact, returns defaults if null
 - [x] `frontend/pages/api/save-contact.js` — proxies POST /api/contact
-- [x] `frontend/pages/api/get-gallery-images.js` — proxies GET /api/gallery
+- [x] `frontend/pages/api/get-gallery-images.js` — proxies GET /api/gallery, transforms snake_case→camelCase
 - [x] `frontend/pages/api/upload-gallery-image.js` — Cloudinary upload + POST /api/gallery
 - [x] `frontend/pages/api/delete-gallery-image.js` — proxies DELETE /api/gallery/:id
-- [x] `frontend/pages/api/get-md-message.js` — proxies GET /api/md-message
+- [x] `frontend/pages/api/get-md-message.js` — proxies GET /api/md-message, returns defaults if null
 - [x] `frontend/pages/api/save-md-message.js` — proxies POST /api/md-message
-- [x] `frontend/pages/api/get-md-image.js` — proxies GET /api/md-image
+- [x] `frontend/pages/api/get-md-image.js` — proxies GET /api/md-image, returns {image: url} or {image: null}
 - [x] `frontend/pages/api/upload-md-image.js` — Cloudinary upload + POST /api/md-image
 
 ### Frontend Pages (read from DB via API proxy)
@@ -56,11 +59,80 @@
 
 ---
 
-## ⚠️ Environment Variables Required
+## 🔴 CRITICAL: Set Environment Variables in Vercel
+
+Go to **Vercel Dashboard → Your Project → Settings → Environment Variables** and add:
+
+```
+NEXT_PUBLIC_API_URL = https://hospital-production-c3b0.up.railway.app
+CLOUDINARY_CLOUD_NAME = dd20ni4kl
+CLOUDINARY_API_KEY = 614819924383186
+CLOUDINARY_API_SECRET = 13F7yur_2VWTVWGifuHWejsZQdk
+```
+
+After adding, click **Redeploy** (or push a new commit) to apply.
+
+> ⚠️ Without `NEXT_PUBLIC_API_URL`, all frontend API routes fall back to `http://localhost:5000` and will fail in production.
+
+---
+
+## 🔴 CRITICAL: Set Environment Variables in Railway
+
+Go to **Railway Dashboard → Backend Service → Variables** and add:
+
+```
+FRONTEND_URL = https://your-vercel-app.vercel.app   ← replace with actual Vercel URL
+PORT = 8080
+```
+
+> `MYSQL_URL` is auto-set by Railway MySQL plugin.
+
+---
+
+## ✅ Live Backend Endpoint Tests (Confirmed Working)
+
+```
+GET  https://hospital-production-c3b0.up.railway.app/health
+     → {"success":true,"status":"healthy",...}
+
+GET  https://hospital-production-c3b0.up.railway.app/api/contact
+     → {"success":true,"contact":{"id":1,"phone":"+880222222222","emergencyPhone":"+8809610-818888",...}}
+
+GET  https://hospital-production-c3b0.up.railway.app/api/news
+     → {"success":true,"news":[{"id":1,"title":"Welcome to Medical Centre Chattagram",...}]}
+
+GET  https://hospital-production-c3b0.up.railway.app/api/md-message
+     → {"success":true,"message":{"id":1,"name":"Dr. John Smith","position":"Managing Director",...}}
+
+GET  https://hospital-production-c3b0.up.railway.app/api/gallery
+     → {"success":true,"images":[]}
+
+GET  https://hospital-production-c3b0.up.railway.app/api/md-image
+     → {"success":true,"image":null}
+```
+
+---
+
+## Data Flow Summary
+
+```
+Admin Panel → /api/save-* (Next.js API route on Vercel)
+           → Express Backend /api/* (Railway)
+           → MySQL Database (Railway)
+
+Frontend Page → /api/get-* (Next.js API route on Vercel)
+             → Express Backend /api/* (Railway)
+             → MySQL Database (Railway)
+             → Rendered on page
+```
+
+---
+
+## Environment Variables Reference
 
 ### Vercel (Frontend)
 ```
-NEXT_PUBLIC_API_URL=https://your-railway-backend-url.railway.app
+NEXT_PUBLIC_API_URL=https://hospital-production-c3b0.up.railway.app
 CLOUDINARY_CLOUD_NAME=dd20ni4kl
 CLOUDINARY_API_KEY=614819924383186
 CLOUDINARY_API_SECRET=13F7yur_2VWTVWGifuHWejsZQdk
@@ -71,39 +143,3 @@ CLOUDINARY_API_SECRET=13F7yur_2VWTVWGifuHWejsZQdk
 MYSQL_URL=mysql://user:pass@host:port/dbname   # auto-set by Railway MySQL plugin
 FRONTEND_URL=https://your-vercel-frontend-url.vercel.app
 PORT=8080
-```
-
----
-
-## ⚠️ Database Setup (Railway MySQL)
-
-Run `database/schema.sql` in Railway MySQL to ensure all tables exist with correct columns.
-
-### contact table columns (snake_case):
-- phone, emergency_phone, hotline, email, address, address_bn, lat, lng
-
-### gallery_images table columns:
-- url, public_id, title
-
-### md_message table columns:
-- name, position, title, message
-
-### md_image table columns:
-- url, public_id
-
-### news table columns:
-- title, content, image
-
----
-
-## Data Flow Summary
-
-```
-Admin Panel → /api/save-* (Next.js API route)
-           → Express Backend /api/* (Railway)
-           → MySQL Database (Railway)
-
-Frontend Page → /api/get-* (Next.js API route)
-             → Express Backend /api/* (Railway)
-             → MySQL Database (Railway)
-             → Rendered on page
