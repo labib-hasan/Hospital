@@ -72,6 +72,9 @@ const targetDepartments = [
   { key: "nicu", match: ["nicu"] },
   { key: "gynae", match: ["gynae", "gyne"] },
   { key: "pediatric", match: ["pediatric", "paedi"] },
+  { key: "ot", match: ["ot", "operation"] },
+  { key: "ed", match: ["ed", "emergency"] },
+  { key: "dialysis", match: ["dialysis", "kidney"] },
 ];
 
 const selectedDoctors = targetDepartments

@@ -139,7 +139,7 @@ export default function NICUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Specialized care for newborns at Ad-din Medical College Hospital
+              Specialized care for newborns at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -157,10 +157,10 @@ export default function NICUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Neonatal Intensive Care Services – Ad-din Medical College Hospital
+              Neonatal Intensive Care Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Neonatal Intensive Care Unit (NICU) at Ad-din Medical College Hospital provides comprehensive specialized care for newborns who need intensive attention. Our NICU is equipped with state-of-the-art technology and staffed by a dedicated team of neonatologists, neonatal nurses, and specialists.
+              The Neonatal Intensive Care Unit (NICU) at Medical Center Hospital Chattagram provides comprehensive specialized care for newborns who need intensive attention. Our NICU is equipped with state-of-the-art technology and staffed by a dedicated team of neonatologists, neonatal nurses, and specialists.
             </p>
           </motion.div>
 

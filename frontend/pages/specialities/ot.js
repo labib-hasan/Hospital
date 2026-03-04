@@ -6,15 +6,15 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 // Fallback doctors for demonstration when API is not available
-const fallbackPaediDoctors = [
-  { id: 1, name: "Dr. Abu Bakar", specialization: "Senior Consultant – Pediatrics", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 15, room_no: "Paedi-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
-  { id: 2, name: "Dr. Salma Akter", specialization: "Consultant – Pediatric Emergency Care", degrees: "MBBS, DCH", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 10, room_no: "Paedi-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
-  { id: 3, name: "Dr. Mahbubur Rahman", specialization: "Specialist – Pediatric Surgery", degrees: "MBBS, MS", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "Paedi-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
-  { id: 4, name: "Dr. Lipi Das", specialization: "Associate Specialist – General Pediatrics", degrees: "MBBS, DCH", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "Paedi-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
+const fallbackOTDoctors = [
+  { id: 1, name: "Dr. Professor M. A. Khan", specialization: "Senior Consultant – General Surgery", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 20, room_no: "OT-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
+  { id: 2, name: "Dr. Runa Laila", specialization: "Consultant – Orthopedic Surgery", degrees: "MBBS, MS", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 12, room_no: "OT-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
+  { id: 3, name: "Dr. Fazle Hasan", specialization: "Specialist – Neurosurgery", degrees: "MBBS, FCPS", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "OT-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
+  { id: 4, name: "Dr. Mowsumi Kabir", specialization: "Associate Specialist – Laparoscopic Surgery", degrees: "MBBS, MD", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "OT-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
 ];
 
 // Department name for API query - must match exactly with admin/doctors.js
-const SPECIALTY_DEPARTMENT = "PAEDI - Pediatric";
+const SPECIALTY_DEPARTMENT = "OT - Operation Theatre";
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
@@ -57,8 +57,16 @@ const formatTimeToAMPM = (timeString) => {
   return convertTo12Hour(normalized);
 };
 
-export default function PaediPage() {
-  const [doctors, setDoctors] = useState(fallbackPaediDoctors);
+const getVisitingDaysArray = (days) => {
+  if (!days) return [];
+  if (typeof days === 'string') {
+    try { days = JSON.parse(days); } catch { return []; }
+  }
+  return Array.isArray(days) ? days : [];
+};
+
+export default function OTPage() {
+  const [doctors, setDoctors] = useState(fallbackOTDoctors);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
@@ -110,8 +118,8 @@ export default function PaediPage() {
       {/* HERO SECTION */}
       <section className="relative h-[300px] md:h-[420px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1581056771107-24ca5f033842"
-          alt="Pediatrics Department"
+          src="https://images.unsplash.com/photo-1551190822-a9333d879b1f"
+          alt="Operation Theatre"
           fill
           className="object-cover"
         />
@@ -123,7 +131,7 @@ export default function PaediPage() {
               transition={{ duration: 0.8 }}
               className="text-3xl md:text-5xl font-bold text-white mb-3"
             >
-              Pediatrics Department
+              Operation Theatre (OT)
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -131,7 +139,7 @@ export default function PaediPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Comprehensive child healthcare at Medical Center Hospital Chattagram
+              Advanced surgical care at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -149,14 +157,14 @@ export default function PaediPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Pediatric Services – Medical Center Hospital Chattagram
+              Operation Theatre Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Pediatrics department at Medical Center Hospital Chattagram is dedicated to providing comprehensive healthcare services for children from birth through adolescence. Our team of experienced pediatricians and specialists is committed to delivering compassionate, child-friendly care.
+              Operation Theatre (OT) services at Medical Centre Hospital are specialized, sterile environments for surgical procedures, ranging from general, orthopedic, to neurosurgery. Our OT complex features advanced equipment like C-arm fluoroscopy, rigorous infection control, and specialized staff for patient safety.
             </p>
           </motion.div>
 
-          {/* PEDIATRIC SERVICES */}
+          {/* OT SERVICES & FEATURES GRID */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -164,16 +172,16 @@ export default function PaediPage() {
             className="mb-16"
           >
             <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
-              Pediatric Services We Offer
+              OT Services & Features
             </h3>
             <div className="grid md:grid-cols-2 gap-8">
               {[
-                { title: "General Pediatrics", text: "Primary care for children, covering acute illness treatment, routine health screenings, vaccinations, and developmental assessments." },
-                { title: "Neonatal Intensive Care Unit (NICU)", text: "Specialized care for premature or critically ill newborns with advanced life support and round-the-clock monitoring." },
-                { title: "Pediatric Emergency/Urgent Care", text: "Acute care for injuries, sudden illnesses, and urgent medical issues with rapid assessment and treatment." },
-                { title: "Specialty Clinics", text: "Dedicated departments for Allergy, Cardiology, Endocrinology, and Infectious Diseases." },
-                { title: "Pediatric Surgery", text: "Surgical procedures tailored for children, performed by experienced pediatric surgeons." },
-                { title: "Child Life and Play Services", text: "Therapeutic play programs to support emotional health and reduce anxiety." },
+                { title: "Sterile Environment", text: "OTs are designed to maintain strict hygiene, often using high-efficiency filters and air pressurization to prevent infection." },
+                { title: "Pre-Operative Preparation", text: "Complete patient assessment and preparation before surgery including anesthesia evaluation." },
+                { title: "Anesthesia Administration", text: "Expert anesthesiologists provide safe anesthesia care for all types of surgeries." },
+                { title: "Advanced Equipment", text: "Modern OTs feature C-arm fluoroscopy, endoscopic, and laparoscopic instruments." },
+                { title: "Post-Operative Care", text: "Comprehensive recovery monitoring and pain management after surgery." },
+                { title: "Specialized Surgical Team", text: "The team consists of surgeons, anesthesiologists, nurses, and OT technicians." },
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -188,7 +196,77 @@ export default function PaediPage() {
             </div>
           </motion.div>
 
-          {/* PEDIATRIC SPECIALISTS – FROM DATABASE */}
+          {/* TYPES OF SURGERIES */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="mb-16"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
+              Types of Surgeries Performed
+            </h3>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
+                "General Surgery",
+                "Obstetrics/Gynecology",
+                "Orthopedic Surgery",
+                "ENT Surgery",
+                "Plastic Surgery",
+                "Ophthalmology",
+                "Urology",
+                "Neurosurgery",
+                "Laparoscopic Surgery",
+                "Cardiac Surgery",
+                "Pediatric Surgery",
+                "Oncological Surgery"
+              ].map((surgery, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4 text-sm text-gray-800 shadow hover:shadow-lg transition"
+                >
+                  {surgery}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* OT FUNCTIONAL AREAS */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="mb-16"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
+              OT Complex Functional Areas
+            </h3>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
+              {[
+                "Changing Rooms",
+                "Scrub Areas",
+                "Pre-operative Rooms",
+                "Operating Rooms (Suites)",
+                "Post-operative Recovery Rooms",
+                "Sterile Storage",
+                "Anesthesia Workroom",
+                "Equipment Room",
+                "Staff Lounge"
+              ].map((area, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-white rounded-xl p-4 text-sm text-gray-700 shadow border border-gray-100 hover:shadow-md transition flex items-center gap-2"
+                >
+                  <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                  {area}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* OT SPECIALISTS – FROM DATABASE */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -199,10 +277,10 @@ export default function PaediPage() {
                 Our Experts
               </span>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
-                Pediatric Specialists
+                OT Specialist Doctors & Surgeons
               </h2>
               <p className="text-gray-600 mt-2">
-                Highly experienced pediatricians and child health specialists
+                Highly experienced surgeons and surgical specialists
               </p>
               <p className="text-gray-500 text-sm mt-1">{doctors.length} doctors available</p>
             </div>
@@ -319,9 +397,9 @@ export default function PaediPage() {
             className="mt-16"
           >
             <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-8 text-white text-center">
-              <h3 className="text-2xl font-bold mb-4">Pediatric Care for Your Child</h3>
+              <h3 className="text-2xl font-bold mb-4">Need Surgical Care?</h3>
               <p className="mb-6 max-w-2xl mx-auto">
-                Our pediatric team is dedicated to providing the best possible care for your child. Contact us for appointments and consultations.
+                Our OT team provides comprehensive surgical care for all specialties. Contact us for consultation and appointment.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a href="/appointment" className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-full hover:bg-gray-100 transition">
@@ -340,3 +418,4 @@ export default function PaediPage() {
     </>
   );
 }
+

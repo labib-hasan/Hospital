@@ -43,7 +43,10 @@ const DEPARTMENTS = [
   "NICU - Neonatal ICU",
   "ICU - Intensive Care Unit",
   "GYNAE - Gynecology",
-  "PAEDI - Pediatric"
+  "PAEDI - Pediatric",
+  "OT - Operation Theatre",
+  "ED - Emergency Department",
+  "Dialysis - Kidney Care"
 ];
 
 const emptyForm = {

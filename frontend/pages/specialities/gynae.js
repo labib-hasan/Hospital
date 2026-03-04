@@ -131,7 +131,7 @@ export default function GynaePage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Comprehensive women's healthcare at Ad-din Medical College Hospital
+              Comprehensive women's healthcare at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -149,10 +149,10 @@ export default function GynaePage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Gynecology & Obstetrics Services – Ad-din Medical College Hospital
+              Gynecology & Obstetrics Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Gynecology and Obstetrics department at Ad-din Medical College Hospital provides comprehensive healthcare services for women at every stage of life. Our team of experienced gynecologists and obstetricians offers personalized care using advanced diagnostic and treatment technologies.
+              The Gynecology and Obstetrics department at Medical Center Hospital Chattagram provides comprehensive healthcare services for women at every stage of life. Our team of experienced gynecologists and obstetricians offers personalized care using advanced diagnostic and treatment technologies.
             </p>
           </motion.div>
 

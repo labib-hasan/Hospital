@@ -23,7 +23,7 @@ export default function Navbar() {
   const menuItems = [
   { label: "FAQ", href: "/faq" },
   { label: t.appointment, href: "/appointment" },
- { label: t.specialities, 
+  { label: t.specialities, 
   href: "#", 
   submenu: [
     { label: "ICU – Intensive Care Unit", href: "/specialities/icu" },
@@ -33,7 +33,9 @@ export default function Navbar() {
     { label: "NICU – Neonatal ICU", href: "/specialities/nicu" },
     { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
     { label: "PAEDI - Pediatric", href: "/specialities/paedi" },
-    
+    { label: "OT - Operation Theatre", href: "/specialities/ot" },
+    { label: "ED - Emergency Department", href: "/specialities/ed" },
+    { label: "Dialysis - Kidney Care", href: "/specialities/dialysis" },
   ],
 },
 
@@ -53,7 +55,9 @@ const mainMenuItems = [
     { label: "NICU ", href: "/specialities/nicu" },
     { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
     { label: "PAEDI - Pediatric", href: "/specialities/paedi" },
-    
+     { label: "OT - Operation Theatre", href: "/specialities/ot" },
+   { label: "ED - Emergency Department", href: "/specialities/ed" },
+   { label: "Dialysis - Kidney Care", href: "/specialities/dialysis" },
   ],
 },
 

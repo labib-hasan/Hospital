@@ -139,7 +139,7 @@ export default function SDUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Specialized post-critical care at Ad-din Medical College Hospital
+              Specialized post-critical care at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -157,10 +157,10 @@ export default function SDUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Step Down Unit Services – Ad-din Medical College Hospital
+              Step Down Unit Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Step Down Unit (SDU) at Ad-din Medical College Hospital provides specialized care for patients transitioning from intensive care to general wards. Our SDU serves as a crucial bridge in the recovery journey, offering continuous monitoring and specialized nursing care for patients in or recovering from trauma and high-dependency situations.
+              The Step Down Unit (SDU) at Medical Center Hospital Chattagram provides specialized care for patients transitioning from intensive care to general wards. Our SDU serves as a crucial bridge in the recovery journey, offering continuous monitoring and specialized nursing care for patients in or recovering from trauma and high-dependency situations.
             </p>
           </motion.div>
 

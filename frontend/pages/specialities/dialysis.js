@@ -6,15 +6,15 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 // Fallback doctors for demonstration when API is not available
-const fallbackPaediDoctors = [
-  { id: 1, name: "Dr. Abu Bakar", specialization: "Senior Consultant – Pediatrics", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 15, room_no: "Paedi-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
-  { id: 2, name: "Dr. Salma Akter", specialization: "Consultant – Pediatric Emergency Care", degrees: "MBBS, DCH", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 10, room_no: "Paedi-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
-  { id: 3, name: "Dr. Mahbubur Rahman", specialization: "Specialist – Pediatric Surgery", degrees: "MBBS, MS", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "Paedi-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
-  { id: 4, name: "Dr. Lipi Das", specialization: "Associate Specialist – General Pediatrics", degrees: "MBBS, DCH", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "Paedi-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
+const fallbackDialysisDoctors = [
+  { id: 1, name: "Dr. Professor M. A. Khan", specialization: "Senior Consultant – Nephrology", degrees: "MBBS, FCPS", designation: "Senior Consultant", institute: "Ad-din Medical College Hospital", experience_years: 20, room_no: "Dialysis-101", visiting_days: ["Sunday", "Monday", "Tuesday"], visiting_time: "9 AM - 5 PM", serial_note: "Call hotline", phone: "+8801234567890" },
+  { id: 2, name: "Dr. Runa Laila", specialization: "Consultant – Nephrology", degrees: "MBBS, MD", designation: "Consultant", institute: "Ad-din Medical College Hospital", experience_years: 12, room_no: "Dialysis-102", visiting_days: ["Saturday", "Monday", "Wednesday"], visiting_time: "10 AM - 4 PM", serial_note: "First come first serve", phone: "+8801234567891" },
+  { id: 3, name: "Dr. Fazle Hasan", specialization: "Specialist – Dialysis Medicine", degrees: "MBBS, MD", designation: "Specialist", institute: "Ad-din Medical College Hospital", experience_years: 8, room_no: "Dialysis-103", visiting_days: ["Sunday", "Tuesday", "Thursday"], visiting_time: "8 AM - 2 PM", serial_note: "Emergency cases prioritized", phone: "+8801234567892" },
+  { id: 4, name: "Dr. Mowsumi Kabir", specialization: "Associate Specialist – Kidney Care", degrees: "MBBS, MD", designation: "Associate Specialist", institute: "Ad-din Medical College Hospital", experience_years: 6, room_no: "Dialysis-104", visiting_days: ["Monday", "Wednesday", "Friday"], visiting_time: "11 AM - 6 PM", serial_note: "Online booking available", phone: "+8801234567893" },
 ];
 
 // Department name for API query - must match exactly with admin/doctors.js
-const SPECIALTY_DEPARTMENT = "PAEDI - Pediatric";
+const SPECIALTY_DEPARTMENT = "Dialysis - Kidney Care";
 
 const getDoctorImage = (id) =>
   `https://randomuser.me/api/portraits/${id % 2 === 0 ? "men" : "women"}/${(id * 17) % 90}.jpg`;
@@ -57,8 +57,16 @@ const formatTimeToAMPM = (timeString) => {
   return convertTo12Hour(normalized);
 };
 
-export default function PaediPage() {
-  const [doctors, setDoctors] = useState(fallbackPaediDoctors);
+const getVisitingDaysArray = (days) => {
+  if (!days) return [];
+  if (typeof days === 'string') {
+    try { days = JSON.parse(days); } catch { return []; }
+  }
+  return Array.isArray(days) ? days : [];
+};
+
+export default function DialysisPage() {
+  const [doctors, setDoctors] = useState(fallbackDialysisDoctors);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
 
@@ -110,8 +118,8 @@ export default function PaediPage() {
       {/* HERO SECTION */}
       <section className="relative h-[300px] md:h-[420px] overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1581056771107-24ca5f033842"
-          alt="Pediatrics Department"
+          src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d"
+          alt="Dialysis Center"
           fill
           className="object-cover"
         />
@@ -123,7 +131,7 @@ export default function PaediPage() {
               transition={{ duration: 0.8 }}
               className="text-3xl md:text-5xl font-bold text-white mb-3"
             >
-              Pediatrics Department
+              Dialysis Center
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -131,7 +139,7 @@ export default function PaediPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Comprehensive child healthcare at Medical Center Hospital Chattagram
+              Advanced Kidney Care & Dialysis Services at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -149,14 +157,14 @@ export default function PaediPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Pediatric Services – Medical Center Hospital Chattagram
+              Dialysis & Kidney Care Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Pediatrics department at Medical Center Hospital Chattagram is dedicated to providing comprehensive healthcare services for children from birth through adolescence. Our team of experienced pediatricians and specialists is committed to delivering compassionate, child-friendly care.
+              Our Dialysis Center at Medical Center Hospital Chattagram provides comprehensive kidney care services including hemodialysis, peritoneal dialysis, and continuous renal replacement therapy. We offer safe, modern, and patient-focused renal care with state-of-the-art equipment and experienced nephrologists.
             </p>
           </motion.div>
 
-          {/* PEDIATRIC SERVICES */}
+          {/* DIALYSIS SERVICES & FEATURES GRID */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -164,22 +172,22 @@ export default function PaediPage() {
             className="mb-16"
           >
             <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
-              Pediatric Services We Offer
+              Dialysis Services & Features
             </h3>
             <div className="grid md:grid-cols-2 gap-8">
               {[
-                { title: "General Pediatrics", text: "Primary care for children, covering acute illness treatment, routine health screenings, vaccinations, and developmental assessments." },
-                { title: "Neonatal Intensive Care Unit (NICU)", text: "Specialized care for premature or critically ill newborns with advanced life support and round-the-clock monitoring." },
-                { title: "Pediatric Emergency/Urgent Care", text: "Acute care for injuries, sudden illnesses, and urgent medical issues with rapid assessment and treatment." },
-                { title: "Specialty Clinics", text: "Dedicated departments for Allergy, Cardiology, Endocrinology, and Infectious Diseases." },
-                { title: "Pediatric Surgery", text: "Surgical procedures tailored for children, performed by experienced pediatric surgeons." },
-                { title: "Child Life and Play Services", text: "Therapeutic play programs to support emotional health and reduce anxiety." },
+                { title: "Hemodialysis", text: "State-of-the-art hemodialysis machines with real-time monitoring for patients with end-stage renal disease." },
+                { title: "Peritoneal Dialysis", text: "Home dialysis option for eligible patients with comprehensive training and support." },
+                { title: "Continuous Renal Replacement Therapy (CRRT)", text: "24/7 dialysis for critically ill patients in ICU with acute kidney injury." },
+                { title: "Kidney Disease Management", text: "Comprehensive care for chronic kidney disease (CKD) stages 1-5 including diet and medication management." },
+                { title: "Vascular Access Care", text: "Creation and maintenance of arteriovenous fistulas, grafts, and catheters for dialysis access." },
+                { title: "Dialysis Equipment", text: "Modern dialysis machines with advanced filtration systems ensuring patient safety and comfort." },
               ].map((item, i) => (
                 <motion.div
                   key={i}
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-blue-600 hover:shadow-2xl transition-all duration-[30ms]"
+                  className="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-600 hover:shadow-2xl transition-all duration-[30ms]"
                 >
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.title}</h3>
                   <p className="text-gray-600 text-sm leading-relaxed">{item.text}</p>
@@ -188,28 +196,95 @@ export default function PaediPage() {
             </div>
           </motion.div>
 
-          {/* PEDIATRIC SPECIALISTS – FROM DATABASE */}
+          {/* DIALYSIS PROCEDURES */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="mb-16"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
+              Types of Dialysis We Offer
+            </h3>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {[
+                "Hemodialysis (HD)",
+                "Peritoneal Dialysis (PD)",
+                "Automated Peritoneal Dialysis (APD)",
+                "Continuous Ambulatory Peritoneal Dialysis (CAPD)",
+                "Hemodiafiltration (HDF)",
+                "Sustained Low-Efficiency Dialysis (SLED)",
+                "Plasmapheresis",
+                "Kidney Biopsy",
+                "Vascular Access Surgery"
+              ].map((procedure, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-4 text-sm text-gray-800 shadow hover:shadow-lg transition flex items-center gap-2"
+                >
+                  <span className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0"></span>
+                  {procedure}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* KIDNEY CARE TIPS */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="mb-16"
+          >
+            <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-6">
+              Kidney Health Tips
+            </h3>
+            <div className="grid sm:grid-cols-2 gap-5">
+              {[
+                "Control blood pressure and monitor regularly",
+                "Manage diabetes and keep blood sugar in check",
+                "Maintain a healthy diet with low sodium",
+                "Stay hydrated - drink adequate water daily",
+                "Avoid smoking and limit alcohol consumption",
+                "Exercise regularly to maintain healthy weight",
+                "Avoid overuse of pain medications",
+                "Get regular kidney function check-ups"
+              ].map((tip, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.02 }}
+                  className="bg-white rounded-xl p-4 text-sm text-gray-700 shadow border border-gray-100 hover:shadow-md transition flex items-center gap-2"
+                >
+                  <span className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">✓</span>
+                  {tip}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* DIALYSIS SPECIALISTS – FROM DATABASE */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
             <div className="mb-8 text-center">
-              <span className="text-sm uppercase tracking-wider text-blue-600 font-semibold">
+              <span className="text-sm uppercase tracking-wider text-purple-600 font-semibold">
                 Our Experts
               </span>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mt-2">
-                Pediatric Specialists
+                Nephrology & Dialysis Specialists
               </h2>
               <p className="text-gray-600 mt-2">
-                Highly experienced pediatricians and child health specialists
+                Highly experienced nephrologists and kidney care specialists
               </p>
               <p className="text-gray-500 text-sm mt-1">{doctors.length} doctors available</p>
             </div>
 
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
               </div>
             ) : displayedDoctors.length > 0 ? (
               <>
@@ -224,7 +299,7 @@ export default function PaediPage() {
                       whileHover={{ y: -3, scale: 1.01 }}
                       className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all border border-gray-100 flex flex-col h-[520px]"
                     >
-                      <div className="w-full h-[280px] relative bg-gradient-to-br from-blue-600 to-cyan-600 flex-shrink-0">
+                      <div className="w-full h-[280px] relative bg-gradient-to-br from-purple-600 to-blue-600 flex-shrink-0">
                         <img
                           src={doctor.image || getDoctorImage(doctor.id || index + 1)}
                           alt={doctor.name}
@@ -242,7 +317,7 @@ export default function PaediPage() {
                           <h2 className="text-base font-bold text-gray-800 uppercase tracking-wide h-6 leading-6 truncate flex-shrink-0">
                             {doctor.name}
                           </h2>
-                          <p className="text-blue-700 font-semibold text-sm h-5 leading-5 truncate flex-shrink-0 mt-1">
+                          <p className="text-purple-700 font-semibold text-sm h-5 leading-5 truncate flex-shrink-0 mt-1">
                             {doctor.degrees || doctor.specialization}
                           </p>
                           <p className="text-gray-700 font-medium text-sm h-5 leading-5 truncate flex-shrink-0">
@@ -277,7 +352,7 @@ export default function PaediPage() {
                           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="mt-auto flex-shrink-0">
                             <Link 
                               href={`/doctors/${doctor.id}`}
-                              className="inline-flex items-center justify-center gap-2 w-full py-2 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-lg font-semibold text-sm hover:from-blue-700 hover:to-cyan-700 transition shadow-lg shadow-blue-500/25"
+                              className="inline-flex items-center justify-center gap-2 w-full py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold text-sm hover:from-purple-700 hover:to-blue-700 transition shadow-lg shadow-purple-500/25"
                             >
                               View Profile
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,7 +372,7 @@ export default function PaediPage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowAll(true)}
-                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-cyan-700 transition"
+                      className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-purple-500/25 hover:from-purple-700 hover:to-blue-700 transition"
                     >
                       View All ({doctors.length}) Doctors →
                     </motion.button>
@@ -318,16 +393,16 @@ export default function PaediPage() {
             transition={{ duration: 0.7 }}
             className="mt-16"
           >
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-8 text-white text-center">
-              <h3 className="text-2xl font-bold mb-4">Pediatric Care for Your Child</h3>
+            <div className="bg-gradient-to-r from-purple-600 to-blue-500 rounded-2xl p-8 text-white text-center">
+              <h3 className="text-2xl font-bold mb-4">Need Dialysis Services?</h3>
               <p className="mb-6 max-w-2xl mx-auto">
-                Our pediatric team is dedicated to providing the best possible care for your child. Contact us for appointments and consultations.
+                Our Dialysis Center provides comprehensive kidney care. Contact us for consultation, appointments, or emergency dialysis services.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <a href="/appointment" className="px-6 py-3 bg-white text-blue-600 font-semibold rounded-full hover:bg-gray-100 transition">
+                <a href="/appointment" className="px-6 py-3 bg-white text-purple-600 font-semibold rounded-full hover:bg-gray-100 transition">
                   Book Appointment
                 </a>
-                <a href="tel:+8809610818888" className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-full hover:bg-blue-800 transition">
+                <a href="tel:+8809610818888" className="px-6 py-3 bg-purple-700 text-white font-semibold rounded-full hover:bg-purple-800 transition">
                   Call: +8809610-818888
                 </a>
               </div>
@@ -340,3 +415,4 @@ export default function PaediPage() {
     </>
   );
 }
+

@@ -140,7 +140,7 @@ export default function HDUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Advanced intermediate care at Ad-din Medical College Hospital
+              Advanced intermediate care at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -158,10 +158,10 @@ export default function HDUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              High Dependency Unit Services – Ad-din Medical College Hospital
+              High Dependency Unit Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The High Dependency Unit (HDU) at Ad-din Medical College Hospital bridges the gap between Intensive Care Unit (ICU) and general wards. Commonly located near the ICU, the HDU ensures patients with high-risk conditions receive prompt intervention and specialized care. Our HDU provides comprehensive intermediate care for recovering patients who require more monitoring than a general ward can offer but do not need full ICU support.
+              The High Dependency Unit (HDU) at Medical Center Hospital Chattagram bridges the gap between Intensive Care Unit (ICU) and general wards. Commonly located near the ICU, the HDU ensures patients with high-risk conditions receive prompt intervention and specialized care. Our HDU provides comprehensive intermediate care for recovering patients who require more monitoring than a general ward can offer but do not need full ICU support.
             </p>
           </motion.div>
 

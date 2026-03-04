@@ -139,7 +139,7 @@ export default function CCUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Advanced cardiac critical care at Medical Center Chattagram
+              Advanced cardiac critical care at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function CCUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Critical Care Services – Medical Center Chattagram
+              Critical Care Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
               The Critical Care services play a vital role in saving the lives of acutely and critically ill patients. Our CCU integrates advanced technology, skilled professionals, and continuous monitoring to deliver world-class cardiac critical care.

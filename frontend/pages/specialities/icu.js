@@ -139,7 +139,7 @@ export default function ICUPage() {
               transition={{ duration: 1, delay: 0.2 }}
               className="text-white/90 max-w-xl"
             >
-              Advanced critical care at Ad-din Medical College Hospital
+              Advanced critical care at Medical Center Hospital Chattagram
             </motion.p>
           </div>
         </div>
@@ -157,10 +157,10 @@ export default function ICUPage() {
             className="mb-12"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-blue-700 mb-4">
-              Intensive Care Unit Services – Ad-din Medical College Hospital
+              Intensive Care Unit Services – Medical Center Hospital Chattagram
             </h2>
             <p className="text-gray-700 leading-relaxed">
-              The Intensive Care Unit (ICU) at Ad-din Medical College Hospital is a specialized department dedicated to providing comprehensive critical care for patients with life-threatening conditions. Our ICU is equipped with state-of-the-art technology and staffed by a multidisciplinary team of intensivists, critical care nurses, and specialized therapists.
+              The Intensive Care Unit (ICU) at Medical Center Hospital Chattagram is a specialized department dedicated to providing comprehensive critical care for patients with life-threatening conditions. Our ICU is equipped with state-of-the-art technology and staffed by a multidisciplinary team of intensivists, critical care nurses, and specialized therapists.
             </p>
           </motion.div>
 
