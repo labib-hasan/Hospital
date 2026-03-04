@@ -83,6 +83,69 @@ app.get("/db-test", async (req, res) => {
 });
 
 // ==============================
+// DB Migration Route
+// Fixes tables created without AUTO_INCREMENT / missing columns
+// Call once: GET /api/migrate
+// ==============================
+app.get("/api/migrate", async (req, res) => {
+  const results = [];
+  const errors = [];
+
+  const statements = [
+    // Fix AUTO_INCREMENT on all CMS tables
+    "ALTER TABLE contact MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE gallery_images MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE md_message MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE md_image MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE news MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+
+    // contact — add missing columns
+    "ALTER TABLE contact ADD COLUMN IF NOT EXISTS emergency_phone VARCHAR(50) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN IF NOT EXISTS address_bn TEXT DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN IF NOT EXISTS lat DECIMAL(10, 7) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN IF NOT EXISTS lng DECIMAL(10, 7) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // gallery_images — add missing columns
+    "ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE gallery_images ADD COLUMN IF NOT EXISTS title VARCHAR(200) DEFAULT NULL",
+
+    // md_message — add missing columns
+    "ALTER TABLE md_message ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // md_image — add missing columns
+    "ALTER TABLE md_image ADD COLUMN IF NOT EXISTS public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE md_image ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // news — add missing columns
+    "ALTER TABLE news ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+  ];
+
+  for (const sql of statements) {
+    try {
+      await db.query(sql);
+      results.push({ sql, status: "✅ OK" });
+    } catch (err) {
+      // Duplicate column errors are harmless — column already exists
+      if (err.code === "ER_DUP_FIELDNAME" || err.errno === 1060) {
+        results.push({ sql, status: "⚠️ Already exists (skipped)" });
+      } else {
+        errors.push({ sql, error: err.message });
+      }
+    }
+  }
+
+  res.status(errors.length > 0 ? 207 : 200).json({
+    success: errors.length === 0,
+    message: errors.length === 0
+      ? "✅ All migrations applied successfully"
+      : `⚠️ ${errors.length} migration(s) failed`,
+    results,
+    errors,
+  });
+});
+
+// ==============================
 // API Routes
 // ==============================
 
