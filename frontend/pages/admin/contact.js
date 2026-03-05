@@ -103,7 +103,7 @@ export default function AdminContact() {
                   type="text"
                   value={contact.phone}
                   onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-black transition"
                   placeholder="+880..."
                 />
               </div>
@@ -117,7 +117,7 @@ export default function AdminContact() {
                   type="text"
                   value={contact.emergencyPhone}
                   onChange={(e) => setContact({ ...contact, emergencyPhone: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 border border-red-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 bg-red-50/30 transition"
+                  className="w-full text-black pl-12 pr-4 py-3 border border-red-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 bg-red-50/30 transition"
                   placeholder="+880..."
                 />
               </div>
@@ -131,7 +131,7 @@ export default function AdminContact() {
                   type="text"
                   value={contact.hotline}
                   onChange={(e) => setContact({ ...contact, hotline: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="text-black w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="106..."
                 />
               </div>
@@ -145,7 +145,7 @@ export default function AdminContact() {
                   type="email"
                   value={contact.email}
                   onChange={(e) => setContact({ ...contact, email: e.target.value })}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="text-black w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="info@hospital.com"
                 />
               </div>
@@ -167,7 +167,7 @@ export default function AdminContact() {
                 value={contact.address}
                 onChange={(e) => setContact({ ...contact, address: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
                 placeholder="Full address in English"
               />
             </div>
@@ -178,12 +178,12 @@ export default function AdminContact() {
                 value={contact.addressBn}
                 onChange={(e) => setContact({ ...contact, addressBn: e.target.value })}
                 rows={3}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
                 placeholder="বাংলায় পূর্ণ ঠিকানা"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            {/* <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Latitude</label>
                 <div className="relative">
@@ -208,7 +208,7 @@ export default function AdminContact() {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

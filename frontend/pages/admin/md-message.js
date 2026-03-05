@@ -173,7 +173,7 @@ export default function AdminMdMessage() {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                     placeholder="e.g. Dr. John Doe"
                   />
                 </div>
@@ -183,7 +183,7 @@ export default function AdminMdMessage() {
                     type="text"
                     value={position}
                     onChange={(e) => setPosition(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                     placeholder="e.g. Managing Director"
                   />
                 </div>
@@ -195,7 +195,7 @@ export default function AdminMdMessage() {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="e.g. Message from Managing Director"
                 />
               </div>
@@ -206,7 +206,7 @@ export default function AdminMdMessage() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={12}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                  className="text-black w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
                   placeholder="Write the full message here..."
                 />
               </div>
