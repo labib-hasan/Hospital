@@ -6,7 +6,7 @@ export default function HeroButtons() {
     { title: "FIND A DOCTOR", icon: <User size={28} />, link: "/doctors" },
     { title: "REQUEST AN APPOINTMENT", icon: <CalendarCheck size={28} />, link: "/appointment" },
     { title: "ONLINE REPORT", icon: <FileText size={28} />, link: "/reports" },
-    { title: "TELE-ONLINE", icon: <Headphones size={28} />, link: "/tele-online" },
+    { title: "TELE-ONLINE", icon: <Headphones size={28} />, link: "/contact" },
     { title: "PATIENT & VISITORS GUIDE", icon: <Users size={28} />, link: "/patient-guide" },
   ];
 
