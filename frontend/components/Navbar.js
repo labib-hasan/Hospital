@@ -34,7 +34,7 @@ export default function Navbar() {
     { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
     { label: "PAEDI - Pediatric", href: "/specialities/paedi" },
     { label: "OT - Operation Theatre", href: "/specialities/ot" },
-    { label: "ED - Emergency Department", href: "/specialities/ed" },
+    { label: "ED - Emergency", href: "/specialities/ed" },
     { label: "Dialysis - Kidney Care", href: "/specialities/dialysis" },
   ],
 },
@@ -56,7 +56,7 @@ const mainMenuItems = [
     { label: "GYNAE - Gynecology", href: "/specialities/gynae" },
     { label: "PAEDI - Pediatric", href: "/specialities/paedi" },
      { label: "OT - Operation Theatre", href: "/specialities/ot" },
-   { label: "ED - Emergency Department", href: "/specialities/ed" },
+   { label: "ED - Emergency", href: "/specialities/ed" },
    { label: "Dialysis - Kidney Care", href: "/specialities/dialysis" },
   ],
 },
@@ -112,7 +112,16 @@ const mainMenuItems = [
     href: "/contact",
    
   },
-  { label: t.diagnostic, href: "/diagnostic-report" },
+ /*  { label: t.diagnostic, href: "/diagnostic-report" }, */
+  {
+    label: t.diagnosticService,
+    href: "#",
+    submenu: [
+      { label: t.radiology, href: "/diagnostic/radiology" },
+      { label: t.pathology, href: "/diagnostic/pathology" },
+    ],
+  },
+  
 ];
 
 useEffect(() => {

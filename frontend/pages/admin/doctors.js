@@ -46,7 +46,9 @@ const DEPARTMENTS = [
   "PAEDI - Pediatric",
   "OT - Operation Theatre",
   "ED - Emergency Department",
-  "Dialysis - Kidney Care"
+  "Dialysis - Kidney Care",
+  "Radiology",
+  "Pathology"
 ];
 
 const emptyForm = {
