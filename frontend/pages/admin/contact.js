@@ -1,18 +1,14 @@
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import AdminLayout from "../../components/AdminLayout";
 import { useLanguage } from "../../context/LanguageContext";
 import { translations } from "../../utils/translations";
-
-// Dynamically import the map picker to avoid SSR issues
-const AdminMapPicker = dynamic(() => import("../../components/AdminMapPicker"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[350px] bg-gray-100 rounded-lg flex items-center justify-center">
-      <p className="text-gray-500">Loading map...</p>
-    </div>
-  ),
-});
+import { 
+  PhoneIcon, 
+  EnvelopeIcon, 
+  MapPinIcon, 
+  GlobeAltIcon,
+  DevicePhoneMobileIcon
+} from '@heroicons/react/24/outline';
 
 export default function AdminContact() {
   const { language } = useLanguage();
@@ -47,10 +43,6 @@ export default function AdminContact() {
       .catch(() => {});
   }, []);
 
-  const handleMapChange = (coords) => {
-    setContact({ ...contact, lat: String(coords.lat), lng: String(coords.lng) });
-  };
-
   const handleSave = async () => {
     setSaving(true);
 
@@ -64,12 +56,12 @@ export default function AdminContact() {
       const data = await res.json();
 
       if (data.success) {
-        alert(language === "en" ? "Contact saved successfully!" : "যোগাযোগ তথ্য সফলভাবে সংরক্ষিত হয়েছে!");
+        alert("Contact info saved successfully!");
       } else {
-        alert(language === "en" ? "Save failed: " + data.message : "সংরক্ষণ ব্যর্থ: " + data.message);
+        alert("Save failed: " + data.message);
       }
     } catch (error) {
-      alert(language === "en" ? "Save failed!" : "সংরক্ষণ ব্যর্থ!");
+      alert("Save failed!");
     } finally {
       setSaving(false);
     }
@@ -77,138 +69,162 @@ export default function AdminContact() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">
-            {language === "en" ? "Manage Contact Information" : "যোগাযোগ তথ্য পরিচালনা"}
-          </h1>
+      {/* PREMIUM HEADER */}
+      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-2xl p-6 mb-8 text-white shadow-2xl">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Contact Information</h1>
+            <p className="text-blue-200 mt-1 text-sm">Manage hospital contact details and location</p>
+          </div>
+          <button 
+            onClick={handleSave}
+            disabled={saving}
+            className="mt-4 md:mt-0 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg transition-all transform hover:scale-105 disabled:opacity-70"
+          >
+            {saving ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
 
-          {/* Contact Info Section */}
-          <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
-              {language === "en" ? "Contact Information" : "যোগাযোগ তথ্য"}
-            </h2>
-
-            <div className="space-y-4">
-              {/* Phone */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Phone" : "ফোন"}
-                </label>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Contact Details Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <PhoneIcon className="w-6 h-6 text-blue-600" />
+            Communication Channels
+          </h2>
+          
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">General Phone</label>
+              <div className="relative">
+                <PhoneIcon className="w-5 h-5 text-gray-400 absolute left-4 top-3.5" />
                 <input
                   type="text"
                   value={contact.phone}
                   onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter phone number" : "ফোন নম্বর লিখুন"}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  placeholder="+880..."
                 />
               </div>
+            </div>
 
-              {/* Emergency Phone */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Emergency Phone" : "জরুরি ফোন"}
-                </label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Emergency Phone</label>
+              <div className="relative">
+                <DevicePhoneMobileIcon className="w-5 h-5 text-red-400 absolute left-4 top-3.5" />
                 <input
                   type="text"
                   value={contact.emergencyPhone}
                   onChange={(e) => setContact({ ...contact, emergencyPhone: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter emergency phone" : "জরুরি ফোন লিখুন"}
+                  className="w-full pl-12 pr-4 py-3 border border-red-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 bg-red-50/30 transition"
+                  placeholder="+880..."
                 />
               </div>
+            </div>
 
-              {/* Hotline */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Hotline" : "হটলাইন"}
-                </label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Hotline</label>
+              <div className="relative">
+                <PhoneIcon className="w-5 h-5 text-orange-400 absolute left-4 top-3.5" />
                 <input
                   type="text"
                   value={contact.hotline}
                   onChange={(e) => setContact({ ...contact, hotline: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter hotline number" : "হটলাইন নম্বর লিখুন"}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  placeholder="106..."
                 />
               </div>
+            </div>
 
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Email" : "ইমেইল"}
-                </label>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+              <div className="relative">
+                <EnvelopeIcon className="w-5 h-5 text-gray-400 absolute left-4 top-3.5" />
                 <input
                   type="email"
                   value={contact.email}
                   onChange={(e) => setContact({ ...contact, email: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter email address" : "ইমেইল লিখুন"}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  placeholder="info@hospital.com"
                 />
               </div>
-
-              {/* Address (English) */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Address (English)" : "ঠিকানা (ইংরেজি)"}
-                </label>
-                <textarea
-                  value={contact.address}
-                  onChange={(e) => setContact({ ...contact, address: e.target.value })}
-                  rows={3}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter address in English" : "ইংরেজিতে ঠিকানা লিখুন"}
-                />
-              </div>
-
-              {/* Address (Bengali) */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Address (Bengali)" : "ঠিকানা (বাংলা)"}
-                </label>
-                <textarea
-                  value={contact.addressBn}
-                  onChange={(e) => setContact({ ...contact, addressBn: e.target.value })}
-                  rows={3}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter address in Bengali" : "বাংলায় ঠিকানা লিখুন"}
-                />
-              </div>
-
-              <button
-                onClick={handleSave}
-                disabled={saving}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
-              >
-                {saving
-                  ? language === "en"
-                    ? "Saving..."
-                    : "সংরক্ষণ হচ্ছে..."
-                  : language === "en"
-                  ? "Save Contact Info"
-                  : "যোগাযোগ তথ্য সংরক্ষণ করুন"}
-              </button>
             </div>
           </div>
+        </div>
 
-          {/* Map Location Section with Interactive Picker */}
-       {/*  */}
+        {/* Location Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+          <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <MapPinIcon className="w-6 h-6 text-blue-600" />
+            Location Details
+          </h2>
 
-          {/* Preview Link */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold mb-4">
-              {language === "en" ? "Preview" : "প্রিভিউ"}
-            </h2>
-            <a
-              href="/contact"
-              target="_blank"
-              className="text-blue-600 hover:underline"
-            >
-              {language === "en"
-                ? "View Contact Page"
-                : "যোগাযোগ পেজ দেখুন"}
-            </a>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Address (English)</label>
+              <textarea
+                value={contact.address}
+                onChange={(e) => setContact({ ...contact, address: e.target.value })}
+                rows={3}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                placeholder="Full address in English"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Address (Bengali)</label>
+              <textarea
+                value={contact.addressBn}
+                onChange={(e) => setContact({ ...contact, addressBn: e.target.value })}
+                rows={3}
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                placeholder="বাংলায় পূর্ণ ঠিকানা"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Latitude</label>
+                <div className="relative">
+                  <GlobeAltIcon className="w-5 h-5 text-gray-400 absolute left-4 top-3.5" />
+                  <input
+                    type="text"
+                    value={contact.lat}
+                    onChange={(e) => setContact({ ...contact, lat: e.target.value })}
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Longitude</label>
+                <div className="relative">
+                  <GlobeAltIcon className="w-5 h-5 text-gray-400 absolute left-4 top-3.5" />
+                  <input
+                    type="text"
+                    value={contact.lng}
+                    onChange={(e) => setContact({ ...contact, lng: e.target.value })}
+                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+
+      {/* Preview Link */}
+      <div className="mt-8 text-center">
+        <a
+          href="/contact"
+          target="_blank"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold transition"
+        >
+          View Contact Page Live
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
       </div>
     </AdminLayout>
   );

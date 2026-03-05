@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import AdminLayout from "../../components/AdminLayout";
 import { useLanguage } from "../../context/LanguageContext";
 import { translations } from "../../utils/translations";
+import { 
+  UserCircleIcon, 
+  ChatBubbleBottomCenterTextIcon, 
+  PhotoIcon,
+  CloudArrowUpIcon
+} from '@heroicons/react/24/outline';
 
 export default function AdminMdMessage() {
   const { language } = useLanguage();
@@ -54,10 +60,9 @@ export default function AdminMdMessage() {
 
       if (data.url) {
         setMdImage(data.url);
-        alert(language === "en" ? "Image uploaded successfully!" : "ছবি সফলভাবে আপলোড হয়েছে!");
       }
     } catch (error) {
-      alert(language === "en" ? "Upload failed!" : "আপলোড ব্যর্থ!");
+      alert("Upload failed!");
     } finally {
       setUploading(false);
       e.target.value = "";
@@ -77,10 +82,10 @@ export default function AdminMdMessage() {
       const data = await res.json();
 
       if (data.success) {
-        alert(language === "en" ? "Message saved successfully!" : "মেসেজ সফলভাবে সংরক্ষিত হয়েছে!");
+        alert("Message saved successfully!");
       }
     } catch (error) {
-      alert(language === "en" ? "Save failed!" : "সংরক্ষণ ব্যর্থ!");
+      alert("Save failed!");
     } finally {
       setSaving(false);
     }
@@ -88,20 +93,34 @@ export default function AdminMdMessage() {
 
   return (
     <AdminLayout>
-      <div className="p-6">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-2xl font-bold mb-6">
-            {language === "en" ? "Manage MD Message" : "এমডি মেসেজ পরিচালনা"}
-          </h1>
+      {/* PREMIUM HEADER */}
+      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 rounded-2xl p-6 mb-8 text-white shadow-2xl">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">MD Message</h1>
+            <p className="text-blue-200 mt-1 text-sm">Update Managing Director's profile and message</p>
+          </div>
+          <button 
+            onClick={handleSaveMessage}
+            disabled={saving}
+            className="mt-4 md:mt-0 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg transition-all transform hover:scale-105 disabled:opacity-70"
+          >
+            {saving ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
 
-          {/* MD Photo Section */}
-          <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
-              {language === "en" ? "MD Photo" : "এমডি ছবি"}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left Column: Photo */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100 text-center">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center justify-center gap-2">
+              <PhotoIcon className="w-6 h-6 text-blue-600" />
+              Profile Photo
             </h2>
 
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center border-4 border-gray-200">
+            <div className="relative group mx-auto w-48 h-48 mb-6">
+              <div className="w-48 h-48 rounded-full overflow-hidden bg-gray-100 border-4 border-blue-50 shadow-inner flex items-center justify-center">
                 {mdImage ? (
                   <img
                     src={mdImage}
@@ -109,136 +128,105 @@ export default function AdminMdMessage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <svg
-                    className="w-20 h-20 text-gray-300"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
+                  <UserCircleIcon className="w-24 h-24 text-gray-300" />
                 )}
               </div>
-
-              <label className="bg-blue-600 text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 transition">
-                {uploading
-                  ? language === "en"
-                    ? "Uploading..."
-                    : "আপলোড হচ্ছে..."
-                  : language === "en"
-                  ? "Upload Photo"
-                  : "ছবি আপলোড করুন"}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={uploading}
-                  className="hidden"
-                />
-              </label>
-
-              <p className="text-sm text-gray-500">
-                {language === "en"
-                  ? "Recommended size: 500x500px, JPG or PNG"
-                  : "প্রস্তাবিত আকার: ৫০০x৫০০পিক্সেল, JPG বা PNG"}
-              </p>
+              
+              {uploading && (
+                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* MD Info & Message Section */}
-          <div className="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 className="text-lg font-semibold mb-4">
-              {language === "en" ? "MD Information & Message" : "এমডি তথ্য ও মেসেজ"}
+            <label className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-6 py-2.5 rounded-xl font-semibold cursor-pointer hover:bg-blue-100 transition">
+              <CloudArrowUpIcon className="w-5 h-5" />
+              {uploading ? "Uploading..." : "Upload New Photo"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+            
+            <p className="text-xs text-gray-400 mt-3">
+              Recommended: Square image (500x500px)
+            </p>
+          </div>
+        </div>
+
+        {/* Right Column: Details */}
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+              <ChatBubbleBottomCenterTextIcon className="w-6 h-6 text-blue-600" />
+              Message Details
             </h2>
 
-            <div className="space-y-4">
-              {/* Name */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Name" : "নাম"}
-                </label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter name" : "নাম লিখুন"}
-                />
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Name</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    placeholder="e.g. Dr. John Doe"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Position</label>
+                  <input
+                    type="text"
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    placeholder="e.g. Managing Director"
+                  />
+                </div>
               </div>
 
-              {/* Position */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Position" : "পদবী"}
-                </label>
-                <input
-                  type="text"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter position" : "পদবী লিখুন"}
-                />
-              </div>
-
-              {/* Page Title */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Page Title" : "পেজ শিরোনাম"}
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Page Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter page title" : "পেজ শিরোনাম লিখুন"}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  placeholder="e.g. Message from Managing Director"
                 />
               </div>
 
-              {/* Message */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  {language === "en" ? "Message" : "মেসেজ"}
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Message Content</label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  rows={10}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder={language === "en" ? "Enter message" : "মেসেজ লিখুন"}
+                  rows={12}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                  placeholder="Write the full message here..."
                 />
               </div>
-
-              <button
-                onClick={handleSaveMessage}
-                disabled={saving}
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
-              >
-                {saving
-                  ? language === "en"
-                    ? "Saving..."
-                    : "সংরক্ষণ হচ্ছে..."
-                  : language === "en"
-                  ? "Save All"
-                  : "সব সংরক্ষণ করুন"}
-              </button>
             </div>
           </div>
-
-          {/* Preview Link */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-lg font-semibold mb-4">
-              {language === "en" ? "Preview" : "প্রিভিউ"}
-            </h2>
-            <a
-              href="/our-clinic/md-message"
-              target="_blank"
-              className="text-blue-600 hover:underline"
-            >
-              {language === "en"
-                ? "View MD Message Page"
-                : "এমডি মেসেজ পেজ দেখুন"}
-            </a>
-          </div>
         </div>
+      </div>
+
+      {/* Preview Link */}
+      <div className="mt-8 text-center">
+        <a
+          href="/our-clinic/md-message"
+          target="_blank"
+          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold transition"
+        >
+          View Live Page
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
       </div>
     </AdminLayout>
   );
