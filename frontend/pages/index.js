@@ -11,6 +11,8 @@ import HeroImageUpload from "../components/HeroImageUpload";
 
 
 
+
+
 const mockDoctors = [
   { id: 1, name: "Dr. Sarah Ahmed", specialization: "Cardiologist" },
   { id: 2, name: "Dr. James Miller", specialization: "Neurologist" },
@@ -178,34 +180,39 @@ const selectedDoctors = targetDepartments
           {
             title: language === 'bn' ? 'সার্জারি' : "Surgery",
             img: "/sur.jpg",
+            link: "/specialities/ot",
           },
           {
             title: language === 'bn' ? 'রেডিওলজি ও ইমেজিং' : "Radiology & Imaging",
             img: "/rad.jpg",
+            link: "/diagnostic/radiology",
           },
           {
             title: language === 'bn' ? 'প্যাথলজি' : "Pathology",
             img: "/pat.jpg",
+            link: "/diagnostic/pathology",
           },
         ].map((d, i) => (
-          <div className="dept-card-modern group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl" key={i}>
-            {/* Background Image */}
-            <div
-              className="dept-bg transition-transform duration-700 group-hover:scale-110"
-              style={{
-                backgroundImage: `url(${d.img})`,
-              }}
-            />
+  <Link href={d.link} key={i}>
+    <div className="dept-card-modern group cursor-pointer transform transition-all duration-500 hover:scale-105 hover:shadow-2xl">
 
-            {/* Dark Overlay */}
-            <div className="dept-overlay" />
+      {/* Background Image */}
+      <div
+        className="dept-bg transition-transform duration-700 group-hover:scale-110"
+        style={{ backgroundImage: `url(${d.img})` }}
+      />
 
-            {/* Content */}
-            <div className="dept-content">
-              <h3>{d.title}</h3>
-              <button className="dept-more">{t.explore}</button>
-            </div>
-          </div>
+      {/* Dark Overlay */}
+      <div className="dept-overlay" />
+
+      {/* Content */}
+      <div className="dept-content">
+        <h3>{d.title}</h3>
+        <button className="dept-more">{t.explore}</button>
+      </div>
+
+    </div>
+  </Link>
         ))}
       </div>
 
@@ -225,7 +232,7 @@ const selectedDoctors = targetDepartments
           <li>✓ {language === 'bn' ? 'নিরবচ্ছিন্ন জরুরি প্রস্তুতি' : 'Continuous emergency readiness'}</li>
         </ul>
 
-        <a href="#" className="dept-cta">
+        <a href="/departments" className="dept-cta">
           {language === 'bn' ? 'সব বিভাগ দেখুন →' : 'View All Departments →'}
         </a>
       </div>
@@ -258,29 +265,36 @@ const selectedDoctors = targetDepartments
                 title: language === 'bn' ? 'ডায়ালাইসিস ইউনিট' : "Dialysis Unit",
                 desc: language === 'bn' ? 'নিরাপদ, আধুনিক ও রোগী-কেন্দ্রিক রেনাল কেয়ার।' : "Safe, modern & patient-focused renal care.",
                 icon: "🩺",
+                link: "/specialities/dialysis",
               },
               {
                 title: language === 'bn' ? 'ফিজিওথেরাপি' : "Physiotherapy",
                 desc: language === 'bn' ? 'স্মার্ট সরঞ্জামের সাথে উন্নত পুনরুদ্ধার।' : "Advanced recovery with smart equipment.",
                 icon: "🏃‍♂️",
+                link: "/specialities/physiotherapy",
               },
               {
                 title: language === 'bn' ? 'জরুরি সেবা' : "Emergency Care",
                 desc: language === 'bn' ? '২৪/৭ দ্রুত প্রতিক্রিয়া ও ট্রমা সহায়তা।' : "24/7 rapid response & trauma support.",
                 icon: "🚑",
+                link: "/specialities/ed",
               },
             ].map((s, i) => (
-              <div className="pro-card group hover-lift" key={i}>
-                <div className="icon">{s.icon}</div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
+              <Link href={s.link} key={i}>
+                <div className="pro-card group hover-lift" key={i}>
+                  <div className="icon">{s.icon}</div>
+                  <h3>{s.title}</h3>
+                  <p>{s.desc}</p>
 
-                <button className="pro-btn">
-                  {t.explore} <span>→</span>
-                </button>
-               </div>
+                  <button className="pro-btn">
+                    {t.explore} <span>→</span>
+                  </button>
+                 </div>
+            
+               </Link>
             ))}
           </div>
+         
 
           {/* WORKING HOURS */}
           <div className="hours-box">
