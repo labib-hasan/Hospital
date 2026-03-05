@@ -91,33 +91,37 @@ app.get("/api/migrate", async (req, res) => {
   const results = [];
   const errors = [];
 
-  // First, check if gallery_images table exists and its structure
-  const checkTable = await db.query(`
-    SELECT TABLE_NAME 
-    FROM information_schema.TABLES 
-    WHERE TABLE_SCHEMA = DATABASE() 
-    AND TABLE_NAME = 'gallery_images'
-  `);
+  try {
+    // First, check if gallery_images table exists
+    const [tableCheck] = await db.query(`
+      SELECT TABLE_NAME 
+      FROM information_schema.TABLES 
+      WHERE TABLE_SCHEMA = DATABASE() 
+      AND TABLE_NAME = 'gallery_images'
+    `);
 
-  // Create gallery_images table if it doesn't exist
-  if (!checkTable[0] || checkTable[0].length === 0) {
-    try {
-      await db.query(`
-        CREATE TABLE gallery_images (
-          id INT NOT NULL AUTO_INCREMENT,
-          image_url VARCHAR(500) NOT NULL,
-          public_id VARCHAR(255) DEFAULT NULL,
-          title VARCHAR(200) DEFAULT NULL,
-          uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          PRIMARY KEY (id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-      `);
-      results.push({ sql: "CREATE TABLE gallery_images", status: "✅ Table created" });
-    } catch (err) {
-      errors.push({ sql: "CREATE TABLE gallery_images", error: err.message });
+    // Create gallery_images table if it doesn't exist
+    if (!tableCheck || tableCheck.length === 0) {
+      try {
+        await db.query(`
+          CREATE TABLE gallery_images (
+            id INT NOT NULL AUTO_INCREMENT,
+            image_url VARCHAR(500) NOT NULL,
+            public_id VARCHAR(255) DEFAULT NULL,
+            title VARCHAR(200) DEFAULT NULL,
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        `);
+        results.push({ sql: "CREATE TABLE gallery_images", status: "✅ Table created" });
+      } catch (err) {
+        errors.push({ sql: "CREATE TABLE gallery_images", error: err.message });
+      }
+    } else {
+      results.push({ sql: "gallery_images table exists", status: "✅ OK" });
     }
-  } else {
-    results.push({ sql: "gallery_images table exists", status: "✅ OK" });
+  } catch (err) {
+    results.push({ sql: "Check gallery_images", error: err.message });
   }
 
   const statements = [
@@ -128,7 +132,7 @@ app.get("/api/migrate", async (req, res) => {
     "ALTER TABLE md_image MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
     "ALTER TABLE news MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
 
-    // contact — add missing columns (duplicate errors are caught and skipped below)
+    // contact — add missing columns
     "ALTER TABLE contact ADD COLUMN emergency_phone VARCHAR(50) DEFAULT NULL",
     "ALTER TABLE contact ADD COLUMN address_bn TEXT DEFAULT NULL",
     "ALTER TABLE contact ADD COLUMN lat DECIMAL(10, 7) DEFAULT NULL",
@@ -163,18 +167,12 @@ app.get("/api/migrate", async (req, res) => {
       // Duplicate column errors are harmless — column already exists
       if (err.code === "ER_DUP_FIELDNAME" || err.errno === 1060) {
         results.push({ sql, status: "⚠️ Already exists (skipped)" });
+      } else if (err.code === "ER_NO_SUCH_TABLE") {
+        results.push({ sql, status: "⚠️ Table doesn't exist (skipped)" });
       } else {
         errors.push({ sql, error: err.message });
       }
     }
-  }
-
-  // Check current table structure for debugging
-  try {
-    const [columns] = await db.query("DESCRIBE gallery_images");
-    results.push({ sql: "Current gallery_images structure", status: "ℹ️ " + JSON.stringify(columns.map(c => c.Field)) });
-  } catch (err) {
-    results.push({ sql: "DESCRIBE gallery_images", error: err.message });
   }
 
   res.status(errors.length > 0 ? 207 : 200).json({
