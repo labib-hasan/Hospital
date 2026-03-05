@@ -91,6 +91,35 @@ app.get("/api/migrate", async (req, res) => {
   const results = [];
   const errors = [];
 
+  // First, check if gallery_images table exists and its structure
+  const checkTable = await db.query(`
+    SELECT TABLE_NAME 
+    FROM information_schema.TABLES 
+    WHERE TABLE_SCHEMA = DATABASE() 
+    AND TABLE_NAME = 'gallery_images'
+  `);
+
+  // Create gallery_images table if it doesn't exist
+  if (!checkTable[0] || checkTable[0].length === 0) {
+    try {
+      await db.query(`
+        CREATE TABLE gallery_images (
+          id INT NOT NULL AUTO_INCREMENT,
+          image_url VARCHAR(500) NOT NULL,
+          public_id VARCHAR(255) DEFAULT NULL,
+          title VARCHAR(200) DEFAULT NULL,
+          uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+      `);
+      results.push({ sql: "CREATE TABLE gallery_images", status: "✅ Table created" });
+    } catch (err) {
+      errors.push({ sql: "CREATE TABLE gallery_images", error: err.message });
+    }
+  } else {
+    results.push({ sql: "gallery_images table exists", status: "✅ OK" });
+  }
+
   const statements = [
     // Fix AUTO_INCREMENT on all CMS tables
     "ALTER TABLE contact MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
@@ -106,9 +135,11 @@ app.get("/api/migrate", async (req, res) => {
     "ALTER TABLE contact ADD COLUMN lng DECIMAL(10, 7) DEFAULT NULL",
     "ALTER TABLE contact ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
 
-    // gallery_images — add missing columns
+    // gallery_images - Add columns if they don't exist
+    "ALTER TABLE gallery_images ADD COLUMN image_url VARCHAR(500) DEFAULT NULL",
     "ALTER TABLE gallery_images ADD COLUMN public_id VARCHAR(255) DEFAULT NULL",
     "ALTER TABLE gallery_images ADD COLUMN title VARCHAR(200) DEFAULT NULL",
+    "ALTER TABLE gallery_images ADD COLUMN uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
 
     // md_message — add missing columns
     "ALTER TABLE md_message ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
@@ -133,6 +164,14 @@ app.get("/api/migrate", async (req, res) => {
         errors.push({ sql, error: err.message });
       }
     }
+  }
+
+  // Check current table structure for debugging
+  try {
+    const [columns] = await db.query("DESCRIBE gallery_images");
+    results.push({ sql: "Current gallery_images structure", status: "ℹ️ " + JSON.stringify(columns.map(c => c.Field)) });
+  } catch (err) {
+    results.push({ sql: "DESCRIBE gallery_images", error: err.message });
   }
 
   res.status(errors.length > 0 ? 207 : 200).json({

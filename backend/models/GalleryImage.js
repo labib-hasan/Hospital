@@ -14,8 +14,9 @@ export default {
   create: async (imageData) => {
     try {
       const { url, publicId, title } = imageData;
+      // Railway uses image_url column
       const [result] = await db.query(
-        "INSERT INTO gallery_images (url, public_id, title) VALUES (?, ?, ?)",
+        "INSERT INTO gallery_images (image_url, public_id, title) VALUES (?, ?, ?)",
         [url, publicId || null, title || null]
       );
       return result.insertId;

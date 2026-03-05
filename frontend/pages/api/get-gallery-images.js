@@ -6,14 +6,15 @@ export default async function handler(req, res) {
     const data = await response.json();
     
     if (data.success) {
-      // Transform backend data to match frontend expected format
+      // Transform Railway database columns to frontend format
+      // Railway: id, image_url, public_id, uploaded_at, title
       const images = data.images.map(item => ({
         id: item.id,
-        url: item.url,
+        url: item.image_url,
         publicId: item.public_id,
         title: item.title || '',
-        createdAt: item.created_at,
-        uploadedAt: item.created_at
+        createdAt: item.uploaded_at,
+        uploadedAt: item.uploaded_at
       }));
       return res.status(200).json({ images });
     } else {

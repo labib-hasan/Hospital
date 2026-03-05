@@ -11,18 +11,25 @@ export default function PhotoGallery() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/get-gallery-images")
-      .then((res) => res.json())
-      .then((data) => {
-        setImages(data.images || []);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    fetchImages();
   }, []);
+
+  const fetchImages = async () => {
+    try {
+      const res = await fetch("/api/get-gallery-images");
+      const data = await res.json();
+      console.log("Gallery images response:", data);
+      setImages(data.images || []);
+    } catch (error) {
+      console.error("Error fetching images:", error);
+      setError(language === "en" ? "Failed to load images" : "ছবি লোড করতে ব্যর্থ");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const galleryImages = images.map((img, index) => ({
     id: img.id || index,
@@ -182,3 +189,4 @@ export default function PhotoGallery() {
     </>
   );
 }
+
