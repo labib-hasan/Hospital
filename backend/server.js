@@ -150,6 +150,9 @@ app.get("/api/migrate", async (req, res) => {
 
     // news — add missing columns
     "ALTER TABLE news ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // doctors - Make email nullable
+    "ALTER TABLE doctors MODIFY COLUMN email VARCHAR(255) DEFAULT NULL",
   ];
 
   for (const sql of statements) {
