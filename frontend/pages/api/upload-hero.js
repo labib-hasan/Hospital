@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://hospital-production-c3b0.up.railway.app';
 
 import { v2 as cloudinary } from "cloudinary";
 import formidable from "formidable";
@@ -30,7 +30,6 @@ export default async function handler(req, res) {
     uploadDir: path.join(process.cwd(), "tmp"),
   });
 
-  // Ensure tmp directory exists
   const tmpDir = path.join(process.cwd(), "tmp");
   if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir, { recursive: true });
@@ -63,7 +62,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Only image files allowed" });
       }
 
-      // Check if filepath exists
       if (!uploadedFile.filepath || !fs.existsSync(uploadedFile.filepath)) {
         console.error("File path does not exist:", uploadedFile.filepath);
         return res.status(400).json({ error: "File upload failed - no file path" });
@@ -91,7 +89,7 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         success: true,
-        imageUrl: result.secure_url,
+        url: result.secure_url,
         publicId: result.public_id,
       });
     } catch (error) {
@@ -100,4 +98,3 @@ export default async function handler(req, res) {
     }
   });
 }
-

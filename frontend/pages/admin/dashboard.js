@@ -14,6 +14,7 @@ import {
   PhotoIcon,
 } from "@heroicons/react/24/outline";
 import MdImageUpload from "@/components/MdImageUpload";
+import HeroImageUpload from "@/components/HeroImageUpload";
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
@@ -75,6 +76,12 @@ export default function Dashboard() {
       {/* MD IMAGE UPLOAD SECTION */}
       <div className="mb-8">
         <MdImageUpload isAdmin={true} />
+      </div>
+
+      {/* HERO IMAGES UPLOAD SECTION */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-4">Hero Images (Auto-Scrolling)</h2>
+        <HeroImageUpload isAdmin={true} />
       </div>
 
       {/* STATS */}

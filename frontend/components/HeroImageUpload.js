@@ -5,6 +5,7 @@ const TOTAL_SLOTS = 4;
 
 export default function HeroImageUpload({ isAdmin = false }) {
   const [images, setImages] = useState(Array(TOTAL_SLOTS).fill(null));
+  const [publicIds, setPublicIds] = useState(Array(TOTAL_SLOTS).fill(null));
   const sliderRef = useRef(null);
 
  useEffect(() => {
@@ -52,11 +53,19 @@ export default function HeroImageUpload({ isAdmin = false }) {
   updated[index] = uploadData.url;
   setImages(updated);
 
-  // save to server
+  // Update public IDs
+  const updatedPublicIds = [...publicIds];
+  updatedPublicIds[index] = uploadData.publicId || uploadData.publicId;
+  setPublicIds(updatedPublicIds);
+
+  // save to server with both image URLs and public IDs
   await fetch("/api/save-hero", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ images: updated }),
+    body: JSON.stringify({ 
+      images: updated,
+      publicIds: updatedPublicIds
+    }),
   });
 };
 

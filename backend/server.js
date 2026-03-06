@@ -16,6 +16,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 import mdMessageRoutes from "./routes/mdMessageRoutes.js";
 import mdImageRoutes from "./routes/mdImageRoutes.js";
+import heroImageRoutes from "./routes/heroImageRoutes.js";
 
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
@@ -124,6 +125,38 @@ app.get("/api/migrate", async (req, res) => {
     results.push({ sql: "Check gallery_images", error: err.message });
   }
 
+  // Check and create hero_images table
+  try {
+    const [heroTableCheck] = await db.query(`
+      SELECT TABLE_NAME 
+      FROM information_schema.TABLES 
+      WHERE TABLE_SCHEMA = DATABASE() 
+      AND TABLE_NAME = 'hero_images'
+    `);
+
+    if (!heroTableCheck || heroTableCheck.length === 0) {
+      try {
+        await db.query(`
+          CREATE TABLE hero_images (
+            id INT NOT NULL AUTO_INCREMENT,
+            image_url VARCHAR(500) NOT NULL,
+            public_id VARCHAR(255) DEFAULT NULL,
+            position INT DEFAULT 0,
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        `);
+        results.push({ sql: "CREATE TABLE hero_images", status: "✅ Table created" });
+      } catch (err) {
+        errors.push({ sql: "CREATE TABLE hero_images", error: err.message });
+      }
+    } else {
+      results.push({ sql: "hero_images table exists", status: "✅ OK" });
+    }
+  } catch (err) {
+    results.push({ sql: "Check hero_images", error: err.message });
+  }
+
   const statements = [
     // Fix AUTO_INCREMENT on all CMS tables
     "ALTER TABLE contact MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
@@ -198,6 +231,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/md-message", mdMessageRoutes);
 app.use("/api/md-image", mdImageRoutes);
+app.use("/api/hero-images", heroImageRoutes);
 
 // ==============================
 // 404 Handler
