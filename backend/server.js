@@ -74,7 +74,8 @@ app.get("/api/health", (req, res) => {
 // ==============================
 
 // This assumes server.js is inside the /nodejs/ folder
-const frontendPath = path.join(__dirname, "..", "public_html");
+// Change this line in your server.js
+const frontendPath = path.join(__dirname, "public");
 
 // 1. Serve static files from public_html
 app.use(express.static(frontendPath));
