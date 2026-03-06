@@ -1,5 +1,5 @@
 {
-   "name": "backend",
+  "name": "backend",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -7,10 +7,6 @@
     "build": "cd ../frontend && npm run build",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
@@ -19,7 +15,9 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
-    "mysql2": "^3.18.0"
-   
+    "mysql2": "^3.18.0",
+    "next": "^14.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
