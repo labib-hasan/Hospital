@@ -1,12 +1,10 @@
 // ==============================
-// Express Server - Hostinger Ready
+// Express Server - Production Ready
 // ==============================
 
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from 'url';
 
 // Routes
 import doctorRoutes from "./routes/doctorRoutes.js";
@@ -20,12 +18,8 @@ import mdMessageRoutes from "./routes/mdMessageRoutes.js";
 import mdImageRoutes from "./routes/mdImageRoutes.js";
 import heroImageRoutes from "./routes/heroImageRoutes.js";
 
-// DB 
+// DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
-
-// ES Modules __dirname setup
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 console.log("🔥 Hospital API v2 loaded");
@@ -35,11 +29,11 @@ const app = express();
 // Middleware
 // ==============================
 
+// CORS configuration (Vercel + local support)
 const corsOptions = {
   origin: [
-    process.env.FRONTEND_URL, 
-    "http://localhost:3000",
-    "https://lavender-monkey-429786.hostingersite.com"
+    process.env.FRONTEND_URL, // Vercel frontend
+    "http://localhost:3000",  // local frontend
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
@@ -48,6 +42,184 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ==============================
+// Root & Health Routes
+// ==============================
+
+// Root route (fixes "Cannot GET /")
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "🏥 Hospital API is running successfully",
+    environment: process.env.NODE_ENV || "development",
+  });
+});
+
+// Health check
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    status: "healthy",
+    uptime: process.uptime(),
+    timestamp: new Date(),
+  });
+});
+
+// DB test route (important for Railway)
+app.get("/db-test", async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT 1");
+    res.status(200).json({
+      success: true,
+      database: "connected",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      database: "not connected",
+      error: error.message,
+    });
+  }
+});
+
+// ==============================
+// DB Migration Route
+// Fixes tables created without AUTO_INCREMENT / missing columns
+// Call once: GET /api/migrate
+// ==============================
+app.get("/api/migrate", async (req, res) => {
+  const results = [];
+  const errors = [];
+
+  try {
+    // First, check if gallery_images table exists
+    const [tableCheck] = await db.query(`
+      SELECT TABLE_NAME 
+      FROM information_schema.TABLES 
+      WHERE TABLE_SCHEMA = DATABASE() 
+      AND TABLE_NAME = 'gallery_images'
+    `);
+
+    // Create gallery_images table if it doesn't exist
+    if (!tableCheck || tableCheck.length === 0) {
+      try {
+        await db.query(`
+          CREATE TABLE gallery_images (
+            id INT NOT NULL AUTO_INCREMENT,
+            image_url VARCHAR(500) NOT NULL,
+            public_id VARCHAR(255) DEFAULT NULL,
+            title VARCHAR(200) DEFAULT NULL,
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        `);
+        results.push({ sql: "CREATE TABLE gallery_images", status: "✅ Table created" });
+      } catch (err) {
+        errors.push({ sql: "CREATE TABLE gallery_images", error: err.message });
+      }
+    } else {
+      results.push({ sql: "gallery_images table exists", status: "✅ OK" });
+    }
+  } catch (err) {
+    results.push({ sql: "Check gallery_images", error: err.message });
+  }
+
+  // Check and create hero_images table
+  try {
+    const [heroTableCheck] = await db.query(`
+      SELECT TABLE_NAME 
+      FROM information_schema.TABLES 
+      WHERE TABLE_SCHEMA = DATABASE() 
+      AND TABLE_NAME = 'hero_images'
+    `);
+
+    if (!heroTableCheck || heroTableCheck.length === 0) {
+      await db.query(`
+        CREATE TABLE hero_images (
+          id INT NOT NULL AUTO_INCREMENT,
+          image_url VARCHAR(500) NOT NULL,
+          public_id VARCHAR(255) DEFAULT NULL,
+          position INT DEFAULT 0,
+          uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+      `);
+      results.push({ sql: "CREATE TABLE hero_images", status: "✅ Table created" });
+    } else {
+      results.push({ sql: "hero_images table exists", status: "✅ OK" });
+    }
+  } catch (err) {
+    errors.push({ sql: "hero_images table", error: err.message });
+  }
+
+  const statements = [
+    // Fix AUTO_INCREMENT on all CMS tables
+    "ALTER TABLE contact MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE gallery_images MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE md_message MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE md_image MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE news MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE hero_images MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+
+    // contact — add missing columns
+    "ALTER TABLE contact ADD COLUMN emergency_phone VARCHAR(50) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN address_bn TEXT DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN lat DECIMAL(10, 7) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN lng DECIMAL(10, 7) DEFAULT NULL",
+    "ALTER TABLE contact ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // gallery_images - Add columns if they don't exist
+    "ALTER TABLE gallery_images ADD COLUMN image_url VARCHAR(500) DEFAULT NULL",
+    "ALTER TABLE gallery_images ADD COLUMN public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE gallery_images ADD COLUMN title VARCHAR(200) DEFAULT NULL",
+    "ALTER TABLE gallery_images ADD COLUMN uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+
+    // md_message — add missing columns
+    "ALTER TABLE md_message ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // md_image — add missing columns
+    "ALTER TABLE md_image ADD COLUMN public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE md_image ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // news — add missing columns
+    "ALTER TABLE news ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // hero_images - Add columns if they don't exist
+    "ALTER TABLE hero_images ADD COLUMN image_url VARCHAR(500) DEFAULT NULL",
+    "ALTER TABLE hero_images ADD COLUMN public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE hero_images ADD COLUMN position INT DEFAULT 0",
+    "ALTER TABLE hero_images ADD COLUMN uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+
+    // doctors - Make email nullable
+    "ALTER TABLE doctors MODIFY COLUMN email VARCHAR(255) DEFAULT NULL",
+  ];
+
+  for (const sql of statements) {
+    try {
+      await db.query(sql);
+      results.push({ sql, status: "✅ OK" });
+    } catch (err) {
+      // Duplicate column errors are harmless — column already exists
+      if (err.code === "ER_DUP_FIELDNAME" || err.errno === 1060) {
+        results.push({ sql, status: "⚠️ Already exists (skipped)" });
+      } else if (err.code === "ER_NO_SUCH_TABLE") {
+        results.push({ sql, status: "⚠️ Table doesn't exist (skipped)" });
+      } else {
+        errors.push({ sql, error: err.message });
+      }
+    }
+  }
+
+  res.status(errors.length > 0 ? 207 : 200).json({
+    success: errors.length === 0,
+    message: errors.length === 0
+      ? "✅ All migrations applied successfully"
+      : `⚠️ ${errors.length} migration(s) failed`,
+    results,
+    errors,
+  });
+});
 
 // ==============================
 // API Routes
@@ -64,34 +236,14 @@ app.use("/api/md-message", mdMessageRoutes);
 app.use("/api/md-image", mdImageRoutes);
 app.use("/api/hero-images", heroImageRoutes);
 
-// Health check
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ success: true, status: "healthy" });
-});
-
 // ==============================
-// Serve Frontend (public_html)
+// 404 Handler
 // ==============================
-
-// This assumes server.js is inside the /nodejs/ folder
-// Change this line in your server.js
-const frontendPath = path.join(__dirname, "public");
-
-// 1. Serve static files from public_html
-app.use(express.static(frontendPath));
-
-// 2. Special handler for Next.js '_next' folder
-app.use('/_next', express.static(path.join(frontendPath, '_next')));
-
-// 3. Catch-all: Send index.html for any frontend route (SPA support)
-app.get("*", (req, res) => {
-  // Prevent catching API routes that don't exist
-  if (req.path.startsWith('/api')) {
-    return res.status(404).json({ success: false, message: "API route not found" });
-  }
-  
-  // Send the main index.html for all other requests
-  res.sendFile(path.join(frontendPath, "index.html"));
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "API route not found",
+  });
 });
 
 // ==============================
@@ -99,6 +251,7 @@ app.get("*", (req, res) => {
 // ==============================
 app.use((err, req, res, next) => {
   console.error("🔥 Error:", err);
+
   res.status(err.status || 500).json({
     success: false,
     message: err.message || "Internal Server Error",
@@ -112,5 +265,4 @@ const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📁 Frontend path: ${frontendPath}`);
 });
