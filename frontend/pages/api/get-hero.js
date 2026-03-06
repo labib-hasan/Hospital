@@ -1,23 +1,29 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://hospital-production-c3b0.up.railway.app';
+const API_URL =
+process.env.NEXT_PUBLIC_API_URL ||
+"https://hospital-production-c3b0.up.railway.app";
 
 export default async function handler(req, res) {
+
   try {
+
     const response = await fetch(`${API_URL}/api/hero-images`);
     const data = await response.json();
-    
+
+    const images = [null, null, null, null];
+
     if (data.success && data.images) {
-      const images = [null, null, null, null];
-      data.images.forEach((img, index) => {
-        if (index < 4 && img) {
-          images[index] = img.image_url;
+      data.images.forEach((img) => {
+        if (img.position < 4) {
+          images[img.position] = img.image_url;
         }
       });
-      res.status(200).json({ images });
-    } else {
-      res.status(200).json({ images: [null, null, null, null] });
     }
+
+    res.status(200).json({ images });
+
   } catch (error) {
-    console.error("Error fetching hero images:", error);
-    res.status(200).json({ images: [null, null, null, null] });
+    console.error(error);
+    res.status(500).json({ images: [null, null, null, null] });
   }
+
 }

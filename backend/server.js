@@ -135,26 +135,22 @@ app.get("/api/migrate", async (req, res) => {
     `);
 
     if (!heroTableCheck || heroTableCheck.length === 0) {
-      try {
-        await db.query(`
-          CREATE TABLE hero_images (
-            id INT NOT NULL AUTO_INCREMENT,
-            image_url VARCHAR(500) NOT NULL,
-            public_id VARCHAR(255) DEFAULT NULL,
-            position INT DEFAULT 0,
-            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (id)
-          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-        `);
-        results.push({ sql: "CREATE TABLE hero_images", status: "✅ Table created" });
-      } catch (err) {
-        errors.push({ sql: "CREATE TABLE hero_images", error: err.message });
-      }
+      await db.query(`
+        CREATE TABLE hero_images (
+          id INT NOT NULL AUTO_INCREMENT,
+          image_url VARCHAR(500) NOT NULL,
+          public_id VARCHAR(255) DEFAULT NULL,
+          position INT DEFAULT 0,
+          uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+      `);
+      results.push({ sql: "CREATE TABLE hero_images", status: "✅ Table created" });
     } else {
       results.push({ sql: "hero_images table exists", status: "✅ OK" });
     }
   } catch (err) {
-    results.push({ sql: "Check hero_images", error: err.message });
+    errors.push({ sql: "hero_images table", error: err.message });
   }
 
   const statements = [
@@ -164,6 +160,7 @@ app.get("/api/migrate", async (req, res) => {
     "ALTER TABLE md_message MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
     "ALTER TABLE md_image MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
     "ALTER TABLE news MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
+    "ALTER TABLE hero_images MODIFY COLUMN id INT NOT NULL AUTO_INCREMENT",
 
     // contact — add missing columns
     "ALTER TABLE contact ADD COLUMN emergency_phone VARCHAR(50) DEFAULT NULL",
@@ -187,6 +184,12 @@ app.get("/api/migrate", async (req, res) => {
 
     // news — add missing columns
     "ALTER TABLE news ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+
+    // hero_images - Add columns if they don't exist
+    "ALTER TABLE hero_images ADD COLUMN image_url VARCHAR(500) DEFAULT NULL",
+    "ALTER TABLE hero_images ADD COLUMN public_id VARCHAR(255) DEFAULT NULL",
+    "ALTER TABLE hero_images ADD COLUMN position INT DEFAULT 0",
+    "ALTER TABLE hero_images ADD COLUMN uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
 
     // doctors - Make email nullable
     "ALTER TABLE doctors MODIFY COLUMN email VARCHAR(255) DEFAULT NULL",

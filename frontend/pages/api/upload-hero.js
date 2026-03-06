@@ -1,100 +1,48 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://hospital-production-c3b0.up.railway.app';
-
 import { v2 as cloudinary } from "cloudinary";
 import formidable from "formidable";
 import fs from "fs";
-import path from "path";
-
-export const runtime = "nodejs";
 
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  api: { bodyParser: false },
 };
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || "dd20ni4kl",
-  api_key: process.env.CLOUDINARY_API_KEY || "614819924383186",
-  api_secret: process.env.CLOUDINARY_API_SECRET || "13F7yur_2VWTVWGifuHWejsZQdk",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export default async function handler(req, res) {
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const form = formidable({
-    maxFileSize: 10 * 1024 * 1024,
-    keepExtensions: true,
-    uploadDir: path.join(process.cwd(), "tmp"),
-  });
-
-  const tmpDir = path.join(process.cwd(), "tmp");
-  if (!fs.existsSync(tmpDir)) {
-    fs.mkdirSync(tmpDir, { recursive: true });
-  }
+  const form = formidable({ keepExtensions: true });
 
   form.parse(req, async (err, fields, files) => {
-    if (err) {
-      console.error("Formidable parse error:", err);
-      return res.status(400).json({ error: "Invalid form data: " + err.message });
-    }
+
+    if (err) return res.status(400).json({ error: err.message });
 
     try {
-      console.log("Files received:", files);
 
-      const file = files?.file;
-      if (!file) {
-        return res.status(400).json({ error: "No file uploaded" });
-      }
+      const file = Array.isArray(files.file) ? files.file[0] : files.file;
 
-      const uploadedFile = Array.isArray(file) ? file[0] : file;
-      
-      console.log("Uploaded file info:", {
-        originalFilename: uploadedFile.originalFilename,
-        mimetype: uploadedFile.mimetype,
-        filepath: uploadedFile.filepath,
-        size: uploadedFile.size
-      });
-
-      if (!uploadedFile.mimetype?.startsWith("image/")) {
-        return res.status(400).json({ error: "Only image files allowed" });
-      }
-
-      if (!uploadedFile.filepath || !fs.existsSync(uploadedFile.filepath)) {
-        console.error("File path does not exist:", uploadedFile.filepath);
-        return res.status(400).json({ error: "File upload failed - no file path" });
-      }
-
-      // Upload to Cloudinary
-      const result = await cloudinary.uploader.upload(uploadedFile.filepath, {
+      const result = await cloudinary.uploader.upload(file.filepath, {
         folder: "hero",
-        resource_type: "image",
-        transformation: [
-          { width: 1920, height: 1080, crop: "fill", gravity: "auto" },
-          { quality: "auto" },
-          { fetch_format: "auto" },
-        ],
       });
 
-      console.log("Cloudinary upload result:", result.secure_url);
+      fs.unlinkSync(file.filepath);
 
-      // Clean up temp file
-      try {
-        fs.unlinkSync(uploadedFile.filepath);
-      } catch (cleanupError) {
-        console.error("Cleanup error:", cleanupError);
-      }
-
-      return res.status(200).json({
-        success: true,
+      res.status(200).json({
         url: result.secure_url,
         publicId: result.public_id,
       });
+
     } catch (error) {
-      console.error("Upload failed:", error);
-      return res.status(500).json({ error: "Image upload failed: " + error.message });
+      res.status(500).json({ error: error.message });
     }
+
   });
+
 }

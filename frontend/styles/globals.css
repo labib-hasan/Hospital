@@ -2162,6 +2162,43 @@ nav .fixed ul ul li a:hover {
   text-rendering: optimizeLegibility;
 }
 
+/* Dashboard Hero Custom Heights */
+.dashboard-hero-wrapper .relative.h-\[50vh\] { 
+  height: 50vh !important;
+    width: 150vh !important;
+}
+.dashboard-hero-wrapper .md\:h-\[70vh\] {
+  height: 30vh !important;
+}
+.dashboard-hero-wrapper .lg\:h-\[80vh\] {
+  height: 35vh !important;
+}
 
+@media (min-width: 640px) {
+  .dashboard-hero-wrapper .h-\[50vh\] {
+    height: 30vh !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .dashboard-hero-wrapper .md\:h-\[70vh\] {
+    height: 35vh !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-hero-wrapper .lg\:h-\[80vh\] {
+    height: 40vh !important;
+  }
+}
+
+/* Scrollbar Hide */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
 
 

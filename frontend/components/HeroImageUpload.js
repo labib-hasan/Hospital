@@ -5,70 +5,81 @@ const TOTAL_SLOTS = 4;
 
 export default function HeroImageUpload({ isAdmin = false }) {
   const [images, setImages] = useState(Array(TOTAL_SLOTS).fill(null));
-  const [publicIds, setPublicIds] = useState(Array(TOTAL_SLOTS).fill(null));
   const sliderRef = useRef(null);
 
- useEffect(() => {
-  fetch("/api/get-hero")
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.images) setImages(data.images);
-    });
-}, []);
+  // Fetch hero images
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch("/api/get-hero");
+        const data = await res.json();
+        if (data?.images) setImages(data.images);
+      } catch (err) {
+        console.error("Hero fetch error:", err);
+      }
+    };
 
- useEffect(() => {
-  const interval = setInterval(() => {
-    if (sliderRef.current) {
+    fetchImages();
+  }, []);
+
+  // Auto slider
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!sliderRef.current) return;
+
       const slider = sliderRef.current;
       const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
       if (slider.scrollLeft >= maxScrollLeft) {
-        slider.scrollLeft = 0;
+        slider.scrollTo({ left: 0, behavior: "smooth" });
       } else {
-        slider.scrollLeft += slider.clientWidth;
+        slider.scrollBy({ left: slider.clientWidth, behavior: "smooth" });
       }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Upload image
+  const handleUpload = async (e, index) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      // Upload to Cloudinary
+      const uploadRes = await fetch("/api/upload-hero", {
+        method: "POST",
+        body: formData,
+      });
+
+      const uploadData = await uploadRes.json();
+      if (!uploadData?.url) return;
+
+      // Update UI instantly
+      const updated = [...images];
+      updated[index] = uploadData.url;
+      setImages(updated);
+
+      // Save to database
+      await fetch("/api/save-hero", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          position: index,
+          url: uploadData.url,
+          publicId: uploadData.publicId,
+        }),
+      });
+
+    } catch (err) {
+      console.error("Upload failed:", err);
     }
-  }, 3000);
-
-  return () => clearInterval(interval);
-}, []);
-
-
- 
-
- const handleUpload = async (e, index) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const uploadRes = await fetch("/api/upload-hero", {
-    method: "POST",
-    body: formData,
-  });
-
-  const uploadData = await uploadRes.json();
-
-  const updated = [...images];
-  updated[index] = uploadData.url;
-  setImages(updated);
-
-  // Update public IDs
-  const updatedPublicIds = [...publicIds];
-  updatedPublicIds[index] = uploadData.publicId || uploadData.publicId;
-  setPublicIds(updatedPublicIds);
-
-  // save to server with both image URLs and public IDs
-  await fetch("/api/save-hero", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ 
-      images: updated,
-      publicIds: updatedPublicIds
-    }),
-  });
-};
-
+  };
 
 
   return (
