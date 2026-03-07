@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://lavender-monkey-429786.hostingersite.com';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   try {
     const contactData = req.body;
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact`, {
+    const response = await fetch(`${API_URL}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
