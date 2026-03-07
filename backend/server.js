@@ -29,10 +29,12 @@ const app = express();
 // Middleware
 // ==============================
 
-// CORS configuration (Vercel + local support)
+// CORS configuration (Hostinger + local support)
 const corsOptions = {
   origin: [
-    process.env.FRONTEND_URL, // Vercel frontend
+    process.env.FRONTEND_URL, // Hostinger frontend
+    "https://darkgray-flamingo-203110.hostingersite.com", // Frontend URL
+   // Backend URL
     "http://localhost:3000",  // local frontend
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
