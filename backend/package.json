@@ -1,11 +1,14 @@
 {
   "name": "backend",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "install-all": "npm install && cd ../frontend && npm install",
-    "build": "cd ../frontend && npm run build",
     "start": "node server.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
@@ -15,6 +18,5 @@
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
     "mysql2": "^3.18.0"
-   
   }
 }

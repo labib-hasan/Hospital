@@ -32,11 +32,11 @@ const app = express();
 // CORS configuration (Vercel + local support)
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
-    "https://white-grasshopper-787839.hostingersite.com"
+    process.env.FRONTEND_URL, // Vercel frontend
+    "http://localhost:3000",  // local frontend
   ],
-  methods: ["GET","POST","PUT","DELETE"],
-  credentials: true
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
