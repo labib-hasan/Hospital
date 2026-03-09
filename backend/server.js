@@ -31,24 +31,17 @@ const app = express();
 // ==============================
 
 // CORS configuration (Hostinger + local support)
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  "https://medicalcentrebd.com",
+const corsOptions = {
+  origin: [
+    process.env.FRONTEND_URL, // Hostinger frontend
+    "https://medicalcentrebd.com",
   "https://www.medicalcentrebd.com",
   "https://salmon-crane-231677.hostingersite.com",
-  "http://localhost:3000"
-];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed"));
-    }
-  },
-  credentials: true
-}));
+  "http://localhost:3000"  // local frontend
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+};
 
 app.use(cors(corsOptions));
 app.use(express.json());
