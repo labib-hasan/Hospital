@@ -10,6 +10,8 @@ import dotenv from "dotenv";
 import doctorRoutes from "./routes/doctorRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
+import specialityRoutes from "./routes/specialityRoutes.js";
+import diagnosticRoutes from "./routes/diagnosticRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import newsRoutes from "./routes/newsRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
@@ -248,6 +250,12 @@ app.get("/api/migrate", async (req, res) => {
 
     // doctors - Make email nullable
     "ALTER TABLE doctors MODIFY COLUMN email VARCHAR(255) DEFAULT NULL",
+
+    // Specialities table - create if not exists
+    "CREATE TABLE IF NOT EXISTS specialities (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, name_bn VARCHAR(255) DEFAULT NULL, description TEXT DEFAULT NULL, description_bn TEXT DEFAULT NULL, image VARCHAR(500) DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+    // Diagnostics table - create if not exists
+    "CREATE TABLE IF NOT EXISTS diagnostics (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, name_bn VARCHAR(255) DEFAULT NULL, description TEXT DEFAULT NULL, description_bn TEXT DEFAULT NULL, image VARCHAR(500) DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
   ];
 
   for (const sql of statements) {
@@ -283,6 +291,8 @@ app.get("/api/migrate", async (req, res) => {
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/departments", departmentRoutes);
+app.use("/api/specialities", specialityRoutes);
+app.use("/api/diagnostics", diagnosticRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/contact", contactRoutes);
