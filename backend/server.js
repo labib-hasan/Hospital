@@ -17,6 +17,7 @@ import galleryRoutes from "./routes/galleryRoutes.js";
 import mdMessageRoutes from "./routes/mdMessageRoutes.js";
 import mdImageRoutes from "./routes/mdImageRoutes.js";
 import heroImageRoutes from "./routes/heroImageRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
@@ -33,7 +34,7 @@ const app = express();
 const corsOptions = {
   origin: [
     process.env.FRONTEND_URL, // Hostinger frontend
-    "https://darkgray-flamingo-203110.hostingersite.com", // Frontend URL
+    "https://salmon-crane-231677.hostingersite.com", // Frontend URL
    // Backend URL
     "http://localhost:3000",  // local frontend
   ],
@@ -82,6 +83,57 @@ app.get("/db-test", async (req, res) => {
       database: "not connected",
       error: error.message,
     });
+  }
+});
+
+// ==============================
+// Seed Default Admin
+// Creates a default admin if none exists
+// ==============================
+app.get("/api/seed-admin", async (req, res) => {
+  try {
+    // Create admins table if not exists
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS admins (
+        id INT NOT NULL AUTO_INCREMENT,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        role VARCHAR(50) DEFAULT 'admin',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    `);
+
+    // Check if admin exists
+    const [admins] = await db.query('SELECT id FROM admins LIMIT 1');
+    
+    if (admins.length === 0) {
+      // Create default admin
+      const bcrypt = await import('bcryptjs');
+      const hashedPassword = await bcrypt.default.hash('admin123', 10);
+      
+      await db.query(
+        'INSERT INTO admins (name, email, password, role) VALUES (?, ?, ?, ?)',
+        ['Administrator', 'admin@healthjournal.com', hashedPassword, 'admin']
+      );
+      
+      res.json({ 
+        success: true, 
+        message: '✅ Default admin created',
+        credentials: { email: 'admin@healthjournal.com', password: 'admin123' }
+      });
+    } else {
+      res.json({ 
+        success: true, 
+        message: '⚠️ Admin already exists',
+        adminCount: admins.length
+      });
+    }
+  } catch (error) {
+    console.error('Seed error:', error);
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -237,6 +289,7 @@ app.use("/api/gallery", galleryRoutes);
 app.use("/api/md-message", mdMessageRoutes);
 app.use("/api/md-image", mdImageRoutes);
 app.use("/api/hero-images", heroImageRoutes);
+app.use("/api/auth", authRoutes);
 
 // ==============================
 // 404 Handler
