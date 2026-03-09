@@ -286,23 +286,22 @@ router.delete('/admins/:id', async (req, res) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid token' });
       }
-      
+
       // Only superadmin can delete admins
       if (user.role !== 'superadmin') {
         return res.status(403).json({ message: 'Only superadmin can delete admins' });
       }
-      
+
       const { id } = req.params;
-      
-      // Check if trying to delete self
-      if (parseInt(id) === user.id) {
-        return res.status(400).json({ message: 'Cannot delete your own account' });
-      }
-      
+
       await Admin.delete(id);
-      
-      res.json({ success: true, message: 'Admin deleted successfully' });
+
+      res.json({
+        success: true,
+        message: 'Admin deleted successfully'
+      });
     });
+
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

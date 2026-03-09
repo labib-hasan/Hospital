@@ -123,10 +123,9 @@ const Admin = {
 
   // Delete admin
   async delete(id) {
-    const sql = 'DELETE FROM admins WHERE id = ? AND role != ?';
+    const sql = 'DELETE FROM admins WHERE id = ?';
     try {
-      // Prevent deleting superadmin
-      await db.query(sql, [id, 'superadmin']);
+      await db.query(sql, [id]);
       return true;
     } catch (error) {
       console.error('Error deleting admin:', error);
