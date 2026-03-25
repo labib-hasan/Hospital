@@ -24,24 +24,6 @@ import authRoutes from "./routes/authRoutes.js";
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
 
-import multer from "multer";
-import { v2 as cloudinary } from "cloudinary";
-
-const upload = multer({ dest: "uploads/" });
-
-app.post("/api/upload", upload.single("image"), async (req, res) => {
-  try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "hospital"
-    });
-
-    res.json({ imageUrl: result.secure_url });
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 dotenv.config();
 console.log("🔥 Hospital API v2 loaded");
 const app = express();
@@ -155,116 +137,6 @@ app.get("/api/seed-admin", async (req, res) => {
   } catch (error) {
     console.error('Seed error:', error);
     res.status(500).json({ success: false, error: error.message });
-  }
-});
-// Add this after your other routes
-// ==============================
-// Page Images Routes
-// ==============================
-
-// Get all page images or specific one
-app.get('/api/page-images', async (req, res) => {
-  try {
-    const { pageName } = req.query;
-    
-    // First, ensure table exists
-    await db.query(`
-      CREATE TABLE IF NOT EXISTS page_images (
-        id INT NOT NULL AUTO_INCREMENT,
-        page_name VARCHAR(100) NOT NULL UNIQUE,
-        image_url TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (id),
-        INDEX idx_page_name (page_name)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
-    `);
-    
-    if (pageName) {
-      // Get single page image
-      const [rows] = await db.query(
-        'SELECT * FROM page_images WHERE page_name = ?',
-        [pageName]
-      );
-      
-      if (rows.length === 0) {
-        return res.status(404).json({ error: 'Image not found' });
-      }
-      
-      return res.json(rows[0]);
-    } else {
-      // Get all page images
-      const [rows] = await db.query(
-        'SELECT * FROM page_images ORDER BY page_name'
-      );
-      return res.json(rows);
-    }
-  } catch (error) {
-    console.error('Error fetching page image:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Save/Update page image (with increased body limit)
-app.post('/api/page-images', express.json({ limit: '50mb' }), async (req, res) => {
-  try {
-    const { pageName, imageUrl } = req.body;
-    
-    if (!pageName || !imageUrl) {
-      return res.status(400).json({ error: 'pageName and imageUrl are required' });
-    }
-
-    // Validate image URL is not too long (base64 images can be large)
-    if (imageUrl.length > 5000000) { // ~5MB limit for base64
-      return res.status(413).json({ error: 'Image too large. Please use a smaller image (max 5MB)' });
-    }
-
-    const [result] = await db.query(
-      `INSERT INTO page_images (page_name, image_url) 
-       VALUES (?, ?) 
-       ON DUPLICATE KEY UPDATE 
-       image_url = VALUES(image_url), 
-       updated_at = CURRENT_TIMESTAMP`,
-      [pageName, imageUrl]
-    );
-
-    res.json({ 
-      success: true, 
-      message: 'Image saved successfully',
-      pageName,
-      imageUrl: imageUrl.substring(0, 100) + '...' // Truncate for log
-    });
-  } catch (error) {
-    console.error('Error saving page image:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// Delete page image
-app.delete('/api/page-images', async (req, res) => {
-  try {
-    const { pageName } = req.query;
-    
-    if (!pageName) {
-      return res.status(400).json({ error: 'pageName is required' });
-    }
-
-    const [result] = await db.query(
-      'DELETE FROM page_images WHERE page_name = ?',
-      [pageName]
-    );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Image not found' });
-    }
-
-    res.json({ 
-      success: true, 
-      message: 'Image deleted successfully' 
-    });
-  } catch (error) {
-    console.error('Error deleting page image:', error);
-    res.status(500).json({ error: error.message });
   }
 });
 
@@ -384,22 +256,6 @@ app.get("/api/migrate", async (req, res) => {
 
     // Diagnostics table - create if not exists
     "CREATE TABLE IF NOT EXISTS diagnostics (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, name_bn VARCHAR(255) DEFAULT NULL, description TEXT DEFAULT NULL, description_bn TEXT DEFAULT NULL, image VARCHAR(500) DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
-
-     // Create page_images table
-  `CREATE TABLE IF NOT EXISTS page_images (
-    id INT NOT NULL AUTO_INCREMENT,
-    page_name VARCHAR(100) NOT NULL UNIQUE,
-    image_url VARCHAR(500) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    INDEX idx_page_name (page_name)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
-  
-  // Insert default CCU image
-  `INSERT INTO page_images (page_name, image_url) 
-   VALUES ('spec_ccu', 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3')
-   ON DUPLICATE KEY UPDATE image_url = VALUES(image_url)`,
   ];
 
   for (const sql of statements) {
