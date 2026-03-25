@@ -24,6 +24,24 @@ import authRoutes from "./routes/authRoutes.js";
 // DB (adjust import if your DB file path is different)
 import db from "./config/db.js";
 
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+
+const upload = multer({ dest: "uploads/" });
+
+app.post("/api/upload", upload.single("image"), async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "hospital"
+    });
+
+    res.json({ imageUrl: result.secure_url });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 dotenv.config();
 console.log("🔥 Hospital API v2 loaded");
 const app = express();
