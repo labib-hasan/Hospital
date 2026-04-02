@@ -1,48 +1,69 @@
+// backend/routes/pageImageRoutes.js
 import express from 'express';
-import PageImage from '../models/PageImage.js';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import {
+  uploadPageImage,
+  getPageImages,
+  setActiveImage,
+  updateImageDetails,
+  deletePageImage
+} from '../controllers/pageImageController.js';
+import { protect, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Initialize table on server start
-PageImage.createTable().then(() => {
-  console.log('Page images table initialized');
-});
+// Ensure uploads directory exists
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
-// Get all page images
-router.get('/', async (req, res) => {
-  try {
-    const images = await PageImage.findAll();
-    res.json(images);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+// Configure multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'page-image-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
-// Get single page image
-router.get('/:pageName', async (req, res) => {
-  try {
-    const image = await PageImage.findByPageName(req.params.pageName);
-    if (!image) {
-      return res.status(404).json({ message: 'Image not found' });
-    }
-    res.json(image);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif|webp/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+  
+  if (mimetype && extname) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only images are allowed (jpeg, jpg, png, gif, webp)'));
   }
+};
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter
 });
 
-// Save/update page image
-router.post('/', async (req, res) => {
-  try {
-    const { pageName, imageUrl } = req.body;
-    if (!pageName || !imageUrl) {
-      return res.status(400).json({ message: 'pageName and imageUrl are required' });
-    }
-    await PageImage.upsert(pageName, imageUrl);
-    res.json({ success: true, message: 'Image saved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
-});
+// Protected routes (admin/coordinator only)
+router.post(
+  '/upload',
+  protect,
+  authorize('admin', 'coordinator'),
+  upload.single('image'),
+  uploadPageImage
+);
+
+router.get('/:pageType/:pageId', protect, authorize('admin', 'coordinator'), getPageImages);
+router.put('/set-active', protect, authorize('admin', 'coordinator'), setActiveImage);
+router.put('/:imageId', protect, authorize('admin', 'coordinator'), updateImageDetails);
+router.delete('/:imageId', protect, authorize('admin', 'coordinator'), deletePageImage);
 
 export default router;
