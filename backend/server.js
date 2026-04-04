@@ -7,6 +7,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 // Routes
+import pageImageRoutes from "./routes/pageImageRoutes.js";
 import doctorRoutes from "./routes/doctorRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
@@ -301,6 +302,7 @@ app.use("/api/md-message", mdMessageRoutes);
 app.use("/api/md-image", mdImageRoutes);
 app.use("/api/hero-images", heroImageRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/page-images", pageImageRoutes);
 
 // ==============================
 // 404 Handler
