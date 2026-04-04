@@ -4,6 +4,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+       <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link

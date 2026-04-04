@@ -137,9 +137,14 @@ const Footer = () => {
         </ul>
 
         {/* Copyright */}
-        <p className="text-black my-4 text-base font-light">
-          &copy;2026 Mysoft_LH | All Rights Reserved
-        </p>
+       <a
+  href="https://www.facebook.com/share/1CBKq7jpxF/"
+  className="text-black my-4 text-base font-light"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  &copy;2026 Tawazun Computer _LH | All Rights Reserved
+</a>
       </footer>
     </div>
   );
