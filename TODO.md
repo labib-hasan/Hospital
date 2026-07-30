@@ -1,47 +1,49 @@
-# TODO: Navbar Premium Animation Redesign
+# Homepage Premium Mobile/Tablet Redesign TODO
 
-## Task: Redesign responsive menu bar with latest premium animation without changing the menu icon. Customise only navbar.js
+## Status: 🚀 In Progress
 
-### Information Gathered:
-- Current Navbar.js has:
-  - Top bar with hotline and language switch (lg screens)
-  - Main navigation with logo and desktop menu
-  - Custom mobile menu icon (circular scan SVG design - must keep unchanged)
-  - Mobile drawer with gradient header and submenu support
-  - Language switching (EN/BN)
+### 1. Setup & Dependencies [ ]
+- [ ] cd frontend && npm i framer-motion lucide-react
+- [ ] npm run dev - verify no errors
 
-### Plan:
+### 2. globals.css Premium Base [ ]
+- [ ] Add CSS custom properties (gradients, glass, neumorph shadows)
+- [ ] Mobile-first utilities (scroll-snap, touch-action, reduced-motion)
+- [ ] Boxing classes (.premium-glass-card, .color-grade-blue/purple)
+- [ ] Advanced @keyframes (parallax, particles, morph, 3D tilt)
+- [ ] html { scroll-behavior: smooth; }
 
-**1. Navbar Entrance Animation:**
-- Add smooth slide-down animation on page load
-- Staggered fade-in for menu items
+### 3. Navbar.js Enhancements [ ]
+- [ ] Bottom nav toggle for mobile (icons: home/appointment/depts/hotline)
+- [ ] Mobile drawer: 3D tilt effect, particle canvas backdrop
+- [ ] Progressive blur on scroll, morphing hamburger
+- [ ] Tablet: Collapsible top bar to icons
 
-**2. Desktop Menu Enhancements:**
-- Add hover scale and glow effects on NavButton
-- Add animated underline on hover for menu items
-- Improve submenu with smooth fade + slide animation
-- Add backdrop blur to submenu dropdowns
+### 4. index.js Premium Redesign [ ]
+- [ ] Hero: Framer-motion carousel (swipe/indicators), parallax image
+- [ ] Care-tiles: Mobile horizontal snap-scroll carousel (2-col grab)
+- [ ] Departments: Color-grade blue-purple, mobile swipe stack
+- [ ] Services: Green theme, mobile accordion cards
+- [ ] Doctors: Particles/glow/magnetic hover enhancements
+- [ ] CTA: Floating orbs, pulse interactions
+- [ ] Wrap sections: motion.div (fade-up, viewport trigger)
+- [ ] Smooth section snapping
 
-**3. Mobile Menu Premium Animations:**
-- Add spring/bounce effect to drawer open/close
-- Enhance backdrop with blur and fade animation
-- Add staggered slide-in animation for menu items
-- Smooth accordion animation for submenus with rotation
-- Add ripple effect on menu item tap
+### 5. homepage.css Cleanup [ ]
+- [ ] Migrate unique styles to globals.css
+- [ ] Remove legacy redundants
 
-**4. Scroll Effects:**
-- Add navbar shadow enhancement on scroll
-- Add subtle background color transition on scroll
+### 6. Testing & Polish [ ]
+- [ ] Chrome DevTools: Mobile/Tablet responsive test
+- [ ] Smooth scrolling/performance audit
+- [ ] Touch interactions (swipe, long-press)
+- [ ] Reduced motion accessibility
+- [ ] Cross-browser (Safari iOS focus)
 
-**5. Language Button Animations:**
-- Add smooth toggle animation
-- Add pulse effect on active language
+### 7. Completion [ ]
+- [x] Update TODO.md ✅ all checked
+- [ ] attempt_completion
 
-### Dependent Files to be edited:
-- `frontend/components/Navbar.js` - Main file to customize
-
-### Followup Steps:
-- Test responsive behavior on different screen sizes
-- Verify menu icon remains unchanged
-- Test all animations work smoothly
-
+**Notes:**
+- Focus: Unique animations, color grading (blue-purple-green symphony), boxing (glass/neumorph), layout perfection, buttery smooth.
+- Tech: Native CSS + framer-motion (no heavy libs).

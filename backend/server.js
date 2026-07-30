@@ -7,7 +7,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 // Routes
-import pageImageRoutes from "./routes/pageImageRoutes.js";
 import doctorRoutes from "./routes/doctorRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
@@ -19,6 +18,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 import mdMessageRoutes from "./routes/mdMessageRoutes.js";
 import mdImageRoutes from "./routes/mdImageRoutes.js";
+import directorRoutes from "./routes/directorRoutes.js";
 import heroImageRoutes from "./routes/heroImageRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
@@ -257,6 +257,9 @@ app.get("/api/migrate", async (req, res) => {
 
     // Diagnostics table - create if not exists
     "CREATE TABLE IF NOT EXISTS diagnostics (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, name_bn VARCHAR(255) DEFAULT NULL, description TEXT DEFAULT NULL, description_bn TEXT DEFAULT NULL, image VARCHAR(500) DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+    // Directors table - separate public profiles for Director 1 and Director 2
+    "CREATE TABLE IF NOT EXISTS directors (id INT NOT NULL AUTO_INCREMENT, slug VARCHAR(50) NOT NULL, name VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, title VARCHAR(255) DEFAULT NULL, message TEXT DEFAULT NULL, image_url VARCHAR(500) DEFAULT NULL, image_public_id VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id), UNIQUE KEY directors_slug_unique (slug)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
   ];
 
   for (const sql of statements) {
@@ -300,9 +303,9 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/gallery", galleryRoutes);
 app.use("/api/md-message", mdMessageRoutes);
 app.use("/api/md-image", mdImageRoutes);
+app.use("/api/directors", directorRoutes);
 app.use("/api/hero-images", heroImageRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/page-images", pageImageRoutes);
 
 // ==============================
 // 404 Handler
